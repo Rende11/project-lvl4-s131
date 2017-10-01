@@ -1,5 +1,5 @@
 {
-  "name": "javascript-package",
+  "name": "nodejs-package",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
@@ -18,33 +18,33 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hexlet-boilerplates/javascript-package.git"
+    "url": "git+https://github.com/hexlet-boilerplates/nodejs-package.git"
   },
   "author": "Kirill Mokevnin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hexlet-boilerplates/javascript-package/issues"
+    "url": "https://github.com/hexlet-boilerplates/nodejs-package/issues"
   },
-  "homepage": "https://github.com/hexlet-boilerplates/javascript-package#readme",
+  "homepage": "https://github.com/hexlet-boilerplates/nodejs-package#readme",
   "dependencies": {
     "gulp": "*"
   },
   "devDependencies": {
-    "debug": "*",
     "babel-cli": "*",
     "babel-core": "*",
     "babel-eslint": "*",
-    "babel-plugin-syntax-flow": "*",
-    "babel-plugin-transform-flow-strip-types": "*",
     "babel-plugin-transform-runtime": "*",
     "babel-preset-env": "*",
+    "babel-preset-flow": "*",
     "babel-preset-stage-0": "*",
+    "debug": "*",
     "eslint": "*",
-    "eslint-config-airbnb": "*",
+    "eslint-config-airbnb-base": "*",
     "eslint-plugin-flowtype": "*",
     "eslint-plugin-import": "*",
-    "flow-bin": "^0.37",
+    "eslint-plugin-jest": "*",
+    "flow-bin": "^0.49.1",
     "flow-typed": "*",
-    "jest": "*"
+    "jest": "^20"
   }
 }
