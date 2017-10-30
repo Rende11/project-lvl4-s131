@@ -4,30 +4,28 @@
   "description": "",
   "main": "dist/index.js",
   "bin": {
-    "hexlet": "dist/bin/hexlet.js"
+    "hexlet": "dist/bin/index.js"
   },
   "scripts": {
     "test": "jest",
     "babel-node": "babel-node",
     "flow": "flow",
     "flow-typed": "flow-typed",
-    "gulp": "gulp",
     "eslint": "eslint",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hexlet-boilerplates/nodejs-package.git"
+    "url": "git+https://github.com/Rende11/javascript-package.git"
   },
-  "author": "Kirill Mokevnin",
+  "author": "Nikolay Artamonov",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/hexlet-boilerplates/nodejs-package/issues"
   },
-  "homepage": "https://github.com/hexlet-boilerplates/nodejs-package#readme",
+"homepage": "https://github.com/Rende11/javascript-package#readme",
   "dependencies": {
-    "gulp": "*"
   },
   "devDependencies": {
     "babel-cli": "*",
