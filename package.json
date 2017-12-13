@@ -28,7 +28,10 @@
   "dependencies": {
     "commander": "*",
     "koa": "*",
-    "koa-router": "*"
+    "koa-router": "*",
+    "rollbar": "^2.3.2",
+    "koa-pug": "*",
+    "bootstrap": "4.0.0-beta"
   },
   "devDependencies": {
     "babel-cli": "*",
