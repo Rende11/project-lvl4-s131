@@ -1,4 +1,4 @@
 {
   "presets": ["env", "stage-0", "flow"],
-  "plugins": ["transform-runtime"]
+  "plugins": ["transform-runtime", "transform-async-to-generator"]
 }

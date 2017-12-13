@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
+import server from '../index.js';
 
-import half from '../';
-
-console.log(half(Number(process.argv[process.argv.length - 1])));
+const port = process.env.PORT || 3000;
+server().listen(port, () => console.log(`Server ready on port ${port}`));
