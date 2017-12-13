@@ -31,7 +31,8 @@
     "koa-router": "*",
     "rollbar": "^2.3.2",
     "koa-pug": "*",
-    "bootstrap": "4.0.0-beta"
+    "bootstrap": "4.0.0-beta",
+    "lodash": "*"
   },
   "devDependencies": {
     "babel-cli": "*",

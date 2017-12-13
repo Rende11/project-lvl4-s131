@@ -4,6 +4,9 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import Rollbar from 'rollbar';
 import Pug from 'koa-pug';
+import _ from 'lodash';
+
+import path from 'path';
 
 export default () => {
     const app = new  Koa();
@@ -15,9 +18,9 @@ export default () => {
         accessToken: token,
         handleUncaughtExceptions: true
       });
-
+    
     router.get('/', async ctx =>{
-        ctx.body = "Hello Koa";
+        ctx.render('index');
     });
 
     router.get('*', async (ctx, next) =>{
@@ -32,16 +35,14 @@ export default () => {
     });
     
     const pug = new Pug({
-        viewPath: './views',
+        viewPath: path.join(__dirname, '/views'),
         debug: false,
         pretty: false,
         compileDebug: false,
-        locals: global_locals_for_all_pages,
-        basedir: 'path/for/pug/extends',
+        locals: [],
+        basedir: path.join(__dirname, '/views'),
         helperPath: [
-          'path/to/pug/helpers',
-          { random: 'path/to/lib/random.js' },
-          { _: require('lodash') }
+            { _ }
         ],
         app: app
       })
