@@ -25,7 +25,7 @@ export default () => {
 
     router.get('*', async (ctx, next) =>{
        
-        await next( new Error('404'));
+        await next(new Error('404'));
     });
     
     app.use(router.routes())
