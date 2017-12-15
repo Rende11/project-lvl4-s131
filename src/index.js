@@ -5,54 +5,54 @@ import Router from 'koa-router';
 import Rollbar from 'rollbar';
 import Pug from 'koa-pug';
 import _ from 'lodash';
+import dotenv from 'dotenv';
 
 import path from 'path';
 
 export default () => {
-    const app = new  Koa();
-    const router = new Router();
-    
-    const token = '4b893f0e49bd4b47990e08d65eaee576';
-    
-    const rollbar = Rollbar.init({
-        accessToken: token,
-        handleUncaughtExceptions: true
-      });
-    
-    router.get('/', async ctx =>{
-        ctx.render('index');
-    });
+  const app = new Koa();
+  const router = new Router();
 
-    router.get('/rollbar', async ctx =>{
-        ctx.body = nonExisent;
-    });
+  const env = dotenv.config();
 
-    app.use(async (ctx, next) => {
-        try {
-            await next();
-        } catch (err) {
-            rollbar.error(err, ctx.request);
-        }
-    });
-    
-    
-    app.use(router.routes())
-    app.use(router.allowedMethods());
-    
-    
-    const pug = new Pug({
-        viewPath: path.join(__dirname, '../views'),
-        debug: false,
-        pretty: false,
-        compileDebug: false,
-        locals: [],
-        basedir: path.join(__dirname, '../views'),
-        helperPath: [
-            { _ }
-        ],
-        app: app
-      })
+  const rollbar = Rollbar.init({
+    accessToken: env.ROLLBAR_TOKEN,
+    handleUncaughtExceptions: true,
+  });
+
+  router.get('/', async (ctx) => {
+    ctx.render('index');
+  });
+
+  router.get('/rollbar', async (ctx) => {
+    ctx.body = nonExisent; // eslint-disable-line
+  });
+
+  app.use(async (ctx, next) => {
+    try {
+      await next();
+    } catch (err) {
+      rollbar.error(err, ctx.request);
+    }
+  });
 
 
-    return app;
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+
+
+  const pug = new Pug({
+    viewPath: path.join(__dirname, '../views'),
+    debug: false,
+    pretty: false,
+    compileDebug: false,
+    locals: [],
+    basedir: path.join(__dirname, '../views'),
+    helperPath: [
+      { _ },
+    ],
+    app,
+  });
+
+  return app;
 };
