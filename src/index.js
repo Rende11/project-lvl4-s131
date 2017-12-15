@@ -23,17 +23,22 @@ export default () => {
         ctx.render('index');
     });
 
-    router.get('*', async (ctx, next) =>{
-       
-        await next(new Error('404'));
+    router.get('/rollbar', async ctx =>{
+        ctx.body = nonExisent;
     });
+
+    app.use(async (ctx, next) => {
+        try {
+            await next();
+        } catch (err) {
+            rollbar.error(err, ctx.request);
+        }
+    });
+    
     
     app.use(router.routes())
     app.use(router.allowedMethods());
     
-    app.on('error', (err, ctx) => {
-        rollbar.log(err);
-    });
     
     const pug = new Pug({
         viewPath: path.join(__dirname, '/views'),
