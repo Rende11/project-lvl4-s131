@@ -27,13 +27,14 @@
   },
   "homepage": "https://github.com/Rende11/javascript-package#readme",
   "dependencies": {
-    "commander": "*",
-    "koa": "*",
-    "koa-router": "*",
-    "rollbar": "^2.3.2",
-    "koa-pug": "*",
     "bootstrap": "4.0.0-beta",
-    "lodash": "*"
+    "commander": "*",
+    "dotenv": "^4.0.0",
+    "koa": "*",
+    "koa-pug": "*",
+    "koa-router": "*",
+    "lodash": "*",
+    "rollbar": "^2.3.2"
   },
   "devDependencies": {
     "babel-cli": "*",
