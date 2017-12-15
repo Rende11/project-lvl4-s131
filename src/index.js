@@ -21,6 +21,7 @@ export default () => {
   });
 
   router.get('/', async (ctx) => {
+    console.log(env);
     ctx.render('index');
   });
 
