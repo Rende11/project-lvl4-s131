@@ -14,7 +14,8 @@
     "eslint": "eslint",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublish": "npm run build",
-    "start": "node dist/bin/index.js"
+    "start": "node dist/bin/index.js",
+    "webpack": "webpack"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,11 @@
     "koa-pug": "*",
     "koa-router": "*",
     "lodash": "*",
-    "rollbar": "^2.3.2"
+    "rollbar": "^2.3.2",
+    "jquery": "*",
+    "popper.js": "*",
+    "postcss-loader": "*",
+    "autoprefixer": "*"
   },
   "devDependencies": {
     "babel-cli": "*",
@@ -53,7 +58,9 @@
     "flow-bin": "^0.49.1",
     "flow-typed": "*",
     "jest": "^20",
+    "superagent": "*",
     "supertest": "*",
-    "superagent": "*"
+    "webpack": "^3.10.0",
+    "babel-register": "*"
   }
 }
