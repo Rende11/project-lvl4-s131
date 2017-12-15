@@ -41,12 +41,12 @@ export default () => {
     
     
     const pug = new Pug({
-        viewPath: path.join(__dirname, '/views'),
+        viewPath: path.join(__dirname, '../views'),
         debug: false,
         pretty: false,
         compileDebug: false,
         locals: [],
-        basedir: path.join(__dirname, '/views'),
+        basedir: path.join(__dirname, '../views'),
         helperPath: [
             { _ }
         ],
