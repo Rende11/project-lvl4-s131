@@ -13,5 +13,8 @@ jobs:
     - stage: deploy to staging
       deploy: &heroku
         provider: heroku
-        app:
+        app: rende11-task-manager
+        api_key: $HEROKU_AUTH_TOKEN
+    - stage: test staging
+      script: 'curl https://rende11-task-manager.herokuapp.com/'
 
