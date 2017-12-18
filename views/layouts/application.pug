@@ -2,16 +2,16 @@ doctype html
 html(lang="en")
     head
         title= Title
-        link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css' integrity='sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb' crossorigin='anonymous')
+        link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css',
+         integrity='sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb' crossorigin='anonymous')
     body
         nav.navbar.navbar-toggleable-md.navbar-light.bg-faded
-            button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
-                span.navbar-toggler-icon
-            a.navbar-brand(href='#') Navbar
-            #navbarSupportedContent.collapse.navbar-collapse
-                ul.navbar-nav.mr-auto
-                    li.nav-item.active
-                        a.nav-link(href='#')= Link
-                    li.nav-item.active
-                        a.nav-link(href='#')= Home  
+            a.navbar-brand(href='/')
+                img.d-inline-block.align-top(src='https://png.icons8.com/ios/100/000000/checked-checkbox.png', width="30" height="30" alt="")
+                |  TaskManager
+            
+            form.form-inline
+                button.btn.btn-outline-primary.mx-1 Sing in
+                button.btn.btn-outline-secondary.mx-1 Log in
+           
         block content
