@@ -5,9 +5,15 @@ block content
         .row
             .col-md-8.mx-auto
                 .jumbotron.mt-5
-                    h2
-                        | Hello, User!!!
-                    p
-                        | This is a first version of my task-manager app
-                    p
-                        a.btn.btn-primary.btn-large(href='https://github.com/Rende11/project-lvl4-s131') Github
+                    form
+                        .form-group.row
+                            label.col-sm-2.col-form-label(for="inputEmail3") Email
+                            .col-sm-10
+                                input#inputEmail3.form-control(type="email" placeholder="Email")
+                        .form-group.row
+                            label.col-sm-2.col-form-label(for="inputPassword3") Password
+                            .col-sm-10
+                                input#inputPassword3.form-control(type="password" placeholder="Password")
+                        .form-group.row
+                            .offset-sm-2.col-sm-10
+                                button.btn.btn-primary(type="submit") Sign in
