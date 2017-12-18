@@ -8,11 +8,13 @@ import _ from 'lodash';
 import dotenv from 'dotenv';
 
 import path from 'path';
+import routes from './routes';
 
 export default () => {
+
   const app = new Koa();
   const router = new Router();
-
+  routes(router);
   const env = dotenv.config();
 
   const rollbar = Rollbar.init({
