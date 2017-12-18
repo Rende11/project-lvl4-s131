@@ -3,3 +3,15 @@ node_js:
   - stable
 
 script: make lint test
+
+jobs:
+  include:
+    - stage: eslint
+      script: make lint
+    - stage: tests
+      script: make test
+    - stage: deploy to staging
+      deploy: &heroku
+        provider: heroku
+        app:
+
