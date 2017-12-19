@@ -11,7 +11,6 @@ import path from 'path';
 import routes from './routes';
 
 export default () => {
-
   const app = new Koa();
   const router = new Router();
   routes(router);
@@ -53,8 +52,9 @@ export default () => {
     helperPath: [
       { _ },
     ],
-    app,
   });
+
+  pug.use(app);
 
   return app;
 };
