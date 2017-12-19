@@ -40,7 +40,8 @@
     "jquery": "*",
     "popper.js": "*",
     "postcss-loader": "*",
-    "autoprefixer": "*"
+    "autoprefixer": "*",
+    "sqlite3": "*"
   },
   "devDependencies": {
     "babel-cli": "*",
