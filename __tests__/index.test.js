@@ -4,20 +4,19 @@ import app from '../src/';
 
 describe('Base test - app', () => {
   let server;
-  
+
   beforeEach(() => {
     server = app().listen();
   });
-  
-  test('index', async() => {
+
+  test('index', async () => {
     const res = await request.agent(server)
-    .get('/');
+      .get('/');
     expect(res.status).toBe(200);
   });
 
   afterEach((done) => {
     server.close();
     done();
-});
-
+  });
 });
