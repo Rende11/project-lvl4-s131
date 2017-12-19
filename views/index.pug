@@ -3,10 +3,14 @@ extends /layouts/application.pug
 block content
     .container-fluid
         .row
-            .col-md-8.mx-auto
+            .col-md-6.mx-auto
                 .jumbotron.mt-5
-                    h2
+                    if currentUser
+                        h2= currentUser.firstname
+                    else
+                       h2 
                         | Hello, Koa!
+                    
                     p
                         | This is a first version of my task-manager app
                     p

@@ -1,7 +1,10 @@
 // @flow
 
+import uuid from 'uuid-js';
+
 export default class User {
-  constructor(email: string, password: string, firstName: string, lastName: string) {
+  constructor(firstName: string, lastName: string, email: string, password: string) {
+    this.uid = uuid.create().hex;
     this.email = email;
     this.password = password;
     this.firstName = firstName;

@@ -6,7 +6,7 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/3130740c30379c97c10e/test_coverage)](https://codeclimate.com/github/Rende11/project-lvl4-s131/test_coverage)
 
-## Setup
+### Setup
 
 ```
 make install

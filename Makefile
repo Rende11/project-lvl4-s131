@@ -5,6 +5,9 @@ install:
 run:
 	npm run babel-node -- 'src/bin/index.js'
 
+demon:
+	npm run demon
+
 install-flow-typed:
 	npm run flow-typed install
 

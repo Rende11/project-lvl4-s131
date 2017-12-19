@@ -1,6 +1,7 @@
 // @flow
 
 import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
 import Router from 'koa-router';
 import Rollbar from 'rollbar';
 import Pug from 'koa-pug';
@@ -15,7 +16,7 @@ export default () => {
   const router = new Router();
   routes(router);
   const env = dotenv.config();
-
+  app.use(bodyParser());
   const rollbar = Rollbar.init({
     accessToken: env.ROLLBAR_TOKEN,
     handleUncaughtExceptions: true,
