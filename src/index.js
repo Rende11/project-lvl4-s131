@@ -3,10 +3,12 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import Router from 'koa-router';
+import koaLogger from 'koa-logger';
 import Rollbar from 'rollbar';
 import Pug from 'koa-pug';
 import _ from 'lodash';
 import dotenv from 'dotenv';
+
 
 import path from 'path';
 import routes from './routes';
@@ -41,13 +43,14 @@ export default () => {
 
   app.use(router.routes());
   app.use(router.allowedMethods());
-
+  app.use(koaLogger());
 
   const pug = new Pug({
     viewPath: path.join(__dirname, '../views'),
-    debug: false,
-    pretty: false,
-    compileDebug: false,
+    debug: true,
+    pretty: true,
+    compileDebug: true,
+    noCache: true,
     locals: [],
     basedir: path.join(__dirname, '../views'),
     helperPath: [

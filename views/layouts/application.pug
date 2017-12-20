@@ -5,13 +5,13 @@ html(lang="en")
         link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css',
          integrity='sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb' crossorigin='anonymous')
     body
-        nav.navbar.navbar-toggleable-md.navbar-light.bg-faded
+        nav.navbar.navbar-toggleable-md.navbar-light.bg-faded.breadcrumb
             a.navbar-brand(href='/')
                 img.d-inline-block.align-top(src='https://png.icons8.com/ios/100/000000/checked-checkbox.png', width="30" height="30" alt="")
                 |  TaskManager
             
             form.form-inline
-                a.btn.btn-outline-primary.mx-1(href="/user/new", role="button") Sing in
+                a.btn.btn-outline-primary.mx-1(href="/user/new", role="button") Sign in
                 a.btn.btn-outline-secondary.mx-1(href="/user/new", role="button") Log in
            
         block content

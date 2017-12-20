@@ -5,21 +5,20 @@ block content
         .row
             .col-md-6.mx-auto
                 .jumbotron.mt-5
+                    if errors
+                        .small.form-text.text-muted Error - all field must be filled!
                     form(action="/user/new", method="post")
-                        .form-group.row
-                            label.col-sm-0.col-form-label(for="firstName")
+                        .form-group.row                      
                             .col-sm-12
-                                input#firstName.form-control(type="First Name" placeholder="First Name" name='firstname')
+                                input#firstName.form-control(value=form.firstname type="First Name" placeholder="First Name" name='firstname')
                         .form-group.row
-                            label.col-sm-0.col-form-label(for="lastName")
                             .col-sm-12
-                                input#lastName.form-control(type="Last Name" placeholder="Last Name" name='lastname')
+                                input#lastName.form-control(value=form.lastname type="Last Name" placeholder="Last Name" name='lastname')
+
                         .form-group.row
-                            label.col-sm-0.col-form-label(for="inputEmail3")
                             .col-sm-12
-                                input#inputEmail3.form-control(type="email" placeholder="Email" name='email')
+                                input#inputEmail3.form-control(value=form.email, type="email" placeholder="Email" name='email')
                         .form-group.row
-                            label.col-sm-0.col-form-label(for="inputPassword3")
                             .col-sm-12
                                 input#inputPassword3.form-control(type="password" placeholder="Password" name='password')
                         .form-group.row
