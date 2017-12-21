@@ -16,8 +16,8 @@ export default (router) => {
       firstname: 'First name cannot be blank',
       lastname: 'Last name cannot be blank',
       email: 'Email cannot be blank',
-      password: 'Password cannot be blank'
-    }
+      password: 'Password cannot be blank',
+    };
 
     const userData = ctx.request.body;
 
@@ -34,11 +34,10 @@ export default (router) => {
       console.log(data);
       ctx.render('users/index', data);
     } else {
-      console.log('zbs')
+      console.log('zbs');
       const user = new User(firstname, lastname, email, encrypt(password));
       const repository = new UserRepository();
       repository.save(user);
-    
       ctx.redirect('/');
     }
   });
