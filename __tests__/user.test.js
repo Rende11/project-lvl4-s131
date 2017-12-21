@@ -1,6 +1,7 @@
 // @flow
 
 import request from 'supertest';
+import faker from 'faker';
 import app from '../src/';
 
 describe('Base test - app', () => {
@@ -18,10 +19,10 @@ describe('Base test - app', () => {
 
   test('Post /user/new', async () => {
     const user = {
-      firstname: 'TestFirstName',
-      lastname: 'TestLastName',
-      email: 'test@email.com',
-      password: 'qwerty',
+      firstname: faker.name.firstName(),
+      lastname: faker.name.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
     };
     const res = await request.agent(server)
       .post('/user/new')

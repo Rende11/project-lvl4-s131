@@ -74,7 +74,8 @@
     "jest": "^20",
     "nodemon": "^1.13.3",
     "superagent": "*",
-    "supertest": "*"
+    "supertest": "*",
+    "faker": "*"
   },
   "jest": {
     "testEnvironment": "node"
