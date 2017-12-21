@@ -6,7 +6,13 @@ import UserRepository from '../repositories/UserRepository';
 
 export default (router) => {
   router.get('/user/new', async (ctx) => {
-    ctx.render('users/index', { form: {}, errors: {} });
+    ctx.render('users/new', { form: {}, errors: {} });
+  });
+
+  router.get('/users', async (ctx) => {
+    const repository = new UserRepository();
+    const users = repository.getAllUsers();
+    ctx.render('users/index', { users, errors: {} });
   });
 
   router.post('/user/new', async (ctx) => {
@@ -32,7 +38,7 @@ export default (router) => {
     if (Object.keys(errors).length > 0) {
       const data = { form: userData, errors };
       console.log(data);
-      ctx.render('users/index', data);
+      ctx.render('users/new', data);
     } else {
       console.log('zbs');
       const user = new User(firstname, lastname, email, encrypt(password));

@@ -7,7 +7,7 @@ export default () => ({
     vendor: ['babel-polyfill', 'jquery', 'jquery-ujs', 'popper.js', 'bootstrap'],
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.join(__dirname, 'public', 'assets'),
     publicPath: '/assets/',
   },
