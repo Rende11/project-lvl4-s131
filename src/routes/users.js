@@ -12,6 +12,7 @@ export default (router) => {
   router.get('/users', async (ctx) => {
     const repository = new UserRepository();
     const users = repository.getAllUsers();
+    console.log(users);
     ctx.render('users/index', { users, errors: {} });
   });
 
@@ -44,6 +45,8 @@ export default (router) => {
       const user = new User(firstname, lastname, email, encrypt(password));
       const repository = new UserRepository();
       repository.save(user);
+      ctx.session.user = user.uid;
+      ctx.session.name = user.firstName;
       ctx.redirect('/');
     }
   });

@@ -41,6 +41,7 @@
     "koa-bodyparser": "*",
     "koa-pug": "*",
     "koa-router": "*",
+    "koa-session": "*",
     "lodash": "*",
     "popper.js": "*",
     "postcss-loader": "*",

@@ -5,6 +5,7 @@ import bodyParser from 'koa-bodyparser';
 import Router from 'koa-router';
 import koaLogger from 'koa-logger';
 import middleware from 'koa-webpack';
+import session from 'koa-session';
 import Rollbar from 'rollbar';
 import Pug from 'koa-pug';
 import _ from 'lodash';
@@ -19,6 +20,8 @@ export default () => {
   const router = new Router();
   routes(router);
   const env = dotenv.config();
+
+  app.keys = ['secret key'];
 
   app.use(bodyParser());
   const rollbar = Rollbar.init({
@@ -37,11 +40,23 @@ export default () => {
   app.use(async (ctx, next) => {
     try {
       await next();
+      if (ctx.status === 404) {
+        throw new Error(404);
+      }
     } catch (err) {
       rollbar.error(err, ctx.request);
     }
   });
 
+  app.use(session(app));
+
+  app.use(async (ctx, next) => {
+    ctx.state.isSigned = !!ctx.session.user;
+    ctx.state.username = ctx.session.name;
+    console.log('state', ctx.session);
+    await next();
+  });
+  
   app.use(router.routes());
   app.use(router.allowedMethods());
   app.use(koaLogger());
@@ -51,13 +66,13 @@ export default () => {
   }));
 
   const pug = new Pug({
-    viewPath: path.join(__dirname, '../views'),
+    viewPath: path.join(__dirname, '..', 'views'),
     debug: true,
     pretty: true,
     compileDebug: true,
     noCache: true,
     locals: [],
-    basedir: path.join(__dirname, '../views'),
+    basedir: path.join(__dirname, '..', 'views'),
     helperPath: [
       { _ },
     ],

@@ -1,11 +1,11 @@
 // @flow
 
 export default class UserRepository {
-  storage = [];
+  static storage = [];
   save(user: User) {
-    this.storage.push(user);
+    UserRepository.storage.push(user);
   }
   getAllUsers() {
-    return this.storage;
+    return UserRepository.storage;
   }
 }

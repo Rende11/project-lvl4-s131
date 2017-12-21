@@ -17,6 +17,12 @@ describe('Base test - app', () => {
     expect(res.status).toBe(200);
   });
 
+  test('Get /users', async () => {
+    const res = await request.agent(server)
+      .get('/users');
+    expect(res.status).toBe(200);
+  });
+
   test('Post /user/new', async () => {
     const user = {
       firstname: faker.name.firstName(),
