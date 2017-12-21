@@ -4,13 +4,14 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import Router from 'koa-router';
 import koaLogger from 'koa-logger';
+import middleware from 'koa-webpack';
 import Rollbar from 'rollbar';
 import Pug from 'koa-pug';
 import _ from 'lodash';
 import dotenv from 'dotenv';
-
-
 import path from 'path';
+
+import getConfig from '../webpack.config.babel';
 import routes from './routes';
 
 export default () => {
@@ -18,6 +19,7 @@ export default () => {
   const router = new Router();
   routes(router);
   const env = dotenv.config();
+
   app.use(bodyParser());
   const rollbar = Rollbar.init({
     accessToken: env.ROLLBAR_TOKEN,
@@ -40,10 +42,13 @@ export default () => {
     }
   });
 
-
   app.use(router.routes());
   app.use(router.allowedMethods());
   app.use(koaLogger());
+
+  app.use(middleware({
+    config: getConfig(),
+  }));
 
   const pug = new Pug({
     viewPath: path.join(__dirname, '../views'),

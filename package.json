@@ -47,7 +47,12 @@
     "rollbar": "^2.3.2",
     "sqlite3": "*",
     "uuid-js": "^0.7.5",
-    "koa-logger": "^3.1.0"
+    "koa-logger": "^3.1.0",
+    "koa-webpack": "^1.0.0",
+    "webpack": "^3.10.0",
+    "jquery-ujs": "*",
+    "style-loader": "*",
+    "css-loader": "*"
   },
   "devDependencies": {
     "babel-cli": "*",
@@ -69,7 +74,9 @@
     "jest": "^20",
     "nodemon": "^1.13.3",
     "superagent": "*",
-    "supertest": "*",
-    "webpack": "^3.10.0"
+    "supertest": "*"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
