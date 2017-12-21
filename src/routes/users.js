@@ -6,7 +6,7 @@ import UserRepository from '../repositories/UserRepository';
 
 export default (router) => {
   router.get('/user/new', async (ctx) => {
-    ctx.render('users/index', { form: {}});
+    ctx.render('users/index', { form: {}, errors: {} });
   });
 
   router.post('/user/new', async (ctx) => {
@@ -25,14 +25,14 @@ export default (router) => {
       firstname, lastname, email, password,
     } = userData;
 
-    Object.keys(userData).filter(key => !userData[key]).forEach(emptyKey => {
+    Object.keys(userData).filter(key => !userData[key]).forEach((emptyKey) => {
       errors[emptyKey] = errorMessages[emptyKey];
     });
 
     if (Object.keys(errors).length > 0) {
       const data = { form: userData, errors };
-      console.log(data)
-      ctx.render('users/index', data );
+      console.log(data);
+      ctx.render('users/index', data);
     } else {
       console.log('zbs')
       const user = new User(firstname, lastname, email, encrypt(password));
