@@ -56,7 +56,7 @@ export default () => {
     console.log('state', ctx.session);
     await next();
   });
-  
+
   app.use(router.routes());
   app.use(router.allowedMethods());
   app.use(koaLogger());

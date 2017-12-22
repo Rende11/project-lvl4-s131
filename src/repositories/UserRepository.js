@@ -2,10 +2,10 @@
 
 export default class UserRepository {
   static storage = [];
-  save(user: User) {
-    UserRepository.storage.push(user);
+  static save(user: User) {
+    this.storage.push(user);
   }
-  getAllUsers() {
-    return UserRepository.storage;
+  static getAllUsers() {
+    return this.storage;
   }
 }

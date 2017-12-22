@@ -10,8 +10,7 @@ export default (router) => {
   });
 
   router.get('/users', async (ctx) => {
-    const repository = new UserRepository();
-    const users = repository.getAllUsers();
+    const users = UserRepository.getAllUsers();
     console.log(users);
     ctx.render('users/index', { users, errors: {} });
   });
@@ -43,8 +42,7 @@ export default (router) => {
     } else {
       console.log('zbs');
       const user = new User(firstname, lastname, email, encrypt(password));
-      const repository = new UserRepository();
-      repository.save(user);
+      UserRepository.save(user);
       ctx.session.user = user.uid;
       ctx.session.name = user.firstName;
       ctx.redirect('/');
