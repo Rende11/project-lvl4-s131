@@ -6,6 +6,7 @@ import Router from 'koa-router';
 import koaLogger from 'koa-logger';
 import middleware from 'koa-webpack';
 import session from 'koa-session';
+import serve from 'koa-static';
 import Rollbar from 'rollbar';
 import Pug from 'koa-pug';
 import _ from 'lodash';
@@ -61,9 +62,14 @@ export default () => {
   app.use(router.allowedMethods());
   app.use(koaLogger());
 
-  app.use(middleware({
-    config: getConfig(),
-  }));
+  app.use(serve(path.join(__dirname, '..', 'public')));
+    
+  if (env.NODE_ENV !== 'production') {
+    app.use(middleware({
+      config: getConfig(),
+    }));
+  }
+
 
   const pug = new Pug({
     viewPath: path.join(__dirname, '..', 'views'),

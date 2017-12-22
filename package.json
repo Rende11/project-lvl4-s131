@@ -53,7 +53,8 @@
     "webpack": "^3.10.0",
     "jquery-ujs": "*",
     "style-loader": "*",
-    "css-loader": "*"
+    "css-loader": "*",
+    "koa-static": "*"
   },
   "devDependencies": {
     "babel-cli": "*",

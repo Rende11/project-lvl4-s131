@@ -27,10 +27,10 @@ jobs:
     - stage: deploy to staging
       deploy: &heroku
         provider: heroku
-        app: rende11-task-manager
+        app: peaceful-sierra-86778
         api_key: $HEROKU_AUTH_TOKEN
     - stage: test staging
-      script: 'curl https://rende11-task-manager.herokuapp.com/'
+      script: 'curl https://peaceful-sierra-86778.herokuapp.com/users'
 
 
 
