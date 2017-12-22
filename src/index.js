@@ -64,7 +64,7 @@ export default () => {
 
   app.use(serve(path.join(__dirname, '..', 'public')));
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (env.NODE_ENV !== 'production') {
     app.use(middleware({
       config: getConfig(),
     }));
@@ -76,7 +76,7 @@ export default () => {
     debug: true,
     pretty: true,
     compileDebug: true,
-    noCache: true,
+    noCache: env.NODE_ENV !== 'production',
     locals: [],
     basedir: path.join(__dirname, '..', 'views'),
     helperPath: [
