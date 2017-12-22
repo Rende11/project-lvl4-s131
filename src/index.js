@@ -63,7 +63,7 @@ export default () => {
   app.use(koaLogger());
 
   app.use(serve(path.join(__dirname, '..', 'public')));
-    
+
   if (env.NODE_ENV !== 'production') {
     app.use(middleware({
       config: getConfig(),
