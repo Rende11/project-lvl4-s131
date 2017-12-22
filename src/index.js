@@ -12,7 +12,7 @@ import _ from 'lodash';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import getConfig from '../webpack.config.babel';
+import getConfig from './webpack.config.babel';
 import routes from './routes';
 
 export default () => {
