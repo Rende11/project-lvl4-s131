@@ -54,7 +54,8 @@
     "jquery-ujs": "*",
     "style-loader": "*",
     "css-loader": "*",
-    "koa-static": "*"
+    "koa-static": "*",
+    "koa-methodoverride": "*"
   },
   "devDependencies": {
     "babel-cli": "*",

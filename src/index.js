@@ -7,6 +7,7 @@ import koaLogger from 'koa-logger';
 import middleware from 'koa-webpack';
 import session from 'koa-session';
 import serve from 'koa-static';
+import methodOverride from 'koa-methodoverride';
 import Rollbar from 'rollbar';
 import Pug from 'koa-pug';
 import _ from 'lodash';
@@ -25,6 +26,24 @@ export default () => {
   app.keys = ['secret key'];
 
   app.use(bodyParser());
+  /*app.use(methodOverride((req, res) => {
+    console.log(req.body);
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      const method = req.body._method;
+      delete req.body._method;
+      return method;
+    }
+    return null;
+  }));
+*/
+  app.use(methodOverride((req) => {
+    // return req?.body?._method;
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      return req.body._method; // eslint-disable-line
+    }
+    return null;
+  }));
+
   const rollbar = Rollbar.init({
     accessToken: env.ROLLBAR_TOKEN,
     handleUncaughtExceptions: true,

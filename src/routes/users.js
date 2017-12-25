@@ -37,10 +37,8 @@ export default (router) => {
 
     if (Object.keys(errors).length > 0) {
       const data = { form: userData, errors };
-      console.log(data);
       ctx.render('users/new', data);
     } else {
-      console.log('zbs');
       const user = new User(firstname, lastname, email, encrypt(password));
       UserRepository.save(user);
       ctx.session.user = user.uid;
