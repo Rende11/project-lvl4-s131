@@ -28,6 +28,7 @@ export default (router) => {
       errors.nouser = errorMessages.nouser;
     }
 
+    console.log(errors);
     if (Object.keys(errors).length > 0) {
       const data = { form: userData, errors };
       ctx.render('users/session', data);
