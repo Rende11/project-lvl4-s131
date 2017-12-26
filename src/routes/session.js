@@ -1,8 +1,8 @@
 // @flow
 
 import UserRepository from '../repositories/UserRepository';
-export default (router) => {
 
+export default (router) => {
   router.get('/session/new', async (ctx) => {
     ctx.render('users/session', { form: {}, errors: {} });
   });
