@@ -47,8 +47,11 @@ export default (router) => {
     } else {
       const user = new User(firstname, lastname, email, encrypt(password));
       UserRepository.save(user);
+      const id = UserRepository.getUserId(user.uid);
+      console.log(id);
       ctx.session.user = user.uid;
       ctx.session.name = user.firstName;
+      ctx.session.name = id;
       ctx.redirect('/');
     }
   });
