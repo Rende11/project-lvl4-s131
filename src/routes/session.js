@@ -3,11 +3,11 @@
 import UserRepository from '../repositories/UserRepository';
 
 export default (router) => {
-  router.get('/session/new', async (ctx) => {
+  router.get('/session', async (ctx) => {
     ctx.render('users/session', { form: {}, errors: {} });
   });
 
-  router.post('/session/new', async (ctx) => {
+  router.post('/session', async (ctx) => {
     const userData = ctx.request.body;
     const errors = {};
     const errorMessages = {
@@ -35,6 +35,7 @@ export default (router) => {
     } else {
       ctx.session.user = user.uid;
       ctx.session.name = user.firstName;
+      ctx.session.id = user.firstName;
       ctx.redirect('/');
     }
   });

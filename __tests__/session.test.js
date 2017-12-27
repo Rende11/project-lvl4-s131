@@ -11,20 +11,20 @@ describe('Base session', () => {
     server = app().listen();
   });
 
-  test('Get /session/new', async () => {
+  test('Get /session', async () => {
     const res = await request.agent(server)
-      .get('/session/new');
+      .get('/session');
     expect(res.status).toBe(200);
   });
 
-  test('Post /session/new', async () => {
+  test('Post /session', async () => {
     const user = {
       email: faker.internet.email(),
       password: faker.internet.password(),
     };
 
     const res = await request.agent(server)
-      .post('/session/new')
+      .post('/session')
       .send(user);
     expect(res.status).toBe(200);
   });
@@ -36,7 +36,7 @@ describe('Base session', () => {
     };
 
     const res = await request.agent(server)
-      .post('/session/new')
+      .post('/session')
       .send(user);
     expect(res.status).toBe(200);
 

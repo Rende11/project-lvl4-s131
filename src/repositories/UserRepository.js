@@ -10,6 +10,9 @@ export default class UserRepository {
   static getAllUsers() {
     return this.storage;
   }
+  static getUserId(uid) {
+    return this.storage.findIndex(user => user.uid === uid);
+  }
   static find(email: string, password: string) {
     return this.storage.find(user => user.email === email && user.password === crypto(password));
   }

@@ -11,8 +11,14 @@ export default (router) => {
 
   router.get('/users', async (ctx) => {
     const users = UserRepository.getAllUsers();
-    console.log(users);
     ctx.render('users/index', { users, errors: {} });
+  });
+
+  router.get('/user/:id', async (ctx) => {
+    const params = ctx.query;
+    console.log(params);
+    const user = UserRepository.getUserId(ctx.session.user);
+    ctx.render('users/index', { user, errors: {} });
   });
 
   router.post('/user/new', async (ctx) => {
