@@ -33,9 +33,10 @@ export default (router) => {
       const data = { form: userData, errors };
       ctx.render('users/session', data);
     } else {
+      console.log(user.firstName);
       ctx.session.user = user.uid;
       ctx.session.name = user.firstName;
-      ctx.session.id = user.firstName;
+      ctx.session.id = UserRepository.getUserId(user.uid);
       ctx.redirect('/');
     }
   });

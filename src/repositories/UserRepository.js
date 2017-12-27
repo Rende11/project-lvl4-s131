@@ -11,7 +11,19 @@ export default class UserRepository {
     return this.storage;
   }
   static getUserId(uid) {
-    return this.storage.findIndex(user => user.uid === uid);
+    return this.storage.findIndex(user => user.uid === uid) + 1;
+  }
+
+  static findUserById(id) {
+    return this.storage[id - 1];
+  }
+
+  static updateUser(uid, newFields) {
+    const user = this.storage.find(user => user.uid === uid);
+    const { newFirstname, newLastname, newPassword } = newFields;
+    user.firstName = newFirstname;
+    user.lastName = newLastname;
+    user.password = crypto(newPassword);
   }
   static find(email: string, password: string) {
     return this.storage.find(user => user.email === email && user.password === crypto(password));

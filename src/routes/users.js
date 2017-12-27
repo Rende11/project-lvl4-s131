@@ -15,10 +15,29 @@ export default (router) => {
   });
 
   router.get('/user/:id', async (ctx) => {
-    const params = ctx.query;
+    /*const params = ctx.query;
     console.log(params);
-    const user = UserRepository.getUserId(ctx.session.user);
-    ctx.render('users/index', { user, errors: {} });
+    const user = UserRepository.getUserId(ctx.session.user);*/
+    const user = UserRepository.findUserById(ctx.params.id);
+    console.log(ctx.params.id);
+    console.log(user.firstName);
+    if (user) {
+      ctx.render('users/profile', { user, errors: {} });
+    } else {
+      ctx.redirect('/');
+    }
+  });
+
+  router.patch('/user/:id', async (ctx) => {
+    const user = UserRepository.findUserById(ctx.params.id);
+    const userData = ctx.request.body;
+
+    const {
+      firstname, lastname, email, password,
+    } = userData;
+
+    UserRepository.updateUser(user.uid, { newFirstname: firstname, newLastname: lastname, newPassword: password });
+    ctx.redirect('/');
   });
 
   router.post('/user/new', async (ctx) => {
@@ -47,11 +66,9 @@ export default (router) => {
     } else {
       const user = new User(firstname, lastname, email, encrypt(password));
       UserRepository.save(user);
-      const id = UserRepository.getUserId(user.uid);
-      console.log(id);
       ctx.session.user = user.uid;
       ctx.session.name = user.firstName;
-      ctx.session.name = id;
+      ctx.session.id = UserRepository.getUserId(user.uid);
       ctx.redirect('/');
     }
   });

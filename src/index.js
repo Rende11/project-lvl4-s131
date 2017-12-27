@@ -62,9 +62,10 @@ export default () => {
 
   app.use(async (ctx, next) => {
     ctx.state.isSigned = !!ctx.session.user;
-    ctx.state.username = ctx.session.name || '';
-    ctx.state.id = ctx.session.id || '';
+    ctx.state.name = ctx.session.name;
+    ctx.state.id = ctx.session.id;
     console.log('state', ctx.state);
+    console.log('session', ctx.session);
     await next();
   });
 
