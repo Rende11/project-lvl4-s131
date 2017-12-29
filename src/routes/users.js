@@ -15,9 +15,6 @@ export default (router) => {
   });
 
   router.get('/user/:id', async (ctx) => {
-    /*const params = ctx.query;
-    console.log(params);
-    const user = UserRepository.getUserId(ctx.session.user);*/
     const user = UserRepository.findUserById(ctx.params.id);
     console.log(ctx.params.id);
     console.log(user.firstName);
@@ -28,15 +25,29 @@ export default (router) => {
     }
   });
 
+  router.delete('/user/:id', async (ctx) => {
+    const user = UserRepository.findUserById(ctx.params.id);
+    if (user) {
+      UserRepository.remove(user.uid);
+      ctx.session = {};
+      ctx.redirect('/users');
+    } else {
+      ctx.redirect('/');
+    }
+  });
+
   router.patch('/user/:id', async (ctx) => {
     const user = UserRepository.findUserById(ctx.params.id);
     const userData = ctx.request.body;
 
     const {
-      firstname, lastname, email, password,
+      firstname, lastname, password,
     } = userData;
-
-    UserRepository.updateUser(user.uid, { newFirstname: firstname, newLastname: lastname, newPassword: password });
+    UserRepository.updateUser(user.uid, {
+      newFirstname: firstname,
+      newLastname: lastname,
+      newPassword: password,
+    });
     ctx.redirect('/');
   });
 

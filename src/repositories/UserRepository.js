@@ -19,7 +19,7 @@ export default class UserRepository {
   }
 
   static updateUser(uid, newFields) {
-    const user = this.storage.find(user => user.uid === uid);
+    const user = this.storage.find(u => u.uid === uid);
     const { newFirstname, newLastname, newPassword } = newFields;
     user.firstName = newFirstname;
     user.lastName = newLastname;
@@ -27,5 +27,10 @@ export default class UserRepository {
   }
   static find(email: string, password: string) {
     return this.storage.find(user => user.email === email && user.password === crypto(password));
+  }
+
+  static remove(uid) {
+    const index = this.storage.findIndex(user => user.uid === uid);
+    this.storage.splice(index, 1);
   }
 }

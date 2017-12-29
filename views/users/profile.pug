@@ -20,4 +20,8 @@ block content
                             .col-sm-12
                                 input#inputPassword3.form-control(type="password" placeholder="Password" name='password')
                         .form-group.row
-                                button.btn.btn-primary.mx-auto(type="submit") Save changes
+                                button.btn.btn-primary.btn-block.mx-auto(type="submit") Save changes
+                    form(action="/user/" + id, method="post")
+                        input(type="hidden" name="_method" value="delete")
+                        .form-group.row
+                            button.btn.btn-danger.btn-block.mx-auto Delete
