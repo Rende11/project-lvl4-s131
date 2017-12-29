@@ -14,6 +14,10 @@ export default class UserRepository {
     return this.storage.findIndex(user => user.uid === uid) + 1;
   }
 
+  static findUserByUid(uid) {
+    return this.storage.find(user => user.uid === uid);
+  }
+
   static findUserById(id) {
     return this.storage[id - 1];
   }

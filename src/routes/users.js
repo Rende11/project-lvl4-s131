@@ -14,8 +14,8 @@ export default (router) => {
     ctx.render('users/index', { users, errors: {} });
   });
 
-  router.get('/user/:id', async (ctx) => {
-    const user = UserRepository.findUserById(ctx.params.id);
+  router.get('/user/:name', async (ctx) => {
+    const user = UserRepository.findUserByUid(ctx.session.user);
     console.log(ctx.params.id);
     console.log(user.firstName);
     if (user) {
@@ -26,24 +26,19 @@ export default (router) => {
   });
 
   router.delete('/user/:id', async (ctx) => {
-    const user = UserRepository.findUserById(ctx.params.id);
-    if (user) {
-      UserRepository.remove(user.uid);
-      ctx.session = {};
-      ctx.redirect('/users');
-    } else {
-      ctx.redirect('/');
-    }
+    UserRepository.remove(ctx.session.use);
+    ctx.session = {};
+    ctx.redirect('/users');
   });
 
-  router.patch('/user/:id', async (ctx) => {
-    const user = UserRepository.findUserById(ctx.params.id);
+  router.patch('/user/:name', async (ctx) => {
+    const user = UserRepository.findUserByUid(ctx.session.user);
     const userData = ctx.request.body;
 
     const {
       firstname, lastname, password,
     } = userData;
-    UserRepository.updateUser(user.uid, {
+    UserRepository.updateUser(ctx.session.user, {
       newFirstname: firstname,
       newLastname: lastname,
       newPassword: password,
