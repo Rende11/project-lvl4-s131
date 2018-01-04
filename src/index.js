@@ -17,6 +17,8 @@ import path from 'path';
 import getConfig from './webpack.config.babel';
 import routes from './routes';
 
+import User from './db';
+
 export default () => {
   const app = new Koa();
   const router = new Router();
@@ -97,5 +99,6 @@ export default () => {
 
   pug.use(app);
 
+  User.sync({ force: true });
   return app;
 };

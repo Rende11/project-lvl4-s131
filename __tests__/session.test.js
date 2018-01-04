@@ -42,7 +42,7 @@ describe('Base session', () => {
 
     const res2 = await request.agent(server)
       .delete('/session');
-    expect(res2.statusCode).toBe(302);
+    expect(res2.status).toBe(302);
   });
 
   afterEach((done) => {

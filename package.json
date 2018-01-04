@@ -18,7 +18,8 @@
     "webpack": "webpack",
     "postinstall": "npm run build",
     "nodemon": "nodemon",
-    "demon": "nodemon src/bin/index.js --exec babel-node"
+    "demon": "nodemon src/bin/index.js --exec babel-node",
+    "gulp": "gulp"
   },
   "repository": {
     "type": "git",
@@ -35,27 +36,30 @@
     "bootstrap": "4.0.0-beta",
     "commander": "*",
     "crypto-js": "^3.1.9-1",
+    "css-loader": "*",
     "dotenv": "^4.0.0",
     "jquery": "*",
+    "jquery-ujs": "*",
     "koa": "*",
     "koa-bodyparser": "*",
+    "koa-logger": "^3.1.0",
+    "koa-methodoverride": "*",
     "koa-pug": "*",
     "koa-router": "*",
     "koa-session": "*",
+    "koa-static": "*",
+    "koa-webpack": "^1.0.0",
     "lodash": "*",
+    "pg": "^6.4.2",
+    "pg-hstore": "^2.3.2",
     "popper.js": "*",
     "postcss-loader": "*",
     "rollbar": "^2.3.2",
+    "sequelize": "*",
     "sqlite3": "*",
-    "uuid-js": "^0.7.5",
-    "koa-logger": "^3.1.0",
-    "koa-webpack": "^1.0.0",
-    "webpack": "^3.10.0",
-    "jquery-ujs": "*",
     "style-loader": "*",
-    "css-loader": "*",
-    "koa-static": "*",
-    "koa-methodoverride": "*"
+    "uuid-js": "^0.7.5",
+    "webpack": "^3.10.0"
   },
   "devDependencies": {
     "babel-cli": "*",
@@ -78,7 +82,9 @@
     "nodemon": "^1.13.3",
     "superagent": "*",
     "supertest": "*",
-    "faker": "*"
+    "faker": "*",
+    "gulp": "*",
+    "gulp-cli": "*"
   },
   "jest": {
     "testEnvironment": "node"

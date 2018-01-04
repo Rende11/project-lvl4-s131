@@ -15,6 +15,7 @@ export default (router) => {
       password: 'Password cannot be blank',
       nouser: 'Wrong email or password',
     };
+
     const {
       email, password,
     } = userData;
@@ -23,20 +24,19 @@ export default (router) => {
       errors[emptyKey] = errorMessages[emptyKey];
     });
 
-    const user = UserRepository.find(email, password);
+    const user = await UserRepository.find(email, password);
+
     if (!user) {
       errors.nouser = errorMessages.nouser;
     }
 
-    console.log(errors);
     if (Object.keys(errors).length > 0) {
       const data = { form: userData, errors };
       ctx.render('users/session', data);
     } else {
-      console.log(user.firstName);
-      ctx.session.user = user.uid;
-      ctx.session.name = user.firstName;
-      ctx.session.id = UserRepository.getUserId(user.uid);
+      ctx.session.user = user.dataValues.uid;
+      ctx.session.name = user.dataValues.firstName;
+      ctx.session.id = await UserRepository.getUserId(user.dataValues.uid);
       ctx.redirect('/');
     }
   });

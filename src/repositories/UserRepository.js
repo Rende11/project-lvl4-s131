@@ -1,40 +1,73 @@
 // @flow
 
 import crypto from '../utilities/encrypt';
+import User from '../db/';
 
 export default class UserRepository {
-  static storage = [];
-  static save(user: User) {
-    this.storage.push(user);
-  }
-  static getAllUsers() {
-    return this.storage;
-  }
-  static getUserId(uid) {
-    return this.storage.findIndex(user => user.uid === uid) + 1;
+  static async save(user: User) {
+    await User.sync();
+    await User.create({ ...user, state: 'active' });
   }
 
-  static findUserByUid(uid) {
-    return this.storage.find(user => user.uid === uid);
+  static async getAllUsers() {
+    const users = await User.findAll();
+    const preparedUsersData = users.map(user => user.dataValues).filter(user => user.state === 'active');
+    return preparedUsersData;
   }
 
-  static findUserById(id) {
-    return this.storage[id - 1];
+  static async getUserId(uid) {
+    const [user] = await User.findAll({
+      where: {
+        uid,
+      },
+    });
+    return user.dataValues.id;
   }
 
-  static updateUser(uid, newFields) {
-    const user = this.storage.find(u => u.uid === uid);
+  static async findUserByUid(uid) {
+    const [user] = await User.findAll({
+      where: {
+        uid,
+      },
+    });
+    return user.dataValues;
+  }
+
+  static async findUserById(id) {
+    const user = await User.findById(id);
+    return user.dataValues;
+  }
+
+  static async updateUser(uid, newFields) {
+    const [user] = await User.findAll({
+      where: {
+        uid,
+      },
+    });
     const { newFirstname, newLastname, newPassword } = newFields;
-    user.firstName = newFirstname;
-    user.lastName = newLastname;
-    user.password = crypto(newPassword);
-  }
-  static find(email: string, password: string) {
-    return this.storage.find(user => user.email === email && user.password === crypto(password));
+
+    await user.update({
+      firstName: newFirstname,
+      lastName: newLastname,
+      password: crypto(newPassword),
+    });
   }
 
-  static remove(uid) {
-    const index = this.storage.findIndex(user => user.uid === uid);
-    this.storage.splice(index, 1);
+  static async find(email: string, password: string) {
+    const [user] = await User.findAll({
+      where: {
+        email,
+        password: crypto(password),
+        state: 'active',
+      },
+    });
+    return user;
+  }
+
+  static async remove(id) {
+    const user = await User.findById(id);
+    await user.update({
+      state: 'deleted',
+    });
   }
 }

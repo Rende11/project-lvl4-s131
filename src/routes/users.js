@@ -10,44 +10,47 @@ export default (router) => {
   });
 
   router.get('/users', async (ctx) => {
-    const users = UserRepository.getAllUsers();
-    ctx.render('users/index', { users, errors: {} });
+    try {
+      const users = await UserRepository.getAllUsers();
+      ctx.render('users/index', { users, errors: {} });
+    } catch (err) {
+      console.error(err, 'ERROR');
+    }
   });
 
-  router.get('/user/:name', async (ctx) => {
-    const user = UserRepository.findUserByUid(ctx.session.user);
-    console.log(ctx.params.id);
-    console.log(user.firstName);
-    if (user) {
+  router.get('/user/:id', async (ctx) => {
+    try {
+      const user = await UserRepository.findUserById(ctx.params.id);
+      console.log('USER', user);
       ctx.render('users/profile', { user, errors: {} });
-    } else {
+    } catch (err) {
+      console.error(err);
       ctx.redirect('/');
     }
   });
 
   router.delete('/user/:id', async (ctx) => {
-    UserRepository.remove(ctx.session.use);
+    await UserRepository.remove(ctx.params.id);
     ctx.session = {};
     ctx.redirect('/users');
   });
 
-  router.patch('/user/:name', async (ctx) => {
-    const user = UserRepository.findUserByUid(ctx.session.user);
+  router.patch('/user/:id', async (ctx) => {
     const userData = ctx.request.body;
 
     const {
       firstname, lastname, password,
     } = userData;
-    UserRepository.updateUser(ctx.session.user, {
+    await UserRepository.updateUser(ctx.session.user, {
       newFirstname: firstname,
       newLastname: lastname,
       newPassword: password,
     });
+    ctx.session.name = firstname;
     ctx.redirect('/');
   });
 
   router.post('/user/new', async (ctx) => {
-    console.log(ctx.request.body);
     const errors = {};
     const errorMessages = {
       firstname: 'First name cannot be blank',
@@ -71,10 +74,10 @@ export default (router) => {
       ctx.render('users/new', data);
     } else {
       const user = new User(firstname, lastname, email, encrypt(password));
-      UserRepository.save(user);
+      await UserRepository.save(user);
       ctx.session.user = user.uid;
       ctx.session.name = user.firstName;
-      ctx.session.id = UserRepository.getUserId(user.uid);
+      ctx.session.id = await UserRepository.getUserId(user.uid);
       ctx.redirect('/');
     }
   });

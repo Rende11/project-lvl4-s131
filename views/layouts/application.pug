@@ -14,7 +14,7 @@ html(lang="en")
                     a.nav-link(href='/users') Users
                 if isSigned 
                     nav-item.mx-1
-                        a.nav-link(href='/user/' + name) #{name} 
+                        a.nav-link(href='/user/' + id) #{name} 
 
                     a.btn.btn-outline-secondary.mx-1(href="/session", data-method='delete' rel='nofollow' role="button") Log out
                 else 
