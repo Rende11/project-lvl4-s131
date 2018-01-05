@@ -82,7 +82,6 @@ export default () => {
       config: getConfig(),
     }));
   }
-  console.log(env);
 
   const pug = new Pug({
     viewPath: path.join(__dirname, '..', 'views'),
