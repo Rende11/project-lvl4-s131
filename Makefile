@@ -27,7 +27,7 @@ check-types:
 lint:
 	npm run eslint src __tests__
 
-publish:
-	npm publish
+migrate:
+	npm run sequelize db:migrate
 
 .PHONY: test

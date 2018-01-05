@@ -66,6 +66,7 @@ export default () => {
     ctx.state.isSigned = !!ctx.session.user;
     ctx.state.name = ctx.session.name;
     ctx.state.id = ctx.session.id;
+    ctx.state.env = process.env.NODE_ENV;
     // console.log('state', ctx.state);
     // console.log('session', ctx.session);
     await next();
