@@ -17,7 +17,7 @@ import path from 'path';
 import getConfig from './webpack.config.babel';
 import routes from './routes';
 
-import User from './db';
+// import User from './db';
 
 export default () => {
   const app = new Koa();
@@ -66,8 +66,8 @@ export default () => {
     ctx.state.isSigned = !!ctx.session.user;
     ctx.state.name = ctx.session.name;
     ctx.state.id = ctx.session.id;
-    console.log('state', ctx.state);
-    console.log('session', ctx.session);
+    // console.log('state', ctx.state);
+    // console.log('session', ctx.session);
     await next();
   });
 
@@ -77,19 +77,18 @@ export default () => {
 
   app.use(serve(path.join(__dirname, '..', 'public')));
 
-  if (env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'development') {
     app.use(middleware({
       config: getConfig(),
     }));
   }
-
 
   const pug = new Pug({
     viewPath: path.join(__dirname, '..', 'views'),
     debug: true,
     pretty: true,
     compileDebug: true,
-    noCache: env.NODE_ENV !== 'production',
+    noCache: process.env.NODE_ENV !== 'production',
     locals: [],
     basedir: path.join(__dirname, '..', 'views'),
     helperPath: [
@@ -99,6 +98,6 @@ export default () => {
 
   pug.use(app);
 
-  User.sync({ force: true });
+  // User.sync({ force: true });
   return app;
 };

@@ -1,11 +1,16 @@
 // @flow
 
 import request from 'supertest';
+import matchers from 'jest-supertest-matchers';
 import faker from 'faker';
 import app from '../src/';
 
 describe('Base session', () => {
   let server;
+
+  beforeAll(() => {
+    jasmine.addMatchers(matchers);
+  });
 
   beforeEach(() => {
     server = app().listen();

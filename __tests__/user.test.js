@@ -1,11 +1,16 @@
 // @flow
 
 import request from 'supertest';
+import matchers from 'jest-supertest-matchers';
 import faker from 'faker';
 import app from '../src/';
 
 describe('Base test - app', () => {
   let server;
+
+  beforeAll(() => {
+    jasmine.addMatchers(matchers);
+  });
 
   beforeEach(() => {
     server = app().listen();
@@ -22,7 +27,6 @@ describe('Base test - app', () => {
       .get('/users');
     expect(res.status).toBe(200);
   });
-
   test('Post /user/new', async () => {
     const user = {
       firstname: faker.name.firstName(),
@@ -36,7 +40,6 @@ describe('Base test - app', () => {
     expect(res.status).toBe(302);
     expect(res.headers.location).toBe('/');
   });
-
   afterEach((done) => {
     server.close();
     done();

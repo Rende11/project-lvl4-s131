@@ -82,9 +82,8 @@
     "nodemon": "^1.13.3",
     "superagent": "*",
     "supertest": "*",
-    "faker": "*",
-    "gulp": "*",
-    "gulp-cli": "*"
+    "jest-supertest-matchers": "*",
+    "faker": "*"
   },
   "jest": {
     "testEnvironment": "node"
