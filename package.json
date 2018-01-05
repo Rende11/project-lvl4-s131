@@ -50,7 +50,7 @@
     "koa-static": "*",
     "koa-webpack": "^1.0.0",
     "lodash": "*",
-    "pg": "^6.4.2",
+    "pg": "6.4.2",
     "pg-hstore": "^2.3.2",
     "popper.js": "*",
     "postcss-loader": "*",
