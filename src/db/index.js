@@ -2,35 +2,28 @@
 
 import Sequelize from 'sequelize';
 
-
 const mapping = {
-  'test': () => {
-    return new Sequelize('database', 'username', 'password', {
-      host: 'localhost',
-      dialect: 'sqlite',
-    
-      pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000,
-      },
-      storage: 'database.sqlite',
-    });
-  },
-  'production': () => {
-    return new Sequelize('database', 'username', 'password', {
-      host: 'localhost',
-      dialect: 'postgres',
-    
-      pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000,
-      }
-    });
-  }
+  test: () => new Sequelize('database', 'username', 'password', {
+    host: 'localhost',
+    dialect: 'sqlite',
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+    storage: 'database.sqlite',
+  }),
+  production: () => new Sequelize('database', 'username', 'password', {
+    host: 'localhost',
+    dialect: 'postgres',
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+  }),
 };
 const sequelize = mapping[process.env.NODE_ENV || 'test']();
 
