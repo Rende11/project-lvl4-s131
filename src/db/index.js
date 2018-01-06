@@ -48,5 +48,5 @@ sequelize
 import Sequelize from 'sequelize';
 import dbConfig from '../../config/config.js';
 
-
-export default new Sequelize(dbConfig[process.env.NODE_ENV || 'test']);
+console.log(process.env.NODE_ENV, 'Process env');
+export default new Sequelize(dbConfig[process.env.NODE_ENV]);
