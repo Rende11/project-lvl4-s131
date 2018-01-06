@@ -3,5 +3,5 @@
 dist
 flow-typed
 .tern-port
-.env
+
 database.sqlite
