@@ -24,7 +24,8 @@ export default () => {
   const router = new Router();
   routes(router);
   const env = dotenv.config();
-
+  console.log(env);
+  console.log(env.parsed);
   app.keys = ['secret key'];
 
   app.use(bodyParser());
