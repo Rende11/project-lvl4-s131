@@ -1,7 +1,18 @@
 // @flow
-
+/*
 import Sequelize from 'sequelize';
+import dbConfig from '../../config/config.js';
 
+const env = process.env.NODE_ENV || 'test';
+const config = dbConfig[env];
+/*let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable]);
+} else {
+  sequelize = new Sequelize(config);
+}
+
+/*
 const mapping = {
   test: () => new Sequelize('database', 'username', 'password', {
     host: 'localhost',
@@ -15,7 +26,6 @@ const mapping = {
     storage: 'database.sqlite',
   }),
   production: () => new Sequelize('database', 'username', 'password', {
-    host: 'localhost',
     dialect: 'postgres',
     pool: {
       max: 5,
@@ -32,25 +42,11 @@ sequelize
   .then(() => console.log('Connected!'))
   .catch(err => console.log(err));
 
+*/
+//const sequelize = new Sequelize(process.env[config.use_env_variable]);
 
-export default sequelize.define('user', {
-  uid: {
-    type: Sequelize.STRING,
-  },
-  firstName: {
-    type: Sequelize.STRING,
-  },
-  lastName: {
-    type: Sequelize.STRING,
-  },
-  email: {
-    type: Sequelize.STRING,
-  },
-  password: {
-    type: Sequelize.STRING,
-  },
-  state: {
-    type: Sequelize.STRING,
-  },
-});
+import Sequelize from 'sequelize';
+import dbConfig from '../../config/config.js';
 
+
+export default new Sequelize(dbConfig[process.env.NODE_ENV || 'test']);

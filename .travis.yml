@@ -23,7 +23,7 @@ jobs:
     - stage: eslint
       script: make lint
     - stage: tests
-      script: make migrate && make test
+      script: make test
     - stage: deploy to staging
       deploy: &heroku
         provider: heroku

@@ -1,15 +1,19 @@
 // @flow
 
 import crypto from '../utilities/encrypt';
-import User from '../db/';
+import entity from '../entities/User';
+import connect from '../db/';
+
+const User = entity(connect);
 
 export default class UserRepository {
-  static async save(user: User) {
-    await User.sync();
-    await User.create({ ...user, state: 'active' });
+  static async save(user) {
+    // await User.sync();
+    return await User.build(user);
   }
 
   static async getAllUsers() {
+    await User.sync();
     const users = await User.findAll();
     const preparedUsersData = users.map(user => user.dataValues).filter(user => user.state === 'active');
     return preparedUsersData;

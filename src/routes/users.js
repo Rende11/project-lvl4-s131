@@ -1,7 +1,7 @@
 // @flow
 
 import encrypt from '../utilities/encrypt';
-import User from '../entyties/User';
+// import User from '../entyties/User';
 import UserRepository from '../repositories/UserRepository';
 
 export default (router) => {
@@ -73,11 +73,16 @@ export default (router) => {
       const data = { form: userData, errors };
       ctx.render('users/new', data);
     } else {
-      const user = new User(firstname, lastname, email, encrypt(password));
-      await UserRepository.save(user);
-      ctx.session.user = user.uid;
-      ctx.session.name = user.firstName;
-      ctx.session.id = await UserRepository.getUserId(user.uid);
+      // const user = new User(firstname, lastname, email, encrypt(password));
+      try {
+        const result = await UserRepository.save({ firstName: firstname, lastName: lastname, email, password: encrypt(password) });
+        console.log(result);
+        ctx.session.user = '313232';
+        ctx.session.name = firstname;
+        ctx.session.id = await UserRepository.getUserId(user.uid);
+      } catch (err) {
+        console.error(err);
+      }
       ctx.redirect('/');
     }
   });
