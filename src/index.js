@@ -36,8 +36,9 @@ export default () => {
     return null;
   }));
 
+  
   const rollbar = Rollbar.init({
-    accessToken: env.ROLLBAR_TOKEN,
+    accessToken: env.parsed.ROLLBAR_TOKEN,
     handleUncaughtExceptions: true,
   });
 
@@ -51,10 +52,8 @@ export default () => {
 
   app.use(async (ctx, next) => {
     try {
+      rollbar.log('Rollbar working');
       await next();
-      if (ctx.status === 404) {
-        throw new Error(404);
-      }
     } catch (err) {
       rollbar.error(err, ctx.request);
     }
