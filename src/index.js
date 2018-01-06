@@ -77,7 +77,7 @@ export default () => {
 
   app.use(serve(path.join(__dirname, '..', 'public')));
 
-  if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'development') {
+  if (process.env.NODE_ENV !== 'test') {
     app.use(middleware({
       config: getConfig(),
     }));
