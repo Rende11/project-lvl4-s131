@@ -11,21 +11,17 @@ import methodOverride from 'koa-methodoverride';
 import Rollbar from 'rollbar';
 import Pug from 'koa-pug';
 import _ from 'lodash';
-import dotenv from 'dotenv';
 import path from 'path';
 
 import getConfig from './webpack.config.babel';
 import routes from './routes';
-
-// import User from './db';
+import env from './utilities/enviroment';
 
 export default () => {
   const app = new Koa();
   const router = new Router();
   routes(router);
-  const env = dotenv.config();
-  console.log(env);
-  console.log(env.parsed);
+
   app.keys = ['secret key'];
 
   app.use(bodyParser());
@@ -39,7 +35,7 @@ export default () => {
 
   
   const rollbar = Rollbar.init({
-    accessToken: env.parsed.ROLLBAR_TOKEN,
+    accessToken: process.env.ROLLBAR_TOKEN,
     handleUncaughtExceptions: true,
   });
 

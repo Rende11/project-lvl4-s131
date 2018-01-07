@@ -46,6 +46,7 @@ sequelize
 //const sequelize = new Sequelize(process.env[config.use_env_variable]);
 
 import Sequelize from 'sequelize';
+import env from '../utilities/enviroment';
 import dbConfig from '../../config/config.js';
 
 console.log(process.env.NODE_ENV, 'Process env');
