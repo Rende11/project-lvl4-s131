@@ -6,10 +6,17 @@ import connect from '../db/';
 
 const User = entity(connect);
 
+const syncDb = async (user) => await user.sync();
+
+syncDb(User);
+
 export default class UserRepository {
-  static async save(user) {
-    // await User.sync();
+
+  static async create(user) {
     return await User.build(user);
+  }
+  static async save(user) {
+    await user.save();
   }
 
   static async getAllUsers() {

@@ -16,12 +16,12 @@ import path from 'path';
 import getConfig from './webpack.config.babel';
 import routes from './routes';
 import env from './utilities/enviroment';
+import init from './entities/';
 
 export default () => {
   const app = new Koa();
   const router = new Router();
   routes(router);
-
   app.keys = ['secret key'];
 
   app.use(bodyParser());
