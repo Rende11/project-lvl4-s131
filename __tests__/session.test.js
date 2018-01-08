@@ -22,7 +22,7 @@ describe('Base session', () => {
     expect(res.status).toBe(200);
   });
 
-  test('Post /session', async () => {
+  test('Post /session unregistered user', async () => {
     const user = {
       email: faker.internet.email(),
       password: faker.internet.password(),
@@ -32,6 +32,26 @@ describe('Base session', () => {
       .post('/session')
       .send(user);
     expect(res.status).toBe(200);
+  });
+
+  test('Post /session registered user', async () => {
+    const user = {
+      firstname: faker.name.firstName(),
+      lastname: faker.name.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    };
+
+    const userSession = { email: user.email, password: user.password };
+    const res = await request.agent(server)
+      .post('/user/new')
+      .send(user);
+    expect(res.status).toBe(302);
+
+    const res2 = await request.agent(server)
+      .post('/session')
+      .send(userSession);
+    expect(res2.status).toBe(302);
   });
 
   test('Delete /session', async () => {

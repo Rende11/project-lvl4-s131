@@ -4,6 +4,8 @@ import encrypt from '../utilities/encrypt';
 // import User from '../entyties/User';
 import UserRepository from '../repositories/UserRepository';
 
+const isSigned = ctx => !!ctx.session.id;
+const isCurrentUser = ctx => (Number(ctx.params.id) === Number(ctx.session.id));
 export default (router) => {
   router.get('/user/new', async (ctx) => {
     ctx.render('users/new', { form: {}, errors: {} });
@@ -14,15 +16,22 @@ export default (router) => {
       const users = await UserRepository.getAllUsers();
       ctx.render('users/index', { users, errors: {} });
     } catch (err) {
-      console.error(err, 'ERROR');
+      console.error(err, 'get /users');
     }
   });
 
   router.get('/user/:id', async (ctx) => {
     try {
-      const user = await UserRepository.findUserById(ctx.params.id);
-      console.log('USER', user);
-      ctx.render('users/profile', { user, errors: {} });
+      if (isSigned(ctx)) {
+        if (isCurrentUser(ctx)) {
+          const user = await UserRepository.findUserById(ctx.params.id);
+          ctx.render('users/profile', { user, errors: {} });
+        } else {
+          ctx.redirect(`/user/${ctx.session.id}`);
+        }
+      } else {
+        ctx.redirect('/');
+      }
     } catch (err) {
       console.error(err);
       ctx.redirect('/');
@@ -30,8 +39,10 @@ export default (router) => {
   });
 
   router.delete('/user/:id', async (ctx) => {
-    await UserRepository.remove(ctx.params.id);
-    ctx.session = {};
+    if (isSigned(ctx) && isCurrentUser(ctx)) {
+      await UserRepository.remove(ctx.params.id);
+      ctx.session = {};
+    }
     ctx.redirect('/users');
   });
 
@@ -41,12 +52,14 @@ export default (router) => {
     const {
       firstname, lastname, password,
     } = userData;
-    await UserRepository.updateUser(ctx.session.user, {
-      newFirstname: firstname,
-      newLastname: lastname,
-      newPassword: password,
-    });
-    ctx.session.name = firstname;
+    if (isSigned(ctx) && isCurrentUser(ctx)) {
+      await UserRepository.updateUser(ctx.session.id, {
+        newFirstname: firstname,
+        newLastname: lastname,
+        newPassword: password,
+      });
+      ctx.session.name = firstname;
+    }
     ctx.redirect('/');
   });
 
@@ -73,17 +86,22 @@ export default (router) => {
       const data = { form: userData, errors };
       ctx.render('users/new', data);
     } else {
-      // const user = new User(firstname, lastname, email, encrypt(password));
       try {
-        const result = await UserRepository.save({ firstName: firstname, lastName: lastname, email, password: encrypt(password) });
-        console.log(result);
-        ctx.session.user = '313232';
-        ctx.session.name = firstname;
-        ctx.session.id = await UserRepository.getUserId(user.uid);
+        const user = await UserRepository.create({
+          firstName: firstname,
+          lastName: lastname,
+          email,
+          password: encrypt(password),
+        });
+        ctx.session.user = user.uid;
+        ctx.session.name = user.firstName;
+        ctx.session.id = user.id;
+        ctx.redirect('/');
       } catch (err) {
         console.error(err);
+        const errorMessage = err.errors[0].message;
+        ctx.render('users/new', { form: userData, errors: { validationError: errorMessage } });
       }
-      ctx.redirect('/');
     }
   });
 };

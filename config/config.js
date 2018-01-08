@@ -5,7 +5,8 @@ module.exports = {
   },
   "test": {
     database: 'database.sqlite',
-    dialect: 'sqlite'
+    dialect: 'sqlite',
+    logging: false
   },
   "production": {
     use_env_variable: process.env.USER_ENV_VARIABLE,

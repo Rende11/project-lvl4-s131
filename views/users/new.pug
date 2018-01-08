@@ -27,5 +27,7 @@ block content
                                 input#inputPassword3.form-control(type="password" placeholder="Password" name='password')
                                 if errors.password
                                     .small.form-text.text-muted= errors.password
+                                else if errors.validationError
+                                    .small.form-text.text-muted= errors.validationError 
                         .form-group.row
                                 button.btn.btn-primary.mx-auto(type="submit") Sign in

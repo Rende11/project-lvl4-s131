@@ -12,16 +12,17 @@ import Rollbar from 'rollbar';
 import Pug from 'koa-pug';
 import _ from 'lodash';
 import path from 'path';
+import dotenv from 'dotenv';
 
 import getConfig from './webpack.config.babel';
 import routes from './routes';
-import env from './utilities/enviroment';
-import init from './entities/';
 
 export default () => {
   const app = new Koa();
   const router = new Router();
   routes(router);
+  dotenv.config();
+
   app.keys = ['secret key'];
 
   app.use(bodyParser());
@@ -33,7 +34,6 @@ export default () => {
     return null;
   }));
 
-  
   const rollbar = Rollbar.init({
     accessToken: process.env.ROLLBAR_TOKEN,
     handleUncaughtExceptions: true,

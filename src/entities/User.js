@@ -6,15 +6,15 @@ import Sequelize from 'sequelize';
 export default connect => connect.define('user', {
   uid: {
     type: Sequelize.STRING,
-    defaultValue: uuid.create().hex
+    defaultValue: uuid.create().hex,
   },
   firstName: {
     type: Sequelize.STRING,
-    len: [3, 20]
+    len: [3, 20],
   },
   lastName: {
     type: Sequelize.STRING,
-    len: [3, 20]
+    len: [3, 20],
   },
   email: {
     type: Sequelize.STRING,
@@ -22,13 +22,13 @@ export default connect => connect.define('user', {
     validate: {
       isEmail: true,
       notEmpty: true,
-    }
+    },
   },
   password: {
     type: Sequelize.STRING,
     validate: {
       notEmpty: true,
-    }
+    },
   },
   state: {
     type: Sequelize.STRING,

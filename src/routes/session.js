@@ -36,7 +36,7 @@ export default (router) => {
     } else {
       ctx.session.user = user.dataValues.uid;
       ctx.session.name = user.dataValues.firstName;
-      ctx.session.id = await UserRepository.getUserId(user.dataValues.uid);
+      ctx.session.id = user.dataValues.id;
       ctx.redirect('/');
     }
   });

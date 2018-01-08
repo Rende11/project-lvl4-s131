@@ -6,55 +6,35 @@ import connect from '../db/';
 
 const User = entity(connect);
 
-const syncDb = async (user) => await user.sync();
+const syncDb = async user => user.sync();
 
 syncDb(User);
 
 export default class UserRepository {
-
   static async create(user) {
-    return await User.build(user);
-  }
-  static async save(user) {
-    await user.save();
+    const record = await User.create(user);
+    return record.get({ plain: true });
   }
 
   static async getAllUsers() {
-    await User.sync();
     const users = await User.findAll();
     const preparedUsersData = users.map(user => user.dataValues).filter(user => user.state === 'active');
     return preparedUsersData;
   }
 
-  static async getUserId(uid) {
-    const [user] = await User.findAll({
-      where: {
-        uid,
-      },
-    });
-    return user.dataValues.id;
-  }
-
-  static async findUserByUid(uid) {
-    const [user] = await User.findAll({
-      where: {
-        uid,
-      },
-    });
-    return user.dataValues;
-  }
-
   static async findUserById(id) {
     const user = await User.findById(id);
-    return user.dataValues;
+    if (user) {
+      return user.dataValues;
+    }
+    throw new Error('User doesn\'t exists');
   }
 
-  static async updateUser(uid, newFields) {
-    const [user] = await User.findAll({
-      where: {
-        uid,
-      },
-    });
+  static async updateUser(id, newFields) {
+    const user = await User.findById(id);
+    if (!user) {
+      throw new Error('User doesn\'t exists');
+    }
     const { newFirstname, newLastname, newPassword } = newFields;
 
     await user.update({
