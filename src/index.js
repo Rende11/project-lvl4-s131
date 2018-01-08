@@ -85,7 +85,7 @@ export default () => {
     debug: true,
     pretty: true,
     compileDebug: true,
-    noCache: process.env.NODE_ENV === 'production',
+    noCache: process.env.NODE_ENV !== 'production',
     locals: [],
     basedir: path.join(__dirname, '..', 'views'),
     helperPath: [
