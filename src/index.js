@@ -95,7 +95,5 @@ export default () => {
   });
 
   pug.use(app);
-
-  // User.sync({ force: true });
   return app;
 };

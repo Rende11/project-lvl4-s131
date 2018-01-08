@@ -102,7 +102,7 @@ export default (router) => {
         ctx.session.user = user.uid;
         ctx.session.name = user.firstName;
         ctx.session.id = user.id;
-        ctx.flash.set("New user successfully created");
+        ctx.flash.set('New user successfully created');
         ctx.redirect('/');
       } catch (err) {
         console.error(err);
