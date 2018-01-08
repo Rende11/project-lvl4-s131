@@ -6,14 +6,18 @@ import UserRepository from '../repositories/UserRepository';
 
 const isSigned = ctx => !!ctx.session.id;
 const isCurrentUser = ctx => (Number(ctx.params.id) === Number(ctx.session.id));
+
 export default (router) => {
   router.get('/user/new', async (ctx) => {
+    ctx.flash.set('Fill all field for create new user');
     ctx.render('users/new', { form: {}, errors: {} });
   });
 
   router.get('/users', async (ctx) => {
     try {
       const users = await UserRepository.getAllUsers();
+      const message = users.length > 0 ? '' : 'Users not created yet';
+      ctx.flash.set(message);
       ctx.render('users/index', { users, errors: {} });
     } catch (err) {
       console.error(err, 'get /users');
@@ -40,6 +44,7 @@ export default (router) => {
 
   router.delete('/user/:id', async (ctx) => {
     if (isSigned(ctx) && isCurrentUser(ctx)) {
+      ctx.flash.set('User data deleted');
       await UserRepository.remove(ctx.params.id);
       ctx.session = {};
     }
@@ -59,6 +64,7 @@ export default (router) => {
         newPassword: password,
       });
       ctx.session.name = firstname;
+      ctx.flash.set('User data updated');
     }
     ctx.redirect('/');
   });
@@ -96,6 +102,7 @@ export default (router) => {
         ctx.session.user = user.uid;
         ctx.session.name = user.firstName;
         ctx.session.id = user.id;
+        ctx.flash.set("New user successfully created");
         ctx.redirect('/');
       } catch (err) {
         console.error(err);

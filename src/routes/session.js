@@ -37,11 +37,13 @@ export default (router) => {
       ctx.session.user = user.dataValues.uid;
       ctx.session.name = user.dataValues.firstName;
       ctx.session.id = user.dataValues.id;
+      ctx.flash.set('Welcome back!');
       ctx.redirect('/');
     }
   });
 
   router.delete('/session', async (ctx) => {
+    ctx.flash.set('You are logged out');
     ctx.session = {};
     ctx.redirect('/');
   });

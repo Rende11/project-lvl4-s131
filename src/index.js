@@ -13,8 +13,10 @@ import Pug from 'koa-pug';
 import _ from 'lodash';
 import path from 'path';
 import dotenv from 'dotenv';
+import flash from 'koa-flash-simple';
 
-import getConfig from './webpack.config.babel';
+
+import getConfig from '../webpack.config.babel';
 import routes from './routes';
 
 export default () => {
@@ -26,7 +28,7 @@ export default () => {
   app.keys = ['secret key'];
 
   app.use(bodyParser());
-
+  app.use(flash());
   app.use(methodOverride((req) => {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
       return req.body._method; // eslint-disable-line
@@ -63,8 +65,7 @@ export default () => {
     ctx.state.name = ctx.session.name;
     ctx.state.id = ctx.session.id;
     ctx.state.env = process.env.NODE_ENV;
-    // console.log('state', ctx.state);
-    // console.log('session', ctx.session);
+    ctx.state.flash = ctx.flash;
     await next();
   });
 
