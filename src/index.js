@@ -16,7 +16,7 @@ import dotenv from 'dotenv';
 import flash from 'koa-flash-simple';
 
 
-import getConfig from '../webpack.config.babel';
+import getConfig from './webpack.config.babel';
 import routes from './routes';
 
 export default () => {
