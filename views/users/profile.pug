@@ -1,27 +1,27 @@
 extends /layouts/application.pug
 
 block content
-    .container-fluid
-        .row
-            .col-md-6.mx-auto
-                .jumbotron.mt-5
-                    form(action="/user/" + id, method="post")
-                        input(type="hidden" name="_method" value="patch")
-                        .form-group.row                      
-                            .col-sm-12
-                                input#firstName.form-control(value=user.firstName type="First Name" placeholder="First Name" name='firstname')
-                        .form-group.row
-                            .col-sm-12
-                                input#lastName.form-control(value=user.lastName type="Last Name" placeholder="Last Name" name='lastname')
-                        .form-group.row
-                            .col-sm-12
-                                input#inputEmail3.form-control(value=user.email, type="email" placeholder="Email" name='email')
-                        .form-group.row
-                            .col-sm-12
-                                input#inputPassword3.form-control(type="password" placeholder="Password" name='password')
-                        .form-group.row
-                                button.btn.btn-primary.btn-block.mx-auto(type="submit") Save changes
-                    form(action="/user/" + id, method="post")
-                        input(type="hidden" name="_method" value="delete")
-                        .form-group.row
-                            button.btn.btn-danger.btn-block.mx-auto Delete
+  .container-fluid
+    .row
+      .col-md-6.mx-auto
+        .jumbotron.mt-5
+          form(action="/user/" + id, method="post")
+            input(type="hidden" name="_method" value="patch")
+            .form-group.row                      
+              .col-sm-12
+                input#firstName.form-control(value=user.firstName type="First Name" placeholder="First Name" name='firstname')
+            .form-group.row
+              .col-sm-12
+                input#lastName.form-control(value=user.lastName type="Last Name" placeholder="Last Name" name='lastname')
+            .form-group.row
+              .col-sm-12
+                input#inputEmail3.form-control(value=user.email, type="email" placeholder="Email" name='email')
+            .form-group.row
+              .col-sm-12
+                input#inputPassword3.form-control(type="password" placeholder="Password" name='password')
+            .form-group.row
+              button.btn.btn-primary.btn-block.mx-auto(type="submit") Save changes
+          form(action="/user/" + id, method="post")
+            input(type="hidden" name="_method" value="delete")
+            .form-group.row
+              button.btn.btn-danger.btn-block.mx-auto Delete
