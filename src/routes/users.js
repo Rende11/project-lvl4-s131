@@ -3,6 +3,7 @@
 import encrypt from '../utilities/encrypt';
 // import User from '../entyties/User';
 import UserRepository from '../repositories/UserRepository';
+import _ from 'lodash';
 
 const isSigned = ctx => !!ctx.session.id;
 const isCurrentUser = ctx => (Number(ctx.params.id) === Number(ctx.session.id));
@@ -55,13 +56,13 @@ export default (router) => {
     const userData = ctx.request.body;
 
     const {
-      firstName, lastname, password,
+      firstName, lastName, password,
     } = userData;
 
     if (isSigned(ctx) && isCurrentUser(ctx)) {
       await UserRepository.updateUser(ctx.session.id, {
         newFirstname: firstName,
-        newLastname: lastname,
+        newLastname: lastName,
         newPassword: password,
       });
       ctx.session.name = firstName;
@@ -71,51 +72,27 @@ export default (router) => {
   });
 
   router.post('userNew', '/user/new', async (ctx) => {
-    const errors = {};
-    const errorMessages = {
-      firstName: 'First name cannot be blank',
-      lastname: 'Last name cannot be blank',
-      email: 'Email cannot be blank',
-      password: 'Password cannot be blank',
-    };
-
     const userData = ctx.request.body;
-
     const {
-      firstName, lastname, email, password,
+      firstName, lastName, email, password,
     } = userData;
 
-    /*Object.keys(userData).filter(key => !userData[key]).forEach((emptyKey) => {
-      errors[emptyKey] = errorMessages[emptyKey];
-    });
-*/
-    if (Object.keys(errors).length > 0) {
-      const data = { form: userData, errors };
-      ctx.render('users/new', data);
-    } else {
-      try {
-        const user = await UserRepository.create({
-          firstName: firstName,
-          lastName: lastname,
-          email,
-          password: encrypt(password),
-        });
-        ctx.session.user = user.uid;
-        ctx.session.name = user.firstName;
-        ctx.session.id = user.id;
-        ctx.flash.set('New user successfully created');
-        ctx.redirect('/');
-      } catch (err) {
-        console.error(err);
-        const errorMessage = err.errors[0].message;
-        /*const wrongFields = err.fields;
-        const errors = wrongFields.reduce((acc, field) => {
-          acc[field] = errorMessage;
-          return acc;
-        }, {});*/
-        console.log(err.errors);
-        ctx.render('users/new', { form: userData, errors: { [err.errors[0].path]: errorMessage } });
-      }
+    try {
+      const user = await UserRepository.create({
+        firstName,
+        lastName,
+        email,
+        password,
+      });
+      ctx.session.user = user.uid;
+      ctx.session.name = user.firstName;
+      ctx.session.id = user.id;
+      ctx.flash.set('New user successfully created');
+      ctx.redirect('/');
+    } catch (err) {
+      const groupedErrors = _.groupBy(err.errors, 'path');
+      console.error(groupedErrors);
+      ctx.render('users/new', { form: userData, errors: groupedErrors });
     }
   });
 };

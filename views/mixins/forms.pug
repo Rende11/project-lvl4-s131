@@ -22,7 +22,7 @@ mixin input(form, errors, property, options = { as: 'text', label: property })
       label= options['label']
       input(name=property class='form-control' type=options['as'] value=`${value}`)
       if errors[property]
-        .form-control-feedback.small.form-text.text-muted= errors[property]
+        .form-control-feedback.small.form-text.text-muted= errors[property].map(({ message }) => message).join('. ')
 
 mixin button(f, type = 'submit')
   .form-group

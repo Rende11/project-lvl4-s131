@@ -12,6 +12,7 @@ syncDb(User);
 
 export default class UserRepository {
   static async create(user) {
+    console.log (user);
     const record = await User.create(user);
     return record.get({ plain: true });
   }
