@@ -10,8 +10,6 @@ mixin formFor(form, errors, options = {})
     .row
       .col-md-6.mx-auto
         .jumbotron.mt-5
-          if errors.validationError
-            .form-control-feedback.small.form-text.text-muted= errors.validationError
           block
           
 
@@ -24,6 +22,6 @@ mixin input(form, errors, property, options = { as: 'text', label: property })
       if errors[property]
         .form-control-feedback.small.form-text.text-muted= errors[property].map(({ message }) => message).join('. ')
 
-mixin button(f, type = 'submit')
+mixin button(form, options = { type: 'submit', value: 'Save' } )
   .form-group
-    input.btn-primary(class='btn' type=`${type}` value=`Save`)
+    input.btn-primary(class='btn' type=`${options.type}` value=`${options.value}`)

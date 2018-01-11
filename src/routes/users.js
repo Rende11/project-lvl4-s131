@@ -91,7 +91,7 @@ export default (router) => {
       ctx.redirect('/');
     } catch (err) {
       const groupedErrors = _.groupBy(err.errors, 'path');
-      console.error(groupedErrors);
+      console.error({ form: userData, errors: groupedErrors });
       ctx.render('users/new', { form: userData, errors: groupedErrors });
     }
   });

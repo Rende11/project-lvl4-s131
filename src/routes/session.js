@@ -11,9 +11,9 @@ export default (router) => {
     const userData = ctx.request.body;
     const errors = {};
     const errorMessages = {
-      email: 'Email cannot be blank',
-      password: 'Password cannot be blank',
-      nouser: 'Wrong email or password',
+      email: { message: 'Email cannot be blank' },
+      password: { message: 'Password cannot be blank' },
+      nouser: { message: 'Wrong email or password' },
     };
 
     const {
@@ -21,17 +21,16 @@ export default (router) => {
     } = userData;
 
     Object.keys(userData).filter(key => !userData[key]).forEach((emptyKey) => {
-      errors[emptyKey] = errorMessages[emptyKey];
+      errors[emptyKey] = [errorMessages[emptyKey]];
     });
 
     const user = await UserRepository.find(email, password);
 
-    if (!user) {
-      errors.nouser = errorMessages.nouser;
-    }
-
-    if (Object.keys(errors).length > 0) {
+    console.error(errors);
+    if (Object.keys(errors).length > 0 || !user) {
       const data = { form: userData, errors };
+      console.error(data, 'ERRRO');
+      ctx.flash.set('Welcome back!');
       ctx.render('users/session', data);
     } else {
       ctx.session.user = user.dataValues.uid;
