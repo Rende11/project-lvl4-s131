@@ -8,12 +8,12 @@ const isSigned = ctx => !!ctx.session.id;
 const isCurrentUser = ctx => (Number(ctx.params.id) === Number(ctx.session.id));
 
 export default (router) => {
-  router.get('/user/new', async (ctx) => {
+  router.get('userNew', '/user/new', async (ctx) => {
     ctx.flash.set('Fill all field for create new user');
     ctx.render('users/new', { form: {}, errors: {} });
   });
 
-  router.get('/users', async (ctx) => {
+  router.get('users', '/users', async (ctx) => {
     try {
       const users = await UserRepository.getAllUsers();
       const message = users.length > 0 ? '' : 'Users not created yet';
@@ -24,7 +24,7 @@ export default (router) => {
     }
   });
 
-  router.get('/user/:id', async (ctx) => {
+  router.get('user', '/user/:id', async (ctx) => {
     try {
       if (isSigned(ctx)) {
         if (isCurrentUser(ctx)) {
@@ -42,7 +42,7 @@ export default (router) => {
     }
   });
 
-  router.delete('/user/:id', async (ctx) => {
+  router.delete('user', '/user/:id', async (ctx) => {
     if (isSigned(ctx) && isCurrentUser(ctx)) {
       ctx.flash.set('User data deleted');
       await UserRepository.remove(ctx.params.id);
@@ -51,28 +51,29 @@ export default (router) => {
     ctx.redirect('/users');
   });
 
-  router.patch('/user/:id', async (ctx) => {
+  router.patch('user', '/user/:id', async (ctx) => {
     const userData = ctx.request.body;
 
     const {
-      firstname, lastname, password,
+      firstName, lastname, password,
     } = userData;
+
     if (isSigned(ctx) && isCurrentUser(ctx)) {
       await UserRepository.updateUser(ctx.session.id, {
-        newFirstname: firstname,
+        newFirstname: firstName,
         newLastname: lastname,
         newPassword: password,
       });
-      ctx.session.name = firstname;
+      ctx.session.name = firstName;
       ctx.flash.set('User data updated');
     }
     ctx.redirect('/');
   });
 
-  router.post('/user/new', async (ctx) => {
+  router.post('userNew', '/user/new', async (ctx) => {
     const errors = {};
     const errorMessages = {
-      firstname: 'First name cannot be blank',
+      firstName: 'First name cannot be blank',
       lastname: 'Last name cannot be blank',
       email: 'Email cannot be blank',
       password: 'Password cannot be blank',
@@ -81,20 +82,20 @@ export default (router) => {
     const userData = ctx.request.body;
 
     const {
-      firstname, lastname, email, password,
+      firstName, lastname, email, password,
     } = userData;
 
-    Object.keys(userData).filter(key => !userData[key]).forEach((emptyKey) => {
+    /*Object.keys(userData).filter(key => !userData[key]).forEach((emptyKey) => {
       errors[emptyKey] = errorMessages[emptyKey];
     });
-
+*/
     if (Object.keys(errors).length > 0) {
       const data = { form: userData, errors };
       ctx.render('users/new', data);
     } else {
       try {
         const user = await UserRepository.create({
-          firstName: firstname,
+          firstName: firstName,
           lastName: lastname,
           email,
           password: encrypt(password),
@@ -107,7 +108,13 @@ export default (router) => {
       } catch (err) {
         console.error(err);
         const errorMessage = err.errors[0].message;
-        ctx.render('users/new', { form: userData, errors: { validationError: errorMessage } });
+        /*const wrongFields = err.fields;
+        const errors = wrongFields.reduce((acc, field) => {
+          acc[field] = errorMessage;
+          return acc;
+        }, {});*/
+        console.log(err.errors);
+        ctx.render('users/new', { form: userData, errors: { [err.errors[0].path]: errorMessage } });
       }
     }
   });

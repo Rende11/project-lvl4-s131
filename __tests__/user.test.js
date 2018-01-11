@@ -30,7 +30,7 @@ describe('Base test - app', () => {
 
   test('Post /user/new', async () => {
     const user = {
-      firstname: faker.name.firstName(),
+      firstName: faker.name.firstName(),
       lastname: faker.name.lastName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
@@ -44,7 +44,7 @@ describe('Base test - app', () => {
 
   test('Profile', async () => {
     const user = {
-      firstname: faker.name.firstName(),
+      firstName: faker.name.firstName(),
       lastname: faker.name.lastName(),
       email: faker.internet.email(),
       password: faker.internet.password(),

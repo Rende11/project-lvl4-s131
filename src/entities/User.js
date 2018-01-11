@@ -10,7 +10,13 @@ export default connect => connect.define('user', {
   },
   firstName: {
     type: Sequelize.STRING,
-    len: [3, 20],
+    validate: {
+      notEmpty: true,
+      len: {
+        min: { args: 3, msg: 'Test error message' },
+        max: { args: 20, msg: 'Test error message' },
+      },
+    }
   },
   lastName: {
     type: Sequelize.STRING,

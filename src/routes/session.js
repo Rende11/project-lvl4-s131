@@ -3,11 +3,11 @@
 import UserRepository from '../repositories/UserRepository';
 
 export default (router) => {
-  router.get('/session', async (ctx) => {
+  router.get('session', '/session', async (ctx) => {
     ctx.render('users/session', { form: {}, errors: {} });
   });
 
-  router.post('/session', async (ctx) => {
+  router.post('session', '/session', async (ctx) => {
     const userData = ctx.request.body;
     const errors = {};
     const errorMessages = {
@@ -42,7 +42,7 @@ export default (router) => {
     }
   });
 
-  router.delete('/session', async (ctx) => {
+  router.delete('session', '/session', async (ctx) => {
     ctx.flash.set('You are logged out');
     ctx.session = {};
     ctx.redirect('/');

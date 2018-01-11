@@ -91,6 +91,7 @@ export default () => {
     basedir: path.join(__dirname, '..', 'views'),
     helperPath: [
       { _ },
+      { urlFor: (...args) => router.url(...args) },
     ],
   });
 

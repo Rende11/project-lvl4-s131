@@ -36,7 +36,7 @@ describe('Base session', () => {
 
   test('Post /session registered user', async () => {
     const user = {
-      firstname: faker.name.firstName(),
+      firstName: faker.name.firstName(),
       lastname: faker.name.lastName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
