@@ -7,12 +7,16 @@ mixin formFor(form, errors, options = {})
   form(action= url method= isStandart ? method : 'post')
     if !isStandart
       input(name='_method' type='hidden' value= method)
-    .row
-      .col-md-6.mx-auto
-        .jumbotron.mt-5
-          block
-          
+    block
 
+mixin jumb
+  .col-md-6.mx-auto
+    .jumbotron.mt-5
+      block 
+
+mixin alert(flash)
+  if flash && flash.message
+    .alert.alert-info.m-3= flash.message
 
 mixin input(form, errors, property, options = { as: 'text', label: property })
   - const value = form[property] === undefined ? '' : form[property]

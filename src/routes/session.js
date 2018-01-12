@@ -30,7 +30,7 @@ export default (router) => {
     if (Object.keys(errors).length > 0 || !user) {
       const data = { form: userData, errors };
       console.error(data, 'ERRRO');
-      ctx.flash.set('Welcome back!');
+      ctx.flash.set('Welcome qeqe!');
       ctx.render('users/session', data);
     } else {
       ctx.session.user = user.dataValues.uid;

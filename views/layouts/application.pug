@@ -20,7 +20,7 @@ html(lang="en")
           a.btn.btn-outline-secondary.mx-1(href="/session", data-method='delete' rel='nofollow' role="button") Log out
         else 
           a.btn.btn-outline-primary.mx-1(href=urlFor('userNew'), role="button") Sign in
-          a.btn.btn-outline-secondary.mx-1(href=urlFor('session'), role="button") Log in
+          a.btn.btn-outline-secondary.mx-1(href=urlFor('session'), role="button") Log in     
     - const msg = flash.get();
     if msg
       .alert.alert-info.m-3= msg 

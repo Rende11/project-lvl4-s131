@@ -40,7 +40,7 @@ export default class UserRepository {
     await user.update({
       firstName: newFirstname,
       lastName: newLastname,
-      password: crypto(newPassword),
+      password: newPassword,
     });
   }
 
