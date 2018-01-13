@@ -1,17 +1,27 @@
+include /mixins/forms.pug
+
 doctype html
 html(lang="en")
-    head
-        title= Title
-        link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css',
-         integrity='sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb' crossorigin='anonymous')
-    body
-        nav.navbar.navbar-toggleable-md.navbar-light.bg-faded
-            a.navbar-brand(href='/')
-                img.d-inline-block.align-top(src='https://png.icons8.com/ios/100/000000/checked-checkbox.png', width="30" height="30" alt="")
-                |  TaskManager
-            
-            form.form-inline
-                a.btn.btn-outline-primary.mx-1(href="/user/new", role="button") Sing in
-                a.btn.btn-outline-secondary.mx-1(href="/user/new", role="button") Log in
-           
-        block content
+  head
+    title= Title
+    script(src='/assets/vendor.js')
+    script(src='/assets/app.js')
+  body
+    nav.navbar.navbar-toggleable-md.navbar-light.bg-faded.breadcrumb
+      a.navbar-brand(href='/')
+        img.d-inline-block(src='https://png.icons8.com/ios/100/000000/checked-checkbox.png', width="30" height="30" alt="")
+        |  TaskManager
+      form.form-inline.ml-auto
+        nav-item.mx-1
+          a.nav-link(href=urlFor('users')) Users
+        if isSigned 
+          nav-item.mx-1
+            a.nav-link(href=urlFor('user', id)) #{name} 
+          a.btn.btn-outline-secondary.mx-1(href="/session", data-method='delete' rel='nofollow' role="button") Log out
+        else 
+          a.btn.btn-outline-primary.mx-1(href=urlFor('userNew'), role="button") Sign in
+          a.btn.btn-outline-secondary.mx-1(href=urlFor('session'), role="button") Log in     
+    - const msg = flash.get();
+    if msg
+      .alert.alert-info.m-3= msg 
+    block content

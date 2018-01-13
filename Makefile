@@ -5,6 +5,9 @@ install:
 run:
 	npm run babel-node -- 'src/bin/index.js'
 
+demon:
+	npm run demon
+
 install-flow-typed:
 	npm run flow-typed install
 
@@ -15,13 +18,16 @@ build:
 test:
 	npm test
 
+test-watch:
+	npm test -- --watch
+
 check-types:
 	npm run flow
 
 lint:
 	npm run eslint src __tests__
 
-publish:
-	npm publish
+migrate:
+	npm run sequelize db:migrate
 
 .PHONY: test

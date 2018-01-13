@@ -1,3 +1,6 @@
-import routes from './users';
+import users from './users';
+import session from './session';
 
-export default routes;
+const routes = [users, session];
+
+export default router => routes.forEach(route => route(router));

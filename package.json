@@ -16,7 +16,10 @@
     "prepublish": "npm run build",
     "start": "node dist/bin/index.js",
     "webpack": "webpack",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build && npm run sequelize db:migrate",
+    "nodemon": "nodemon",
+    "demon": "nodemon src/bin/index.js --exec babel-node",
+    "sequelize": "sequelize"
   },
   "repository": {
     "type": "git",
@@ -29,19 +32,36 @@
   },
   "homepage": "https://github.com/Rende11/javascript-package#readme",
   "dependencies": {
+    "autoprefixer": "*",
     "bootstrap": "4.0.0-beta",
     "commander": "*",
+    "crypto-js": "^3.1.9-1",
+    "css-loader": "*",
     "dotenv": "^4.0.0",
+    "jquery": "*",
+    "jquery-ujs": "*",
     "koa": "*",
+    "koa-bodyparser": "*",
+    "koa-flash-simple": "0.0.3",
+    "koa-logger": "^3.1.0",
+    "koa-methodoverride": "*",
     "koa-pug": "*",
     "koa-router": "*",
+    "koa-session": "*",
+    "koa-static": "*",
+    "koa-webpack": "^1.0.0",
     "lodash": "*",
-    "rollbar": "^2.3.2",
-    "jquery": "*",
+    "pg": "6.4.2",
+    "pg-hstore": "^2.3.2",
     "popper.js": "*",
     "postcss-loader": "*",
-    "autoprefixer": "*",
-    "sqlite3": "*"
+    "rollbar": "^2.3.2",
+    "sequelize": "*",
+    "sequelize-cli": "^3.2.0",
+    "sqlite3": "*",
+    "style-loader": "*",
+    "uuid-js": "^0.7.5",
+    "webpack": "^3.10.0"
   },
   "devDependencies": {
     "babel-cli": "*",
@@ -51,6 +71,7 @@
     "babel-preset-env": "*",
     "babel-preset-flow": "*",
     "babel-preset-stage-0": "*",
+    "babel-register": "*",
     "debug": "*",
     "eslint": "*",
     "eslint-config-airbnb-base": "*",
@@ -60,9 +81,13 @@
     "flow-bin": "^0.49.1",
     "flow-typed": "*",
     "jest": "^20",
+    "nodemon": "^1.13.3",
     "superagent": "*",
     "supertest": "*",
-    "webpack": "^3.10.0",
-    "babel-register": "*"
+    "jest-supertest-matchers": "*",
+    "faker": "*"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
