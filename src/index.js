@@ -21,7 +21,7 @@ import routes from './routes';
 
 export default () => {
   const app = new Koa();
-  
+
   app.keys = ['secret key'];
   dotenv.config();
 
@@ -37,13 +37,12 @@ export default () => {
     await next();
   });
 
-  
+
   const router = new Router();
   routes(router);
-  
- 
+
   app.use(bodyParser());
-  
+
   app.use(methodOverride((req) => {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
       return req.body._method; // eslint-disable-line
@@ -72,9 +71,7 @@ export default () => {
       rollbar.error(err, ctx.request);
     }
   });
-  
 
-  
   app.use(router.allowedMethods());
   app.use(koaLogger());
 
@@ -87,7 +84,6 @@ export default () => {
     }));
   }
 
-  
   const pug = new Pug({
     viewPath: path.join(__dirname, '..', 'views'),
     debug: true,
@@ -103,6 +99,5 @@ export default () => {
   });
 
   pug.use(app);
- 
   return app;
 };

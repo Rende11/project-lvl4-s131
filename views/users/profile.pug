@@ -5,8 +5,8 @@ block content
     +formFor(form, errors, { url: urlFor('user', id), method: 'patch' })
       +input(form, errors, 'firstName', { label: 'First Name' })
       +input(form, errors, 'lastName', { label: 'Last Name' })
-      +input(form, errors, 'password', { label: 'Password', as: 'password' })
-      +button(form, { type: 'submit', value: 'Save changes' })
+      +input(form, errors, 'email', { label: 'Email' })
+      +button(form, { type: 'submit', value: 'Save changes', class: 'btn-block'})
     +formFor(form, errors, { url: urlFor('user', id), method: 'delete' })
-      +button(form, { type: 'submit', value: 'Delete user' })
+      +button(form, { type: 'submit', value: 'Delete user', class: 'btn-danger btn-block' })
   

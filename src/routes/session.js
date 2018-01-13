@@ -26,24 +26,25 @@ export default (router) => {
 
     const user = await UserRepository.find(email, password);
 
-    console.error(errors);
-    if (Object.keys(errors).length > 0 || !user) {
-      const data = { form: userData, errors };
-      console.error(data, 'ERRRO');
-      ctx.flash.set('Welcome qeqe!');
-      ctx.render('users/session', data);
+    if (Object.keys(errors).length > 0) {
+      ctx.render('users/session', { form: userData, errors });
+      return;
+    }
+    if (!user) {
+      const { message } = errorMessages.nouser;
+      ctx.render('users/session', { form: userData, errors, flash: { message } });
     } else {
       ctx.session.user = user.dataValues.uid;
       ctx.session.name = user.dataValues.firstName;
       ctx.session.id = user.dataValues.id;
       ctx.flash.set('Welcome back!');
-      ctx.redirect('/');
+      ctx.redirect(router.url('index'));
     }
   });
 
   router.delete('session', '/session', async (ctx) => {
     ctx.flash.set('You are logged out');
     ctx.session = {};
-    ctx.redirect('/');
+    ctx.redirect(router.url('index'));
   });
 };

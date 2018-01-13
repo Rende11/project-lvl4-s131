@@ -24,10 +24,10 @@ export default class UserRepository {
 
   static async findUserById(id) {
     const user = await User.findById(id);
-    if (user) {
-      return user.dataValues;
+    if (!user) {
+      throw new Error('User doesn\'t exists');
     }
-    throw new Error('User doesn\'t exists');
+    return user.dataValues;
   }
 
   static async updateUser(id, newFields) {
@@ -35,12 +35,13 @@ export default class UserRepository {
     if (!user) {
       throw new Error('User doesn\'t exists');
     }
-    const { newFirstname, newLastname, newPassword } = newFields;
+
+    const { newFirstname, newLastname, newEmail } = newFields;
 
     await user.update({
       firstName: newFirstname,
       lastName: newLastname,
-      password: newPassword,
+      email: newEmail,
     });
   }
 

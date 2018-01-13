@@ -1,9 +1,7 @@
 // @flow
 
-import encrypt from '../utilities/encrypt';
-// import User from '../entyties/User';
-import UserRepository from '../repositories/UserRepository';
 import _ from 'lodash';
+import UserRepository from '../repositories/UserRepository';
 
 const isSigned = ctx => !!ctx.session.id;
 const isCurrentUser = ctx => (Number(ctx.params.id) === Number(ctx.session.id));
@@ -11,14 +9,14 @@ const isCurrentUser = ctx => (Number(ctx.params.id) === Number(ctx.session.id));
 export default (router) => {
   router.get('userNew', '/user/new', async (ctx) => {
     const message = ('Fill all fields for create new user');
-    ctx.render('users/new', { form: {}, errors: {}, flash: { message }});
+    ctx.render('users/new', { form: {}, errors: {}, flash: { message } });
   });
 
   router.get('users', '/users', async (ctx) => {
     try {
       const users = await UserRepository.getAllUsers();
       const message = users.length > 0 ? '' : 'Users not created yet';
-      ctx.render('users/index', { users, errors: {}, flash: { message }});
+      ctx.render('users/index', { users, errors: {}, flash: { message } });
     } catch (err) {
       console.error(err, 'get /users');
     }
@@ -28,12 +26,11 @@ export default (router) => {
     try {
       if (isSigned(ctx)) {
         if (isCurrentUser(ctx)) {
-          const { firstName, lastName } = await UserRepository.findUserById(ctx.params.id);
+          const { firstName, lastName, email } = await UserRepository.findUserById(ctx.params.id);
           ctx.flash.set('Here you can edit your profile');
-          //console.log(user);
-          ctx.render('users/profile', { form :{ firstName, lastName }, errors: {}});
+          ctx.render('users/profile', { form: { firstName, lastName, email }, errors: {} });
         } else {
-          ctx.redirect(`/user/${ctx.session.id}`);
+          ctx.redirect(router.url('user', ctx.session.id));
         }
       } else {
         ctx.redirect(router.url('index'));
@@ -50,14 +47,14 @@ export default (router) => {
       await UserRepository.remove(ctx.params.id);
       ctx.session = {};
     }
-    ctx.redirect('/users');
+    ctx.redirect(router.url('users'));
   });
 
   router.patch('user', '/user/:id', async (ctx) => {
     const userData = ctx.request.body;
 
     const {
-      firstName, lastName, password,
+      firstName, lastName, email,
     } = userData;
 
     if (isSigned(ctx) && isCurrentUser(ctx)) {
@@ -65,19 +62,18 @@ export default (router) => {
         await UserRepository.updateUser(ctx.session.id, {
           newFirstname: firstName,
           newLastname: lastName,
-          newPassword: password,
+          newEmail: email,
         });
         ctx.session.name = firstName;
         ctx.flash.set('User data updated');
-        ctx.redirect('/');
+        ctx.redirect(router.url('index'));
       } catch (err) {
         const groupedErrors = _.groupBy(err.errors, 'path');
         console.error({ form: userData, errors: groupedErrors });
-        
         ctx.render('users/profile', { form: userData, errors: groupedErrors });
       }
     } else {
-      ctx.redirect('/');
+      ctx.redirect(router.url('index'));
     }
   });
 
@@ -98,7 +94,7 @@ export default (router) => {
       ctx.session.name = user.firstName;
       ctx.session.id = user.id;
       ctx.flash.set('New user successfully created');
-      ctx.redirect('/');
+      ctx.redirect(router.url('index'));
     } catch (err) {
       const groupedErrors = _.groupBy(err.errors, 'path');
       console.error({ form: userData, errors: groupedErrors });

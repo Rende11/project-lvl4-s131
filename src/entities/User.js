@@ -74,7 +74,6 @@ export default connect => connect.define('user', {
       } else {
         this.setDataValue('password', '');
       }
-
     },
   },
   state: {

@@ -2,9 +2,10 @@ extends /layouts/application.pug
 
 block content
   +alert(flash)
-  +formFor(form, errors, { url: urlFor('userNew'), method: 'post' })
-    +input(form, errors, 'firstName', { label: 'First name' })
-    +input(form, errors, 'lastName', { label: 'Last name' })
-    +input(form, errors, 'email', { label: 'Email' })
-    +input(form, errors, 'password', { label: 'Password', as: 'password' })
-    +button(form)
+  +jumb  
+    +formFor(form, errors, { url: urlFor('userNew'), method: 'post' })
+      +input(form, errors, 'firstName', { label: 'First name' })
+      +input(form, errors, 'lastName', { label: 'Last name' })
+      +input(form, errors, 'email', { label: 'Email' })
+      +input(form, errors, 'password', { label: 'Password', as: 'password' })
+      +button(form)

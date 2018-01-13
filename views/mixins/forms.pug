@@ -26,6 +26,6 @@ mixin input(form, errors, property, options = { as: 'text', label: property })
       if errors[property]
         .form-control-feedback.small.form-text.text-muted= errors[property].map(({ message }) => message).join('. ')
 
-mixin button(form, options = { type: 'submit', value: 'Save' } )
+mixin button(form, options = { type: 'submit', value: 'Save', class: '' } )
   .form-group
-    input.btn-primary(class='btn' type=`${options.type}` value=`${options.value}`)
+    input.btn.btn-primary(class=options.class, type=`${options.type}` value=`${options.value}`)
