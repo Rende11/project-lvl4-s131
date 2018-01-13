@@ -21,14 +21,28 @@ import routes from './routes';
 
 export default () => {
   const app = new Koa();
-  const router = new Router();
-  routes(router);
-  dotenv.config();
 
   app.keys = ['secret key'];
+  dotenv.config();
+
+  app.use(session(app));
+  app.use(flash());
+
+  app.use(async (ctx, next) => {
+    ctx.state.isSigned = !!ctx.session.user;
+    ctx.state.name = ctx.session.name;
+    ctx.state.id = ctx.session.id;
+    ctx.state.env = process.env.NODE_ENV;
+    ctx.state.flash = ctx.flash;
+    await next();
+  });
+
+
+  const router = new Router();
+  routes(router);
 
   app.use(bodyParser());
-  app.use(flash());
+
   app.use(methodOverride((req) => {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
       return req.body._method; // eslint-disable-line
@@ -41,7 +55,7 @@ export default () => {
     handleUncaughtExceptions: true,
   });
 
-  router.get('/', async (ctx) => {
+  router.get('index', '/', async (ctx) => {
     ctx.render('index');
   });
 
@@ -58,23 +72,12 @@ export default () => {
     }
   });
 
-  app.use(session(app));
-
-  app.use(async (ctx, next) => {
-    ctx.state.isSigned = !!ctx.session.user;
-    ctx.state.name = ctx.session.name;
-    ctx.state.id = ctx.session.id;
-    ctx.state.env = process.env.NODE_ENV;
-    ctx.state.flash = ctx.flash;
-    await next();
-  });
-
-  app.use(router.routes());
   app.use(router.allowedMethods());
   app.use(koaLogger());
 
   app.use(serve(path.join(__dirname, '..', 'public')));
 
+  app.use(router.routes());
   if (process.env.NODE_ENV !== 'test') {
     app.use(middleware({
       config: getConfig(),
@@ -91,6 +94,7 @@ export default () => {
     basedir: path.join(__dirname, '..', 'views'),
     helperPath: [
       { _ },
+      { urlFor: (...args) => router.url(...args) },
     ],
   });
 

@@ -30,28 +30,30 @@ describe('Base session', () => {
 
     const res = await request.agent(server)
       .post('/session')
+      .type('form')
       .send(user);
     expect(res.status).toBe(200);
   });
 
   test('Post /session registered user', async () => {
     const user = {
-      firstname: faker.name.firstName(),
-      lastname: faker.name.lastName(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
     };
 
     const userSession = { email: user.email, password: user.password };
-    const res = await request.agent(server)
+
+    const registration = await request.agent(server)
       .post('/user/new')
       .send(user);
-    expect(res.status).toBe(302);
+    expect(registration.status).toBe(302);
 
-    const res2 = await request.agent(server)
+    const session = await request.agent(server)
       .post('/session')
       .send(userSession);
-    expect(res2.status).toBe(302);
+    expect(session.status).toBe(302);
   });
 
   test('Delete /session', async () => {

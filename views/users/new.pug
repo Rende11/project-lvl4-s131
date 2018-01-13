@@ -1,33 +1,11 @@
 extends /layouts/application.pug
 
 block content
-    .container-fluid
-        .row
-            .col-md-6.mx-auto
-                .jumbotron.mt-5
-                    h4.mx-auto(style="width: 200px;") Register new user
-                    form(action="/user/new", method="post")
-                        .form-group.row                      
-                            .col-sm-12
-                                input#firstName.form-control(value=form.firstname type="First Name" placeholder="First Name" name='firstname')
-                                if errors.firstname
-                                    .small.form-text.text-muted= errors.firstname
-                        .form-group.row
-                            .col-sm-12
-                                input#lastName.form-control(value=form.lastname type="Last Name" placeholder="Last Name" name='lastname')
-                                if errors.lastname
-                                    .small.form-text.text-muted= errors.lastname
-                        .form-group.row
-                            .col-sm-12
-                                input#inputEmail3.form-control(value=form.email, type="email" placeholder="Email" name='email')
-                                if errors.email
-                                    .small.form-text.text-muted= errors.email
-                        .form-group.row
-                            .col-sm-12
-                                input#inputPassword3.form-control(type="password" placeholder="Password" name='password')
-                                if errors.password
-                                    .small.form-text.text-muted= errors.password
-                                else if errors.validationError
-                                    .small.form-text.text-muted= errors.validationError 
-                        .form-group.row
-                                button.btn.btn-primary.mx-auto(type="submit") Sign in
+  +alert(flash)
+  +jumb  
+    +formFor(form, errors, { url: urlFor('userNew'), method: 'post' })
+      +input(form, errors, 'firstName', { label: 'First name' })
+      +input(form, errors, 'lastName', { label: 'Last name' })
+      +input(form, errors, 'email', { label: 'Email' })
+      +input(form, errors, 'password', { label: 'Password', as: 'password' })
+      +button(form)

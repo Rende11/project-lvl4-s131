@@ -1,22 +1,9 @@
 extends /layouts/application.pug
 
 block content
-    .container-fluid
-        .row
-            .col-md-6.mx-auto
-                .jumbotron.mt-5
-                    form(action="/session", method='post')
-                        .form-group.row
-                            .col-sm-12
-                                input#inputEmail3.form-control(value=form.email, type="email" placeholder="Email" name='email')
-                                if errors.email
-                                    .small.form-text.text-muted= errors.email
-                        .form-group.row
-                            .col-sm-12
-                                input#inputPassword3.form-control(type="password" placeholder="Password" name='password')
-                                if errors.password
-                                    .small.form-text.text-muted= errors.password
-                                else if errors.nouser
-                                    .small.form-text.text-muted= errors.nouser 
-                        .form-group.row
-                                button.btn.btn-primary.mx-auto(type="submit") Sign in
+  +alert(flash)
+  +jumb
+    +formFor(form, errors, { url: urlFor('session'), method: 'post' })
+      +input(form, errors, 'email', { label: 'Email' })
+      +input(form, errors, 'password', { label: 'Password', as: 'password' })
+      +button(form)
