@@ -1,7 +1,6 @@
 extends /layouts/application.pug
 
 block content
-  +alert(flash)
   +jumb  
     +formFor(form, errors, { url: urlFor('userNew'), method: 'post' })
       +input(form, errors, 'firstName', { label: 'First name' })

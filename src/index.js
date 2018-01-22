@@ -56,7 +56,7 @@ export default () => {
   });
 
   router.get('index', '/', async (ctx) => {
-    ctx.render('index');
+    ctx.render('welcome/index');
   });
 
   router.get('/rollbar', async (ctx) => {
@@ -65,7 +65,7 @@ export default () => {
 
   app.use(async (ctx, next) => {
     try {
-      rollbar.log('Rollbar working');
+      // rollbar.log('Rollbar working');
       await next();
     } catch (err) {
       rollbar.error(err, ctx.request);
