@@ -19,9 +19,15 @@ import flash from 'koa-flash-simple';
 import getConfig from './webpack.config.babel';
 import routes from './routes';
 
+import { User } from './models';
+// Whithout sync it doesn't works
+const syncDb = async user => user.sync();
+
+
+
 export default () => {
   const app = new Koa();
-
+  // syncDb(User);
   app.keys = ['secret key'];
   dotenv.config();
 
@@ -36,7 +42,6 @@ export default () => {
     ctx.state.flash = ctx.flash;
     await next();
   });
-
 
   const router = new Router();
   routes(router);
@@ -53,14 +58,6 @@ export default () => {
   const rollbar = Rollbar.init({
     accessToken: process.env.ROLLBAR_TOKEN,
     handleUncaughtExceptions: true,
-  });
-
-  router.get('index', '/', async (ctx) => {
-    ctx.render('welcome/index');
-  });
-
-  router.get('/rollbar', async (ctx) => {
-    ctx.body = nonExisent; // eslint-disable-line
   });
 
   app.use(async (ctx, next) => {
