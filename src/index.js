@@ -21,7 +21,7 @@ import routes from './routes';
 
 export default () => {
   const app = new Koa();
-
+  // syncDb(User);
   app.keys = ['secret key'];
   dotenv.config();
 
@@ -36,7 +36,6 @@ export default () => {
     ctx.state.flash = ctx.flash;
     await next();
   });
-
 
   const router = new Router();
   routes(router);
@@ -55,17 +54,9 @@ export default () => {
     handleUncaughtExceptions: true,
   });
 
-  router.get('index', '/', async (ctx) => {
-    ctx.render('index');
-  });
-
-  router.get('/rollbar', async (ctx) => {
-    ctx.body = nonExisent; // eslint-disable-line
-  });
-
   app.use(async (ctx, next) => {
     try {
-      rollbar.log('Rollbar working');
+      // rollbar.log('Rollbar working');
       await next();
     } catch (err) {
       rollbar.error(err, ctx.request);

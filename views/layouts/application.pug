@@ -19,9 +19,10 @@ html(lang="en")
             a.nav-link(href=urlFor('user', id)) #{name} 
           a.btn.btn-outline-secondary.mx-1(href="/session", data-method='delete' rel='nofollow' role="button") Log out
         else 
-          a.btn.btn-outline-primary.mx-1(href=urlFor('userNew'), role="button") Sign in
+          a.btn.btn-outline-primary.mx-1(href=urlFor('userNew'), role="button") Sign up
           a.btn.btn-outline-secondary.mx-1(href=urlFor('session'), role="button") Log in     
     - const msg = flash.get();
     if msg
-      .alert.alert-info.m-3= msg 
+      .alert.alert-info.m-3= msg
+    +alert(flash)
     block content
