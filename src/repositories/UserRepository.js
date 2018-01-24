@@ -2,8 +2,7 @@
 
 import crypto from '../utilities/encrypt';
 import { User } from '../models';
-import qqq from '../models';
-console.log(qqq.models);
+
 export default class UserRepository {
   static async create(user) {
     const record = await User.create(user);

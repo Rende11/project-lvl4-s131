@@ -89,4 +89,4 @@ export default (sequelize, DataTypes) => {
     },
   });
   return User;
-}
+};

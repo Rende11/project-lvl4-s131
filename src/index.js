@@ -19,12 +19,6 @@ import flash from 'koa-flash-simple';
 import getConfig from './webpack.config.babel';
 import routes from './routes';
 
-import { User } from './models';
-// Whithout sync it doesn't works
-const syncDb = async user => user.sync();
-
-
-
 export default () => {
   const app = new Koa();
   // syncDb(User);
