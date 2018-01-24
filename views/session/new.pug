@@ -1,9 +1,8 @@
 extends /layouts/application.pug
 
 block content
-  +alert(flash)
   +jumb
     +formFor(form, errors, { url: urlFor('session'), method: 'post' })
       +input(form, errors, 'email', { label: 'Email' })
       +input(form, errors, 'password', { label: 'Password', as: 'password' })
-      +button(form)
+      +button(form, { type: 'submit', value: 'Log in', class: '' })

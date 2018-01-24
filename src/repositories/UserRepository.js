@@ -1,14 +1,7 @@
 // @flow
 
 import crypto from '../utilities/encrypt';
-import entity from '../entities/User';
-import connect from '../db/';
-
-const User = entity(connect);
-
-const syncDb = async user => user.sync();
-
-syncDb(User);
+import { User } from '../models';
 
 export default class UserRepository {
   static async create(user) {
