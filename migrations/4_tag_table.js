@@ -5,23 +5,22 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Date.now()
+        defaultValue: Date.now(),
       },
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Date.now()
-      }
-});
+        defaultValue: Date.now(),
+      },
+    });
   },
-
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('TasksStatus');
-  }
+  },
 };
