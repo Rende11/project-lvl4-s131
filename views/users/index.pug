@@ -1,7 +1,9 @@
 extends /layouts/application.pug
 
 block content
-  if users.length > 0
+  if users.length == 0
+    +alert({ message: "Users not created yet" })
+  else
     table.table
       thead
         tr

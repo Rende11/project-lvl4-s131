@@ -21,21 +21,12 @@ import routes from './routes';
 
 export default () => {
   const app = new Koa();
-  // syncDb(User);
+
   app.keys = ['secret key'];
   dotenv.config();
 
   app.use(session(app));
   app.use(flash());
-
-  app.use(async (ctx, next) => {
-    ctx.state.isSigned = !!ctx.session.user;
-    ctx.state.name = ctx.session.name;
-    ctx.state.id = ctx.session.id;
-    ctx.state.env = process.env.NODE_ENV;
-    ctx.state.flash = ctx.flash;
-    await next();
-  });
 
   const router = new Router();
   routes(router);
@@ -49,6 +40,18 @@ export default () => {
     return null;
   }));
 
+  app.use(async (ctx, next) => {
+    ctx.state.user = {
+      name: ctx.session.name,
+      id: ctx.session.id,
+      isSigned: () => !!ctx.session.id,
+      isCurrentUser: userId => (Number(userId) === Number(ctx.state.user.id)),
+    };
+    ctx.state.env = process.env.NODE_ENV;
+    ctx.state.flash = ctx.flash;
+    await next();
+  });
+
   const rollbar = Rollbar.init({
     accessToken: process.env.ROLLBAR_TOKEN,
     handleUncaughtExceptions: true,
@@ -61,6 +64,13 @@ export default () => {
     } catch (err) {
       rollbar.error(err, ctx.request);
     }
+  });
+
+  app.use(async (ctx, next) => {
+    if (ctx.status === 404) {
+      ctx.render('errors/error', { err: 'Page not found :(' });
+    }
+    await next();
   });
 
   app.use(router.allowedMethods());

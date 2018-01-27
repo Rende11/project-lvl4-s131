@@ -3,9 +3,6 @@
 import _ from 'lodash';
 import UserRepository from '../repositories/UserRepository';
 
-const isSigned = ctx => !!ctx.session.id;
-const isCurrentUser = ctx => (Number(ctx.params.id) === Number(ctx.session.id));
-
 export default (router) => {
   router.get('userNew', '/user/new', async (ctx) => {
     const message = ('Fill all fields for create new user');
@@ -14,9 +11,8 @@ export default (router) => {
 
   router.get('users', '/users', async (ctx) => {
     try {
-      const users = await UserRepository.getAllUsers();
-      const message = users.length > 0 ? '' : 'Users not created yet';
-      ctx.render('users/index', { users, errors: {}, flash: { message } });
+      const users = await UserRepository.getAllActiveUsers();
+      ctx.render('users/index', { users, errors: {} });
     } catch (err) {
       console.error(err, 'get /users');
     }
@@ -24,16 +20,18 @@ export default (router) => {
 
   router.get('user', '/user/:id', async (ctx) => {
     try {
-      if (isSigned(ctx)) {
-        if (isCurrentUser(ctx)) {
+      if (ctx.state.user.isSigned()) {
+        if (ctx.state.user.isCurrentUser(ctx.params.id)) {
           const { firstName, lastName, email } = await UserRepository.findUserById(ctx.params.id);
           ctx.flash.set('Here you can edit your profile');
           ctx.render('users/profile', { form: { firstName, lastName, email }, errors: {} });
         } else {
-          ctx.redirect(router.url('user', ctx.session.id));
+          ctx.status = 403;
+          ctx.render('errors/error', { err: 'Please go back, 403 - access forbidden!' });
         }
       } else {
-        ctx.redirect(router.url('index'));
+        ctx.flash.set('Please log in!');
+        ctx.redirect(router.url('session'));
       }
     } catch (err) {
       console.error(err);
@@ -42,7 +40,7 @@ export default (router) => {
   });
 
   router.delete('user', '/user/:id', async (ctx) => {
-    if (isSigned(ctx) && isCurrentUser(ctx)) {
+    if (ctx.state.user.isSigned() && ctx.state.user.isCurrentUser(ctx.params.id)) {
       ctx.flash.set('User data deleted');
       await UserRepository.remove(ctx.params.id);
       ctx.session = {};
@@ -57,7 +55,7 @@ export default (router) => {
       firstName, lastName, email,
     } = userData;
 
-    if (isSigned(ctx) && isCurrentUser(ctx)) {
+    if (ctx.state.user.isSigned() && ctx.state.user.isCurrentUser(ctx.params.id)) {
       try {
         await UserRepository.updateUser(ctx.session.id, {
           newFirstname: firstName,
@@ -73,7 +71,8 @@ export default (router) => {
         ctx.render('users/profile', { form: userData, errors: groupedErrors });
       }
     } else {
-      ctx.redirect(router.url('index'));
+      ctx.status = 403;
+      ctx.render('errors/error', { msg: 'Please go back, access forbidden' });
     }
   });
 

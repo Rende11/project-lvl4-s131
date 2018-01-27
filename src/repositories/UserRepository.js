@@ -9,9 +9,13 @@ export default class UserRepository {
     return record.get({ plain: true });
   }
 
-  static async getAllUsers() {
-    const users = await User.findAll();
-    const preparedUsersData = users.map(user => user.dataValues).filter(user => user.state === 'active');
+  static async getAllActiveUsers() {
+    const users = await User.findAll({
+      where: {
+        state: 'active',
+      },
+    });
+    const preparedUsersData = users.map(user => user.dataValues);
     return preparedUsersData;
   }
 

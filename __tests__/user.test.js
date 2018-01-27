@@ -67,7 +67,7 @@ describe('Base test - app', () => {
     const update = await request.agent(server)
       .patch('/user/1')
       .send(newUserData);
-    expect(update.status).toBe(302);
+    expect(update.status).toBe(403);
 
     const del = await request.agent(server)
       .delete('/user/1');
