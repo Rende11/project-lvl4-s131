@@ -14,6 +14,8 @@ html(lang="en")
       form.form-inline.ml-auto
         nav-item.mx-1
           a.nav-link(href=urlFor('users')) Users
+        nav-item.mx-1
+          a.nav-link(href=urlFor('tasks')) Tasks
         if user.isSigned()
           nav-item.mx-1
             a.nav-link(href=urlFor('user', user.id)) #{user.name} 

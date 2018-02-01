@@ -1,0 +1,9 @@
+extends /layouts/application.pug
+
+block content
+  +jumb  
+    +formFor(form, errors, { url: urlFor('taskNew'), method: 'post' })
+      +input(form, errors, 'name', { label: 'Task name' })
+      +input(form, errors, 'description', { label: 'Description' })
+      +select('Assigned to: ', form.users)
+      +button(form)

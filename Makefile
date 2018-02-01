@@ -30,4 +30,7 @@ lint:
 migrate:
 	npm run sequelize db:migrate
 
-.PHONY: test
+seeds:
+	npm run sequelize db:seed:all
+
+.PHONY: test seeds

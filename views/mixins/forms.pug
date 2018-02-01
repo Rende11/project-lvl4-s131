@@ -29,3 +29,20 @@ mixin input(form, errors, property, options = { as: 'text', label: property })
 mixin button(form, options = { type: 'submit', value: 'Save', class: '' } )
   .form-group
     input.btn.btn-primary(class=options.class, type=`${options.type}` value=`${options.value}`)
+
+
+mixin card()
+  .card.mx-3.mb-3(style="width: 18rem")
+    .card-body
+      h5.card-title Fix bugs
+      h6.card-text Assigned to: Max Pain
+      h6.card-subtitle.mb-2.text-muted Description
+      a.card-link(href='#') Cardlink
+      a.card-link(href='#') Another link
+
+mixin select(label, values)
+  .form-group
+    label= label
+    select(name=label)
+      each value in values
+        option= value.getFullName()

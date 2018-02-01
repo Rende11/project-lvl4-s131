@@ -13,60 +13,8 @@ const errorMessages = {
 };
 
 export default (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.INTEGER
-    },
-    uid: {
-      type: DataTypes.STRING,
-      defaultValue: uuid.create().hex,
-    },
-    firstName: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: errorMessages.notEmpty(),
-        },
-        len: {
-          msg: errorMessages.len(minLength, maxLength),
-          min: minLength,
-          max: maxLength,
-        },
-      },
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: errorMessages.notEmpty(),
-        },
-        len: {
-          msg: errorMessages.len(minLength, maxLength),
-          min: minLength,
-          max: maxLength,
-        },
-      },
-    },
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: errorMessages.notEmpty(),
-        },
-        isEmail: {
-          args: true,
-          msg: errorMessages.isEmail(),
-        },
-      },
-    },
-    password: {
+  const Task = sequelize.define('Task', {
+    name: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
@@ -74,17 +22,40 @@ export default (sequelize, DataTypes) => {
           msg: errorMessages.notEmpty(),
         },
       },
-      set(password) {
-        if (password !== '') {
-          this.setDataValue('password', encrypt(password));
-        } else {
-          this.setDataValue('password', '');
-        }
+    },
+    description: {
+      type: DataTypes.STRING,
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'new',
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: errorMessages.notEmpty(),
+        },
       },
     },
-    state: {
+    creator: {
       type: DataTypes.STRING,
-      defaultValue: 'active',
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: errorMessages.notEmpty(),
+        },
+      },
+    },
+    assignedTo: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: errorMessages.notEmpty(),
+        },
+      },
+    },
+    tags: {
+      type: DataTypes.STRING,
     },
   }, {
     classMethods: {
@@ -93,10 +64,6 @@ export default (sequelize, DataTypes) => {
         return models;
       },
     },
-    
   });
-  User.prototype.getFullName = function() {
-    return `${this.lastName} ${this.firstName}`;
-  };
-  return User;
+  return Task;
 };
