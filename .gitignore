@@ -6,3 +6,5 @@ flow-typed
 .env
 database.sqlite
 .vscode
+:memory.db
+local.db

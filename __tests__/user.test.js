@@ -37,9 +37,10 @@ describe('Base test - app', () => {
     };
     const res = await request.agent(server)
       .post('/user/new')
+      .type('form')
       .send(user);
     expect(res.status).toBe(302);
-    expect(res.headers.location).toBe('/');
+    expect(res.headers.location).toBe('/session');
   });
 
   test('Profile', async () => {
@@ -50,13 +51,33 @@ describe('Base test - app', () => {
       password: faker.internet.password(),
     };
 
-    await request.agent(server)
+    const create = await request.agent(server)
       .post('/user/new')
+      .type('form')
       .send(user);
+    expect(create.headers.location).toBe('/session');
+    expect(create.status).toBe(302);
+    const [cookie] = create.headers['set-cookie'];
+
     const res = await request.agent(server)
       .get('/user/1');
-    expect(res.status).toBe(302);
+    expect(res.status).toBe(401);
 
+    const auth = await request.agent(server)
+      .post('/session')
+      .type('form')
+      .send({ email: user.email, password: user.password })
+      .set('Cookie', cookie);
+
+    expect(auth.headers.location).toBe('/');
+    expect(auth.status).toBe(302);
+
+    /*
+    const profile = await request.agent(server)
+      .get('/user/1')
+      .set('Cookie', cookie);
+    expect(profile.status).toBe(200);
+    */
 
     const newUserData = {
       newFirstname: faker.name.firstName(),
@@ -67,11 +88,13 @@ describe('Base test - app', () => {
     const update = await request.agent(server)
       .patch('/user/1')
       .send(newUserData);
-    expect(update.status).toBe(403);
+    expect(update.status).toBe(200);
 
+    /*
     const del = await request.agent(server)
       .delete('/user/1');
-    expect(del.status).toBe(302);
+    expect(del.status)
+    */
   });
 
   afterEach((done) => {

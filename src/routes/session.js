@@ -1,6 +1,7 @@
 // @flow
 
-import UserRepository from '../repositories/UserRepository';
+import { User } from '../models';
+import crypto from '../utilities/encrypt';
 
 export default (router) => {
   router.get('session', '/session', async (ctx) => {
@@ -18,15 +19,20 @@ export default (router) => {
       email, password,
     } = userData;
 
-    const user = await UserRepository.find(email, password);
+    const user = await User.findOne({
+      where: {
+        email,
+        password: crypto(password),
+        state: 'active',
+      },
+    });
 
     if (!user) {
       const { message } = errorMessages.nouser;
       ctx.render('session/new', { form: userData, errors, flash: { message } });
     } else {
-      ctx.session.user = user.dataValues.uid;
-      ctx.session.name = user.dataValues.firstName;
-      ctx.session.id = user.dataValues.id;
+      ctx.session.name = user.firstName;
+      ctx.session.id = user.id;
       ctx.flash.set('Welcome back!');
       ctx.redirect(router.url('index'));
     }

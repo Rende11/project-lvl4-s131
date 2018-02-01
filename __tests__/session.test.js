@@ -47,11 +47,13 @@ describe('Base session', () => {
 
     const registration = await request.agent(server)
       .post('/user/new')
+      .type('form')
       .send(user);
     expect(registration.status).toBe(302);
 
     const session = await request.agent(server)
       .post('/session')
+      .type('form')
       .send(userSession);
     expect(session.status).toBe(302);
   });
