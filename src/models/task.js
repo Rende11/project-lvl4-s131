@@ -1,11 +1,5 @@
 // @flow
 
-import uuid from 'uuid-js';
-import encrypt from '../utilities/encrypt';
-
-const minLength = 3;
-const maxLength = 20;
-
 const errorMessages = {
   notEmpty: () => 'The field should be filled',
   len: (min, max) => `Min string length ${min} characters, max string length ${max} characters`,
@@ -14,6 +8,12 @@ const errorMessages = {
 
 export default (sequelize, DataTypes) => {
   const Task = sequelize.define('Task', {
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+    },
     name: {
       type: DataTypes.STRING,
       validate: {
@@ -38,6 +38,9 @@ export default (sequelize, DataTypes) => {
     },
     creator: {
       type: DataTypes.STRING,
+    },
+    creatorId: {
+      type: DataTypes.STRING,
       validate: {
         notEmpty: {
           args: true,
@@ -46,6 +49,9 @@ export default (sequelize, DataTypes) => {
       },
     },
     assignedTo: {
+      type: DataTypes.STRING,
+    },
+    assignedToId: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
@@ -57,6 +63,10 @@ export default (sequelize, DataTypes) => {
     tags: {
       type: DataTypes.STRING,
     },
+    state: {
+      type: DataTypes.STRING,
+      defaultValue: 'active',
+    },
   }, {
     classMethods: {
       associate(models) {
@@ -65,5 +75,6 @@ export default (sequelize, DataTypes) => {
       },
     },
   });
+
   return Task;
 };

@@ -19,7 +19,11 @@ module.exports = {
         type: Sequelize.STRING
       },
       creator: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+        },
+        allowNull: false,
       },
       assignedTo: {
         type: Sequelize.STRING

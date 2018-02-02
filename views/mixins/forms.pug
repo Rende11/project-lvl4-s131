@@ -4,7 +4,8 @@ mixin formFor(form, errors, options = {})
   - const url = _.get(options, 'url');
   - const method = _.get(options, 'method', 'get').toLowerCase();
   - const isStandart = _.includes(['get', 'post'], method);
-  form(action= url method= isStandart ? method : 'post')
+  - const id = _.get(options, 'id');
+  form(action= url method= isStandart ? method : 'post' id=id || '')
     if !isStandart
       input(name='_method' type='hidden' value= method)
     block
@@ -31,18 +32,17 @@ mixin button(form, options = { type: 'submit', value: 'Save', class: '' } )
     input.btn.btn-primary(class=options.class, type=`${options.type}` value=`${options.value}`)
 
 
-mixin card()
+mixin card(task)
   .card.mx-3.mb-3(style="width: 18rem")
     .card-body
-      h5.card-title Fix bugs
-      h6.card-text Assigned to: Max Pain
-      h6.card-subtitle.mb-2.text-muted Description
-      a.card-link(href='#') Cardlink
-      a.card-link(href='#') Another link
+      h3.card-title= task.name
+      h6.card-text Assigned to: #{task.assignedTo}
+      a.card-link(href=urlFor('task', task.id)) Open
 
-mixin select(label, values)
+mixin select(form, errors, property, label, values, formId)
+  - const value = form[property] === undefined ? '' : form[property]
   .form-group
     label= label
-    select(name=label)
-      each value in values
-        option= value.getFullName()
+    select(class="form-control", name=property, form=formId)
+      each val in values
+        option(value=val.id)= val.getFullName()

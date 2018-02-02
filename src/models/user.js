@@ -18,7 +18,7 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     uid: {
       type: DataTypes.STRING,
@@ -93,9 +93,9 @@ export default (sequelize, DataTypes) => {
         return models;
       },
     },
-    
   });
-  User.prototype.getFullName = function() {
+
+  User.prototype.getFullName = function getFullName() {
     return `${this.lastName} ${this.firstName}`;
   };
   return User;

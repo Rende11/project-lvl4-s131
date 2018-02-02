@@ -2,8 +2,8 @@ extends /layouts/application.pug
 
 block content
   +jumb  
-    +formFor(form, errors, { url: urlFor('taskNew'), method: 'post' })
+    +formFor(form, errors, { url: urlFor('taskNew'), method: 'post', id: 'taskForm' })
       +input(form, errors, 'name', { label: 'Task name' })
       +input(form, errors, 'description', { label: 'Description' })
-      +select('Assigned to: ', form.users)
+      +select(form, errors, 'assignedToId', 'Assigned to: ', form.users, 'taskForm')
       +button(form)
