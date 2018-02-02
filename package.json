@@ -85,7 +85,8 @@
     "superagent": "*",
     "supertest": "*",
     "jest-supertest-matchers": "*",
-    "faker": "*"
+    "faker": "*",
+    "koa-cookie": "*"
   },
   "jest": {
     "testEnvironment": "node"
