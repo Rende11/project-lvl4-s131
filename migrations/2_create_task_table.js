@@ -18,12 +18,18 @@ module.exports = {
       status: {
         type: Sequelize.STRING
       },
+      creatorId: {
+        type: Sequelize.STRING
+      },
       creator: {
         type: Sequelize.STRING,
         validate: {
           notEmpty: true,
         },
         allowNull: false,
+      },
+      assignedToId: {
+        type: Sequelize.STRING
       },
       assignedTo: {
         type: Sequelize.STRING
