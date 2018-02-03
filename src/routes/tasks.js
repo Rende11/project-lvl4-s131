@@ -40,6 +40,7 @@ export default (router) => {
       ctx.flash.set('New task successfully created');
       ctx.redirect(router.url('tasks'));
     } catch (err) {
+      console.error(err);
       const groupedErrors = _.groupBy(err.errors, 'path');
       const allActiveUsers = await User.findAll({
         where: {
