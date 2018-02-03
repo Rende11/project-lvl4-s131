@@ -42,7 +42,7 @@ module.exports = {
         defaultValue: Date.now()
       },
       updatedAt: {
-        type: SequelizeA.DATE,
+        type: Sequelize.DATE,
         defaultValue: Date.now()
       },
       state: {
