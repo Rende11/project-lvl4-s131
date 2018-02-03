@@ -28,7 +28,9 @@ export default (sequelize, DataTypes) => {
     },
     status: {
       type: DataTypes.STRING,
-      defaultValue: 'new',
+    },
+    statusId: {
+      type: DataTypes.STRING,
       validate: {
         notEmpty: {
           args: true,
