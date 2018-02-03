@@ -42,12 +42,15 @@ module.exports = {
         defaultValue: Date.now()
       },
       updatedAt: {
-        type: Sequelize.DATE,
+        type: SequelizeA.DATE,
         defaultValue: Date.now()
-      }
+      },
+      state: {
+        type: Sequelize.STRING
+      },
 });
   },
   down: (queryInterface, Sequelize) => {
-    //return queryInterface.dropTable('Tasks');
+    return queryInterface.dropTable('Tasks');
   }
 };
