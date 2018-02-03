@@ -35,8 +35,10 @@ export default (router) => {
   router.post('taskNew', '/tasks/new', async (ctx) => {
     const taskData = ctx.request.body;
     const creatorId = ctx.session.id;
+    const creator = await User.findById(Number(creatorId));
+
     try {
-      await Task.create({ ...taskData, creatorId });
+      await Task.create({ ...taskData, creatorId, creator: creator.getFullName() });
       ctx.flash.set('New task successfully created');
       ctx.redirect(router.url('tasks'));
     } catch (err) {
