@@ -16,7 +16,7 @@
     "prepublish": "npm run build",
     "start": "node dist/bin/index.js",
     "webpack": "webpack",
-    "postinstall": "npm run build && npm run sequelize db:migrate && npm run sequelize db:seed:all",
+    "postinstall": "npm run build && npm run sequelize db:migrate",
     "nodemon": "nodemon",
     "demon": "nodemon src/bin/index.js --exec babel-node",
     "sequelize": "sequelize"
