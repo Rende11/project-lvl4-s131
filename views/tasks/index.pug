@@ -2,10 +2,7 @@ extends /layouts/application.pug
 
 block content
   .container.mx-auto
-    .row.mx-auto
-      a.btn.btn-outline-primary.mx-auto(href=urlFor('taskNew'), role="button") Create new task
-      a.btn.btn-outline-primary.mx-auto(href=urlFor('statusNew'), role="button") Create new status
-      a.btn.btn-outline-primary.mx-auto(href=urlFor('statuses'), role="button") Show all statuses
+    +menu() 
   .container.mx-auto
     .row.mx-auto
       each task in tasks

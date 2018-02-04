@@ -38,7 +38,6 @@ mixin card(task)
     .card-body
       h4.card-title= task.name
       h6.card-text Assigned to: #{task.assignedTo}
-
       a.card-link(href=urlFor('task', task.id)) Open
 
 mixin select(form, errors, property, label, values, formId)
@@ -51,3 +50,10 @@ mixin select(form, errors, property, label, values, formId)
           option(value=val.id)= val.name
         else
           option(value=val.id)= val.getFullName()
+
+
+mixin menu() 
+  .row.mx-auto.mb-3
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('taskNew'), role="button") Create new task
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('statusNew'), role="button") Create new status
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('statuses'), role="button") Show all statuses
