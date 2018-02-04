@@ -51,7 +51,7 @@ export default (router) => {
     const creatorId = ctx.session.id;
     const creator = await User.findById(Number(creatorId));
     const status = await User.findById(Number(taskData.statusId));
-    const tags = taskData.tags.split(',');
+    const tags = taskData.tags.split(',').map(tag => tag.trim());
 
     const task = Task.build({ ...taskData, creatorId, creator: creator.getFullName(), statusId: taskData.statusId });
     try {
