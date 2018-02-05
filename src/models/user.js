@@ -87,7 +87,10 @@ export default (sequelize, DataTypes) => {
       defaultValue: 'active',
     },
   });
-  User.associate = models => models;
+  User.associate = (models) => {
+    User.hasMany(models.Task, { foreignKey: 'creatorId', as: 'creator' });
+    User.hasMany(models.Task, { foreignKey: 'assignedToId', as: 'assignedTo' });
+  };
   User.prototype.getFullName = function getFullName() {
     return `${this.lastName} ${this.firstName}`;
   };

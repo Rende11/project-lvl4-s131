@@ -12,26 +12,23 @@ export default (router) => {
       },
       include: [
         Tag,
+        { model: Status },
+        { model: User, as: 'creator' },
+        { model: User, as: 'assignedTo'},
       ]
     });
     console.log(tasks, 'TASKS');
 
-    const actualTasks = await Promise.all(tasks.map(async (task) => {
+    /*const actualTasks = await Promise.all(tasks.map(async (task) => {
       const assignedTo = await User.findById(Number(task.assignedToId));
       const creator = await User.findById(Number(task.creatorId));
-      const status = await Status.findById(Number(task.statusId));
-      const taskTags = await TaskTag.findAll({ where: { taskId: task.id } });
-     // console.log(taskTags, 'ZZZ TASK TAGS');
-    // const tags = await Promise.all(taskTags.map(taskTag => Tag.findById(taskTag.tagId)));
-      // console.log(tags, 'QQQ TAGS');
-    //  const tagNames = tags.map(tag => tag.name).join(',');
+
       return task.update({
         assignedTo: assignedTo.getFullName(),
         creator: creator.getFullName(),
-        status: status.name,
       });
-    }));
-    ctx.render('tasks/index', { tasks: actualTasks });
+    }));*/
+    ctx.render('tasks/index', { tasks });
   });
 
   router.get('taskNew', '/tasks/new', async (ctx) => {
@@ -52,7 +49,6 @@ export default (router) => {
     const taskData = ctx.request.body;
     taskData.creatorId = ctx.session.id;
     const creator = await User.findById(Number(ctx.session.id));
-    const status = await User.findById(Number(taskData.statusId));
     try {
       const task = await Task.create(taskData, { include: [Tag] });
       if (taskData.tags) {
@@ -60,10 +56,9 @@ export default (router) => {
         const updatedTags = await db.sequelize
           .transaction(t => Promise.all(formTagsNames
             .map(tagName => Tag.findOrCreate({ where: { name: tagName }, transaction: t })))).map(tag => tag[0]);
-        
-        taskData.Tags = formTagsNames;
         await task.addTags(updatedTags);
       }
+      console.log(task);
       ctx.flash.set('New task successfully created');
       ctx.redirect(router.url('tasks'));
     } catch (err) {

@@ -6,6 +6,6 @@ block content
       +input(form, errors, 'name', { label: 'Task name' })
       +input(form, errors, 'description', { label: 'Description' })
       +select(form, errors, 'assignedToId', 'Assigned to', form.users, 'taskForm')
-      +select(form, errors, 'statusId', 'Status', form.statuses, 'taskForm')
+      +select(form, errors, 'status', 'Status', form.statuses, 'taskForm')
       +input(form, errors, 'tags', { label: 'Tags' })
       +button(form)

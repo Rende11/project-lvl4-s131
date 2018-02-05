@@ -26,50 +26,25 @@ export default (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
     },
-    status: {
-      type: DataTypes.STRING,
-    },
-    statusId: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: errorMessages.notEmpty(),
-        },
-      },
-    },
-    creator: {
-      type: DataTypes.STRING,
-    },
-    creatorId: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: errorMessages.notEmpty(),
-        },
-      },
-    },
-    assignedTo: {
-      type: DataTypes.STRING,
-    },
-    assignedToId: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: errorMessages.notEmpty(),
-        },
-      },
-    },
     state: {
       type: DataTypes.STRING,
       defaultValue: 'active',
+    },
+    creatorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    assignedToId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   });
 
   Task.associate = (models) => {
     Task.belongsToMany(models.Tag, { through: models.TaskTag });
+    Task.belongsTo(models.Status, { foreignKey: 'status' });
+    Task.belongsTo(models.User,  { as: 'creator' });
+    Task.belongsTo(models.User, { as: 'assignedTo' });
   };
   return Task;
 };

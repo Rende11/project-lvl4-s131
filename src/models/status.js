@@ -27,14 +27,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: 'active',
     },
-  }, {
-    classMethods: {
-      associate(models) {
-        // associations can be defined here
-        return models;
-      },
-    },
   });
 
+  Status.associate = (models) => {
+    Status.hasMany(models.Task);
+  }
   return Status;
 };
