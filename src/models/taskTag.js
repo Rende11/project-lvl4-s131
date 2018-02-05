@@ -1,11 +1,5 @@
 // @flow
 
-const errorMessages = {
-  notEmpty: () => 'The field should be filled',
-  len: (min, max) => `Min string length ${min} characters, max string length ${max} characters`,
-  isEmail: () => 'Not a valid email format',
-};
-
 export default (sequelize, DataTypes) => {
   const TaskTag = sequelize.define('TaskTag', {
     id: {
@@ -14,20 +8,11 @@ export default (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    taskId: {
-      type: DataTypes.STRING,
-    },
-    tagId: {
-      type: DataTypes.STRING,
-    },
-  }, {
-    classMethods: {
-      associate(models) {
-        // associations can be defined here
-        return models;
-      },
-    },
   });
 
+  TaskTag.associate = (models) => {
+    models.Task.belongsToMany(models.Tag, { through: models.TaskTag });
+    models.Tag.belongsToMany(models.Task, { through: models.TaskTag });
+  };
   return TaskTag;
 };

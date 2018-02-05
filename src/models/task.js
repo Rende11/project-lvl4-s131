@@ -62,21 +62,14 @@ export default (sequelize, DataTypes) => {
         },
       },
     },
-    tags: {
-      type: DataTypes.STRING,
-    },
     state: {
       type: DataTypes.STRING,
       defaultValue: 'active',
     },
-  }, {
-    classMethods: {
-      associate(models) {
-        // associations can be defined here
-        return models;
-      },
-    },
   });
 
+  Task.associate = (models) => {
+    Task.belongsToMany(models.Tag, { through: models.TaskTag });
+  };
   return Task;
 };

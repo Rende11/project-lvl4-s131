@@ -14,6 +14,15 @@ export default (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
+    taskId: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: errorMessages.notEmpty(),
+        },
+      },
+    },
     name: {
       type: DataTypes.STRING,
       validate: {
@@ -23,14 +32,9 @@ export default (sequelize, DataTypes) => {
         },
       },
     },
-  }, {
-    classMethods: {
-      associate(models) {
-        // associations can be defined here
-        return models;
-      },
-    },
   });
-
+  Tag.associate = (models) => {
+    Tag.belongsToMany(models.Task, { through: models.TaskTag });
+  };
   return Tag;
 };

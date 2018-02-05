@@ -86,15 +86,8 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: 'active',
     },
-  }, {
-    classMethods: {
-      associate(models) {
-        // associations can be defined here
-        return models;
-      },
-    },
   });
-
+  User.associate = models => models;
   User.prototype.getFullName = function getFullName() {
     return `${this.lastName} ${this.firstName}`;
   };
