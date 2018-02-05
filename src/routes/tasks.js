@@ -2,6 +2,7 @@
 
 import _ from 'lodash';
 import db, { Task, User, Status, Tag, TaskTag } from '../models';
+import Sequelize from 'sequelize';
 
 export default (router) => {
   router.get('tasks', '/tasks', async (ctx) => {
@@ -9,25 +10,27 @@ export default (router) => {
       where: {
         state: 'active',
       },
+      include: [
+        Tag,
+      ]
     });
+    console.log(tasks, 'TASKS');
 
     const actualTasks = await Promise.all(tasks.map(async (task) => {
       const assignedTo = await User.findById(Number(task.assignedToId));
       const creator = await User.findById(Number(task.creatorId));
       const status = await Status.findById(Number(task.statusId));
       const taskTags = await TaskTag.findAll({ where: { taskId: task.id } });
-      console.log(taskTags, 'ZZZ TASK TAGS');
-      const tags = await Promise.all(taskTags.map(taskTag => Tag.findById(taskTag.tagId)));
-      console.log(tags, 'QQQ TAGS');
-      const tagNames = tags.map(tag => tag.name).join(',');
+     // console.log(taskTags, 'ZZZ TASK TAGS');
+    // const tags = await Promise.all(taskTags.map(taskTag => Tag.findById(taskTag.tagId)));
+      // console.log(tags, 'QQQ TAGS');
+    //  const tagNames = tags.map(tag => tag.name).join(',');
       return task.update({
         assignedTo: assignedTo.getFullName(),
         creator: creator.getFullName(),
         status: status.name,
-        tags: tagNames,
       });
     }));
-
     ctx.render('tasks/index', { tasks: actualTasks });
   });
 
@@ -45,53 +48,22 @@ export default (router) => {
     ctx.render('tasks/new', { form: { users: activeUsers, statuses }, errors: {} });
   });
 
-  router.post('taskNew', '/tasks/new', async (ctx) => {
+  router.post('taskNew', '/tasks/new', async (ctx) => { 
     const taskData = ctx.request.body;
-    const creatorId = ctx.session.id;
-    const creator = await User.findById(Number(creatorId));
+    taskData.creatorId = ctx.session.id;
+    const creator = await User.findById(Number(ctx.session.id));
     const status = await User.findById(Number(taskData.statusId));
-    const formTags = taskData.tags.split(',').map(tag => tag.trim());
-
-
     try {
-      const updatedTags = await db.sequelize
-        .transaction(t => Promise.all(formTags
-          .map(tag => Tag.findOrCreate({ where: { name: tag }, transaction: t })))).map(tag => tag[0]);
-      console.log(updatedTags);
-      // const tags = await Promise.all(updatedTags.forEach(tag => Tag.findOne({ where: { id: tag.id } })));
-
-      const task = Task.create({
-        ...taskData,
-        creatorId,
-        creator: creator.getFullName(),
-        status: status.name,
-        include: [Tag],
-      });
-
-      // const tagsIds = updatedTags.map(tag => tag[0].id);
-
-      /*await Promise.all(tagsIds.map(async (tagId) => {
-        const taskTag = await TaskTag.findOne({ where: { tagId, taskId: id } });
-        if (!taskTag) {
-          return TaskTag.create({ tagId, taskId: id });
-        }
-        return taskTag;
-      })); */
-
-      // const res = tags.map(name => Tag.find({ where: { name } }).then(tag => task.createTag({ name: tag })));
-
-      /* console.log(Object.keys(Task.associations));
-      console.log(Object.keys(Tag.associations));
-      console.log(Tag.prototype); */
-      /*console.log(updatedTags[0][0].dataValues);
-      console.log(updatedTags[0][0].dataValues.id);*/
-      console.log(await task.prototype.addTags(updatedTags));
-      /*const res = tags.map(tag => Tag.findOne({ where: { name: tag } })
-        .then(async result => (result ? await task.addTag(result) : await task.setTag({ name: tag }))));
-      console.log(await Promise.all(res)); */
-
-     // console.log(await task.addTags(updatedTags.));
-      // console.log(await Promise.all(updatedTags.forEach(tag => task.addTag(tag))));
+      const task = await Task.create(taskData, { include: [Tag] });
+      if (taskData.tags) {
+        const formTagsNames = taskData.tags.split(',').map(tag => tag.trim());
+        const updatedTags = await db.sequelize
+          .transaction(t => Promise.all(formTagsNames
+            .map(tagName => Tag.findOrCreate({ where: { name: tagName }, transaction: t })))).map(tag => tag[0]);
+        
+        taskData.Tags = formTagsNames;
+        await task.addTags(updatedTags);
+      }
       ctx.flash.set('New task successfully created');
       ctx.redirect(router.url('tasks'));
     } catch (err) {

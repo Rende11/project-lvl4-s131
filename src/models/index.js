@@ -37,5 +37,6 @@ const sync = async () => {
 sync();
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.Op = Sequelize.Op;
 
 module.exports = db;

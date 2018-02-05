@@ -38,7 +38,13 @@ mixin card(task)
     .card-body
       h4.card-title= task.name
       h6.card-text Assigned to: #{task.assignedTo}
-      a.card-link(href=urlFor('task', task.id)) Open
+      
+      each tag in task.Tags
+        span.badge.badge-primary.mx-1= tag.name
+      .row.mt-2
+        a.card-link.mx-auto(href=urlFor('task', task.id)) Open
+        
+      
 
 mixin select(form, errors, property, label, values, formId)
   - const value = form[property] === undefined ? '' : form[property]
