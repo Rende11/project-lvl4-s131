@@ -1,8 +1,7 @@
 // @flow
 
 import _ from 'lodash';
-import db, { Task, User, Status, Tag, TaskTag } from '../models';
-import Sequelize from 'sequelize';
+import db, { Task, User, Status, Tag } from '../models';
 
 export default (router) => {
   router.get('tasks', '/tasks', async (ctx) => {
@@ -14,20 +13,9 @@ export default (router) => {
         Tag,
         { model: Status },
         { model: User, as: 'creator' },
-        { model: User, as: 'assignedTo'},
-      ]
+        { model: User, as: 'assignedTo' },
+      ],
     });
-    console.log(tasks, 'TASKS');
-
-    /*const actualTasks = await Promise.all(tasks.map(async (task) => {
-      const assignedTo = await User.findById(Number(task.assignedToId));
-      const creator = await User.findById(Number(task.creatorId));
-
-      return task.update({
-        assignedTo: assignedTo.getFullName(),
-        creator: creator.getFullName(),
-      });
-    }));*/
     ctx.render('tasks/index', { tasks });
   });
 
@@ -45,20 +33,20 @@ export default (router) => {
     ctx.render('tasks/new', { form: { users: activeUsers, statuses }, errors: {} });
   });
 
-  router.post('taskNew', '/tasks/new', async (ctx) => { 
+  router.post('taskNew', '/tasks/new', async (ctx) => {
     const taskData = ctx.request.body;
+    console.log(taskData, 'create form');
     taskData.creatorId = ctx.session.id;
-    const creator = await User.findById(Number(ctx.session.id));
     try {
       const task = await Task.create(taskData, { include: [Tag] });
       if (taskData.tags) {
         const formTagsNames = taskData.tags.split(',').map(tag => tag.trim());
         const updatedTags = await db.sequelize
           .transaction(t => Promise.all(formTagsNames
-            .map(tagName => Tag.findOrCreate({ where: { name: tagName }, transaction: t })))).map(tag => tag[0]);
+            .map(tagName => Tag.findOrCreate({ where: { name: tagName }, transaction: t }))))
+          .map(tag => tag[0]);
         await task.addTags(updatedTags);
       }
-      console.log(task);
       ctx.flash.set('New task successfully created');
       ctx.redirect(router.url('tasks'));
     } catch (err) {
@@ -81,7 +69,14 @@ export default (router) => {
 
   router.get('task', '/task/:id', async (ctx) => {
     try {
-      const task = await Task.findById(ctx.params.id);
+      const task = await Task.findById(ctx.params.id, {
+        include: [
+          Tag,
+          { model: Status },
+          { model: User, as: 'creator' },
+          { model: User, as: 'assignedTo' },
+        ],
+      });
       const activeUsers = await User.findAll({
         where: {
           state: 'active',
@@ -92,6 +87,8 @@ export default (router) => {
           state: 'active',
         },
       });
+      task.tagNames = task.Tags.map(tag => tag.name).join(', ');
+
       ctx.render('tasks/edit', {
         form: task, users: activeUsers, statuses, errors: {},
       });
@@ -112,7 +109,15 @@ export default (router) => {
 
   router.patch('task', '/task/:id', async (ctx) => {
     const form = ctx.request.body;
-    const task = await Task.findById(ctx.params.id);
+    const task = await Task.findById(ctx.params.id, {
+      include: [
+        Tag,
+        { model: Status },
+        { model: User, as: 'creator' },
+        { model: User, as: 'assignedTo' },
+      ],
+    });
+    console.log(form, 'update');
     try {
       await task.update(form);
       ctx.flash.set('Task updated');

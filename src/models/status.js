@@ -31,6 +31,6 @@ export default (sequelize, DataTypes) => {
 
   Status.associate = (models) => {
     Status.hasMany(models.Task);
-  }
+  };
   return Status;
 };

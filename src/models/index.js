@@ -17,21 +17,18 @@ fs.readdirSync(__dirname)
   .filter(file => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
   .forEach((file) => {
     const model = sequelize.import(path.join(__dirname, file));
-    console.log(model, 'model');
     db[model.name] = model;
   });
 
 Object.keys(db).forEach((modelName) => {
-  console.log(db[modelName], 'db');
   if (db[modelName].associate) {
-    console.log(modelName, 'ASOS');
     db[modelName].associate(db);
   }
 });
 
 
 const sync = async () => {
-  console.log(await Promise.all(Object.keys(db).map(key => db[key].sync())));
+  await Promise.all(Object.keys(db).map(key => db[key].sync()));
 };
 
 sync();

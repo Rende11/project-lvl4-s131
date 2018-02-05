@@ -20,6 +20,7 @@ mixin alert(flash)
     .alert.alert-info.m-3= flash.message
 
 mixin input(form, errors, property, options = { as: 'text', label: property })
+  - console.log(form, 'form');
   - const value = form[property] === undefined ? '' : form[property]
   .form-group(class=(errors[property] && 'has-danger'))
       label= options['label']
@@ -33,7 +34,6 @@ mixin button(form, options = { type: 'submit', value: 'Save', class: '' } )
 
 
 mixin card(task)
-  - console.log('PUG', task)
   .card.mx-3.mb-3(style="width: 18rem")
     .card-header Status: #{task.Status.name}
     .card-body
@@ -52,11 +52,12 @@ mixin select(form, errors, property, label, values, formId)
   .form-group
     label= label
     select(class="form-control", name=property, form=formId)
-      each val in values   
-        if property == 'status'
-          option(value=val.id)= val.name
-        else
+      each val in values
+        - const username = val.getFullName  
+        if username
           option(value=val.id)= val.getFullName()
+        else
+          option(value=val.id)= val.name
 
 
 mixin menu() 
