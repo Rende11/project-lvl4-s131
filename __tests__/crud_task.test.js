@@ -39,15 +39,15 @@ describe('Base CRUD', () => {
     expect(session.status).toBe(302);
 
     const getTasks = await request.agent(server)
-      .get('/tasks')
+      .get('/tasks');
     expect(getTasks.status).toBe(200);
 
     const getStatuses = await request.agent(server)
-      .get('/statuses')
+      .get('/statuses');
     expect(getStatuses.status).toBe(200);
 
     const createStatus = await request.agent(server)
-      .get('/statuses/new')
+      .get('/statuses/new');
     expect(createStatus.status).toBe(200);
 
     const status = { name: faker.random.word };
@@ -58,7 +58,7 @@ describe('Base CRUD', () => {
     expect(postStatus.status).toBe(302);
 
     const createTask = await request.agent(server)
-      .get('/tasks/new')
+      .get('/tasks/new');
     expect(createTask.status).toBe(200);
 
     const postTask = await request.agent(server)
@@ -69,12 +69,12 @@ describe('Base CRUD', () => {
         description: faker.random.sentence,
         status: status.name,
         assignedTo: `${user.lastName} ${user.firstName}`,
-        assignedToId: 1,        
+        assignedToId: 1,
         tags: 'easy, new',
         creator: `${user.lastName} ${user.firstName}`,
       });
     expect(postTask.status).toBe(302);
-    
+
     const getTask = await request.agent(server)
       .get('/task/1');
     expect(getTask.status).toBe(200);
@@ -112,7 +112,6 @@ describe('Base CRUD', () => {
     const deleteStatus = await request.agent(server)
       .delete('/status/1');
     expect(deleteStatus.status).toBe(302);
-
   });
 
   afterEach((done) => {
