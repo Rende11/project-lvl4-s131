@@ -70,3 +70,7 @@ mixin text(form, label, property, formId)
   .form-group
     label= label
     textarea(class="form-control", name="description", form=formId)= value
+
+mixin filter()
+  .row.mx-auto.mb-3
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('myTasks'), role="button") My issues

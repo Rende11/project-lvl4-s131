@@ -2,7 +2,9 @@ extends /layouts/application.pug
 
 block content
   .container.mx-auto
-    +menu() 
+    +menu()
+  .container.mx-auto
+    +filter()
   .container.mx-auto
     .row.mx-auto
       each task in tasks
