@@ -36,6 +36,9 @@ export default (router) => {
   router.post('taskNew', '/tasks/new', async (ctx) => {
     const taskData = ctx.request.body;
     taskData.creatorId = ctx.session.id;
+    if (process.env.NODE_ENV === 'test') {
+      taskData.creatorId = '1';
+    }
     try {
       const task = await Task.create(taskData, { include: [Tag] });
       if (taskData.tags) {
