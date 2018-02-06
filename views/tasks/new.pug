@@ -4,7 +4,7 @@ block content
   +jumb  
     +formFor(form, errors, { url: urlFor('taskNew'), method: 'post', id: 'taskForm' })
       +input(form, errors, 'name', { label: 'Task name' })
-      +input(form, errors, 'description', { label: 'Description' })
+      +text(form, 'Description', 'description', 'taskForm')
       +select(form, errors, 'assignedToId', 'Assigned to', form.users, 'taskForm')
       +select(form, errors, 'status', 'Status', form.statuses, 'taskForm')
       +input(form, errors, 'tags', { label: 'Tags' })

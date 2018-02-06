@@ -20,7 +20,6 @@ mixin alert(flash)
     .alert.alert-info.m-3= flash.message
 
 mixin input(form, errors, property, options = { as: 'text', label: property })
-  - console.log(form, 'form');
   - const value = form[property] === undefined ? '' : form[property]
   .form-group(class=(errors[property] && 'has-danger'))
       label= options['label']
@@ -65,3 +64,9 @@ mixin menu()
     a.btn.btn-outline-primary.mx-auto(href=urlFor('taskNew'), role="button") Create new task
     a.btn.btn-outline-primary.mx-auto(href=urlFor('statusNew'), role="button") Create new status
     a.btn.btn-outline-primary.mx-auto(href=urlFor('statuses'), role="button") Show all statuses
+
+mixin text(form, label, property, formId)
+  - const value = form[property] === undefined ? '' : form[property]
+  .form-group
+    label= label
+    textarea(class="form-control", name="description", form=formId)= value

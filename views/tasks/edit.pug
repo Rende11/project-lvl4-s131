@@ -4,10 +4,9 @@ block content
   +jumb  
     +formFor(form, errors, { url: urlFor('task', form.id), method: 'patch', id: 'taskForm' })
       +input(form, errors, 'name', { label: 'Task name' })
-      +input(form, errors, 'description', { label: 'Description' })
+      +text(form, 'Description', 'description', 'taskForm')
       +select(form, errors, 'assignedToId', 'Assigned to: ', users, 'taskForm')
       +select(form, errors, 'status', 'Status: ', statuses, 'taskForm')
-      +input(form, errors, 'tagNames', { label: 'Tags' })
       +button(form, { type: 'submit', value: 'Save changes', class: 'btn-block'})
     +formFor(form, errors, { url: urlFor('task', form.id), method: 'delete' })
       +button(form, { type: 'submit', value: 'Delete task', class: 'btn-danger btn-block' })

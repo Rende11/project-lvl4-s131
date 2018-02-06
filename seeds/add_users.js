@@ -4,7 +4,6 @@ const faker = require('faker');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    console.log(queryInterface.showAllSchemas('Users').then(res => console.log(res)));
     return queryInterface.bulkInsert('Users', [{
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),

@@ -35,7 +35,6 @@ export default (router) => {
 
   router.post('taskNew', '/tasks/new', async (ctx) => {
     const taskData = ctx.request.body;
-    console.log(taskData, 'create form');
     taskData.creatorId = ctx.session.id;
     try {
       const task = await Task.create(taskData, { include: [Tag] });
@@ -87,7 +86,7 @@ export default (router) => {
           state: 'active',
         },
       });
-      task.tagNames = task.Tags.map(tag => tag.name).join(', ');
+      task.tags = task.Tags.map(tag => tag.name).join(', ');
 
       ctx.render('tasks/edit', {
         form: task, users: activeUsers, statuses, errors: {},
@@ -117,9 +116,9 @@ export default (router) => {
         { model: User, as: 'assignedTo' },
       ],
     });
-    console.log(form, 'update');
+
     try {
-      await task.update(form);
+      await task.update(form, { include: [Tag] });
       ctx.flash.set('Task updated');
       ctx.redirect(router.url('tasks'));
     } catch (err) {
