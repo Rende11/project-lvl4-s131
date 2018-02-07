@@ -32,7 +32,7 @@ export default (sequelize, DataTypes) => {
       defaultValue: 'active',
     },
     status: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     creatorId: {
