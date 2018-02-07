@@ -42,7 +42,7 @@ export default (router) => {
         ...query,
       },
       include: [
-        { model: Tag,  ...tagQuery },
+        { model: Tag, ...tagQuery },
         { model: Status },
         { model: User, as: 'creator' },
         { model: User, as: 'assignedTo' },

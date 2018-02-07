@@ -59,6 +59,7 @@ export default (router) => {
     } catch (err) {
       const groupedErrors = _.groupBy(err.errors, 'path');
       console.error({ form: status, errors: groupedErrors });
+      console.error(err);
       ctx.render('statuses/edit', { form: status, errors: groupedErrors });
     }
   });
