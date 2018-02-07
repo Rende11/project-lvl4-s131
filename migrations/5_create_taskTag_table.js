@@ -11,10 +11,10 @@ module.exports = {
       TaskId: {
         allowNull: false,
         unique: true,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       TagId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       createdAt: {
         type: Sequelize.DATE,

@@ -9,11 +9,11 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
     TagId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     TaskId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   });
