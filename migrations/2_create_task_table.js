@@ -16,10 +16,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       creatorId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       creator: {
         type: Sequelize.STRING,
@@ -29,7 +29,7 @@ module.exports = {
         allowNull: false,
       },
       assignedToId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       assignedTo: {
         type: Sequelize.STRING

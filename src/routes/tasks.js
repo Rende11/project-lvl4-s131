@@ -46,6 +46,8 @@ export default (router) => {
   router.post('taskNew', '/tasks/new', async (ctx) => {
     const taskData = ctx.request.body;
     taskData.creatorId = ctx.session.id;
+    taskData.assignedToId = Number(taskData.assignedToId);
+    taskData.status = Number(taskData.status);
     if (process.env.NODE_ENV === 'test') {
       taskData.creatorId = '1';
     }
