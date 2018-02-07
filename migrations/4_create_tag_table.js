@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       taskId: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         validate: {
           notEmpty: {
             args: true,
