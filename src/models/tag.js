@@ -15,7 +15,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
     taskId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       validate: {
         notEmpty: {
           args: true,
