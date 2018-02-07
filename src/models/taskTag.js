@@ -8,6 +8,14 @@ export default (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
+    TagId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    TaskId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
 
   TaskTag.associate = (models) => {
