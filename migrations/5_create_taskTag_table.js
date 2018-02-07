@@ -8,12 +8,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      task_id: {
+      TaskId: {
         allowNull: false,
         unique: true,
         type: Sequelize.STRING
       },
-      tag_id: {
+      TagId: {
         type: Sequelize.STRING
       },
       createdAt: {
