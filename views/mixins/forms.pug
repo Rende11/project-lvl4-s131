@@ -5,7 +5,8 @@ mixin formFor(form, errors, options = {})
   - const method = _.get(options, 'method', 'get').toLowerCase();
   - const isStandart = _.includes(['get', 'post'], method);
   - const id = _.get(options, 'id');
-  form(action= url method= isStandart ? method : 'post' id=id || '')
+  - const type = _.get(options, 'type');
+  form(class= type || '' action= url method= isStandart ? method : 'post' id=id || '')
     if !isStandart
       input(name='_method' type='hidden' value= method)
     block
@@ -22,8 +23,8 @@ mixin alert(flash)
 mixin input(form, errors, property, options = { as: 'text', label: property })
   - const value = form[property] === undefined ? '' : form[property]
   .form-group(class=(errors[property] && 'has-danger'))
-      label= options['label']
-      input(name=property class='form-control' type=options['as'] value=`${value}`)
+      label.mt-2.mb-2= options['label']
+      input.mt-2.mb-2(name=property class='form-control' type=options['as'] value=`${value}`)
       if errors[property]
         .form-control-feedback.small.form-text.text-muted= errors[property].map(({ message }) => message).join('. ')
 
@@ -49,28 +50,28 @@ mixin card(task)
 mixin select(form, errors, property, label, values, formId)
   - const value = form[property] === undefined ? '' : form[property]
   .form-group
-    label= label
-    select(class="form-control", name=property, form=formId)
+    label.mt-2.mb-2= label
+    select.mt-2.mb-2 (class="form-control", name=property, form=formId)
+      option(value="" selected disabled hidden) Choose here
       each val in values
         - const username = val.getFullName  
         if username
           option(value=val.id)= val.getFullName()
         else
           option(value=val.id)= val.name
-
-
+    if errors[property]
+      .form-control-feedback.small.form-text.text-muted= errors[property].map(({ message }) => message).join('. ')
+      
 mixin menu() 
   .row.mx-auto.mb-3
     a.btn.btn-outline-primary.mx-auto(href=urlFor('taskNew'), role="button") Create new task
     a.btn.btn-outline-primary.mx-auto(href=urlFor('statusNew'), role="button") Create new status
     a.btn.btn-outline-primary.mx-auto(href=urlFor('statuses'), role="button") Show all statuses
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('myTasks'), role="button") My issues
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('tasks'), role="button") Show all tasks
 
 mixin text(form, label, property, formId)
   - const value = form[property] === undefined ? '' : form[property]
   .form-group
     label= label
     textarea(class="form-control", name="description", form=formId)= value
-
-mixin filter()
-  .row.mx-auto.mb-3
-    a.btn.btn-outline-primary.mx-auto(href=urlFor('myTasks'), role="button") My issues

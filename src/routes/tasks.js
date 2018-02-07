@@ -16,7 +16,17 @@ export default (router) => {
         { model: User, as: 'assignedTo' },
       ],
     });
-    ctx.render('tasks/index', { tasks });
+    const activeUsers = await User.findAll({
+      where: {
+        state: 'active',
+      },
+    });
+    const statuses = await Status.findAll({
+      where: {
+        state: 'active',
+      },
+    });
+    ctx.render('tasks/index', { tasks, form: { users: activeUsers, statuses }, errors: {} });
   });
 
   router.get('taskNew', '/tasks/new', async (ctx) => {

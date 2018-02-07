@@ -26,6 +26,7 @@ export default (sequelize, DataTypes) => {
     },
     firstName: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
@@ -40,6 +41,7 @@ export default (sequelize, DataTypes) => {
     },
     lastName: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
@@ -55,6 +57,7 @@ export default (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
@@ -68,6 +71,7 @@ export default (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,

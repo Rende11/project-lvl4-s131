@@ -4,8 +4,16 @@ block content
   .container.mx-auto
     +menu()
   .container.mx-auto
-    +filter()
+    .row.mx-auto
+      +formFor(form, errors, { url: urlFor('findTasks'), method: 'post', id: 'taskForm', type: 'form-inline' })
+        +select(form, errors, 'assignedToId', 'Assigned to', form.users, 'taskForm')
+        +select(form, errors, 'status', 'Status', form.statuses, 'taskForm')
+        +input(form, errors, 'tags', { label: 'Tags' })
+        +button(form, { type: 'submit', value: 'Find', class: '' })
   .container.mx-auto
     .row.mx-auto
       each task in tasks
         +card(task)
+
+
+  

@@ -16,6 +16,7 @@ export default (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
@@ -30,6 +31,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: 'active',
     },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     creatorId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -37,6 +42,12 @@ export default (sequelize, DataTypes) => {
     assignedToId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: errorMessages.notEmpty(),
+        },
+      },
     },
   });
 
