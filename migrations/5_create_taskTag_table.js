@@ -9,8 +9,6 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       TaskId: {
-        allowNull: false,
-        unique: true,
         type: Sequelize.INTEGER
       },
       TagId: {

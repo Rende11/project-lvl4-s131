@@ -26,10 +26,6 @@ module.exports = {
       },
       creator: {
         type: Sequelize.STRING,
-        validate: {
-          notEmpty: true,
-        },
-        allowNull: false,
       },
       assignedToId: {
         type: Sequelize.INTEGER

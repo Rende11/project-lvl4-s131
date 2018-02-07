@@ -14,13 +14,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       taskId: {
-        type: Sequelize.STRING,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: errorMessages.notEmpty(),
-          },
-        },
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATE,
