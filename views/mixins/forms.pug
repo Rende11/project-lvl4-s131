@@ -22,8 +22,8 @@ mixin alert(flash)
 mixin input(form, errors, property, options = { as: 'text', label: property })
   - const value = form[property] === undefined ? '' : form[property]
   .form-group(class=(errors[property] && 'has-danger'))
-      label.mx-auto.mt-2.mb-2= options['label']
-      input.mx-auto.mt-2.mb-2(name=property class='form-control' type=options['as'] value=`${value}`)
+      label.mr-3= options['label']
+      input(name=property class='form-control' type=options['as'] value=`${value}`)
       if errors[property]
         .form-control-feedback.small.form-text.text-muted= errors[property].map(({ message }) => message).join('. ')
 
@@ -50,8 +50,8 @@ mixin card(task)
 mixin select(form, errors, property, label, values, formId)
   - const value = form[property] === undefined ? '' : form[property]
   .form-group
-    label.mt-2.mb-2= label
-    select.mx-auto.mt-2.mb-2(class="form-control", name=property, form=formId)
+    label.mr-3= label
+    select(class=attributes.class || "form-control", name=property, form=formId)
       option(value="" selected disabled hidden) Choose here
       each val in values
         - const username = val.getFullName  
