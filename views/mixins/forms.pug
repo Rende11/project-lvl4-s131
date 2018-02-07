@@ -5,8 +5,7 @@ mixin formFor(form, errors, options = {})
   - const method = _.get(options, 'method', 'get').toLowerCase();
   - const isStandart = _.includes(['get', 'post'], method);
   - const id = _.get(options, 'id');
-  - const type = _.get(options, 'type');
-  form(class= type || '' action= url method= isStandart ? method : 'post' id=id || '')
+  form(class!=attributes.class action= url method= isStandart ? method : 'post' id=id || '')
     if !isStandart
       input(name='_method' type='hidden' value= method)
     block
@@ -14,7 +13,7 @@ mixin formFor(form, errors, options = {})
 mixin jumb
   .col-md-6.mx-auto
     .jumbotron.mt-5
-      block 
+      block
 
 mixin alert(flash)
   if flash && flash.message
@@ -23,8 +22,8 @@ mixin alert(flash)
 mixin input(form, errors, property, options = { as: 'text', label: property })
   - const value = form[property] === undefined ? '' : form[property]
   .form-group(class=(errors[property] && 'has-danger'))
-      label.mt-2.mb-2= options['label']
-      input.mt-2.mb-2(name=property class='form-control' type=options['as'] value=`${value}`)
+      label.mx-auto.mt-2.mb-2= options['label']
+      input.mx-auto.mt-2.mb-2(name=property class='form-control' type=options['as'] value=`${value}`)
       if errors[property]
         .form-control-feedback.small.form-text.text-muted= errors[property].map(({ message }) => message).join('. ')
 
@@ -52,7 +51,7 @@ mixin select(form, errors, property, label, values, formId)
   - const value = form[property] === undefined ? '' : form[property]
   .form-group
     label.mt-2.mb-2= label
-    select(class="form-control", name=property, form=formId)
+    select.mx-auto.mt-2.mb-2(class="form-control", name=property, form=formId)
       option(value="" selected disabled hidden) Choose here
       each val in values
         - const username = val.getFullName  

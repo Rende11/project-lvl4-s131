@@ -5,7 +5,7 @@ block content
     +menu()
   .container.mx-auto
     .row.mx-auto
-      +formFor(form, errors, { url: urlFor('findTasks'), method: 'post', id: 'taskForm', type: 'form-inline' })
+      +formFor(form, errors, { url: urlFor('findTasks'), method: 'post', id: 'taskForm' })(class="form-inline")
         +select(form, errors, 'assignedToId', 'Assigned to', form.users, 'taskForm')
         +select(form, errors, 'status', 'Status', form.statuses, 'taskForm')
         +input(form, errors, 'tags', { label: 'Tags' })
