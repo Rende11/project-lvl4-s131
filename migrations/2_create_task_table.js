@@ -18,6 +18,9 @@ module.exports = {
       status: {
         type: Sequelize.INTEGER
       },
+      StatusId: {
+        type: Sequelize.INTEGER
+      },
       creatorId: {
         type: Sequelize.INTEGER
       },
