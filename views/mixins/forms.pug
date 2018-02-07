@@ -34,6 +34,7 @@ mixin button(form, options = { type: 'submit', value: 'Save', class: '' } )
 
 
 mixin card(task)
+  - console.log(task)
   .card.mx-3.mb-3(style="width: 18rem")
     .card-header Status: #{task.Status.name}
     .card-body
@@ -51,7 +52,7 @@ mixin select(form, errors, property, label, values, formId)
   - const value = form[property] === undefined ? '' : form[property]
   .form-group
     label.mt-2.mb-2= label
-    select.mt-2.mb-2 (class="form-control", name=property, form=formId)
+    select(class="form-control", name=property, form=formId)
       option(value="" selected disabled hidden) Choose here
       each val in values
         - const username = val.getFullName  

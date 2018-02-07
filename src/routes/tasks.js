@@ -49,6 +49,7 @@ export default (router) => {
     if (process.env.NODE_ENV === 'test') {
       taskData.creatorId = '1';
     }
+    console.log(taskData, 'DATA');
     try {
       const task = await Task.create(taskData, { include: [Tag] });
       if (taskData.tags) {

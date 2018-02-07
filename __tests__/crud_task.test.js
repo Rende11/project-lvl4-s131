@@ -50,7 +50,7 @@ describe('Base CRUD', () => {
       .get('/statuses/new');
     expect(createStatus.status).toBe(200);
 
-    const status = { name: faker.random.word };
+    const status = { name: faker.random.word() };
     const postStatus = await request.agent(server)
       .post('/statuses/new')
       .type('form')
@@ -65,9 +65,9 @@ describe('Base CRUD', () => {
       .post('/tasks/new')
       .type('form')
       .send({
-        name: faker.random.word,
-        description: faker.random.sentence,
-        status: status.name,
+        name: faker.random.word(),
+        description: faker.lorem.sentence(),
+        status: 1,
         assignedTo: `${user.lastName} ${user.firstName}`,
         assignedToId: 1,
         tags: 'easy, new',
@@ -82,9 +82,9 @@ describe('Base CRUD', () => {
     const updateTask = await request.agent(server)
       .patch('/task/1')
       .send({
-        name: faker.random.word,
-        description: faker.random.sentence,
-        status: status.name,
+        name: faker.random.word(),
+        description: faker.lorem.sentence(),
+        status: 1,
         assignedTo: `${user.lastName} ${user.firstName}`,
         assignedToId: 1,
         creator: `${user.lastName} ${user.firstName}`,
@@ -106,7 +106,7 @@ describe('Base CRUD', () => {
 
     const updateStatus = await request.agent(server)
       .patch('/status/1')
-      .send({ name: faker.random.word });
+      .send({ name: faker.lorem.word() });
     expect(updateStatus.status).toBe(302);
 
     const deleteStatus = await request.agent(server)

@@ -32,12 +32,12 @@ export default (router) => {
 
   router.post('findTasks', '/find', async (ctx) => {
     console.log(ctx.request.body);
-    const { status, assignedToId } = ctx.request.body;
+    const query = _.pickBy(ctx.request.body, Boolean);
+    console.log(query);
     const tasks = await Task.findAll({
       where: {
         state: 'active',
-        assignedToId,
-        status,
+        ...query,
       },
       include: [
         Tag,
