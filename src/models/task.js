@@ -35,6 +35,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    StatusId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     creatorId: {
       type: DataTypes.INTEGER,
       allowNull: false,
