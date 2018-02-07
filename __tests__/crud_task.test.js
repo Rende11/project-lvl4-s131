@@ -99,10 +99,6 @@ describe('Base CRUD', () => {
       .get('/status/1');
     expect(getStatus.status).toBe(200);
 
-    const updateStatusError = await request.agent(server)
-      .patch('/status/1')
-      .send({ name: '' });
-    expect(updateStatusError.status).toBe(200);
 
     const updateStatus = await request.agent(server)
       .patch('/status/1')
