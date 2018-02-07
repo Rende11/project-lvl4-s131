@@ -13,6 +13,15 @@ module.exports = {
         unique: true,
         type: Sequelize.STRING
       },
+      taskId: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: errorMessages.notEmpty(),
+          },
+        },
+      },
       createdAt: {
         type: Sequelize.DATE,
         defaultValue: Date.now()
