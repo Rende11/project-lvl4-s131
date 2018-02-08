@@ -6,21 +6,21 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       TaskId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       TagId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Date.now()
+        defaultValue: Date.now(),
       },
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Date.now()
+        defaultValue: Date.now(),
       }
     });
   },

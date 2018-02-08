@@ -6,24 +6,23 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       name: {
         allowNull: false,
         unique: true,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       taskId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Date.now()
+        defaultValue: Date.now(),
       },
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Date.now()
+        defaultValue: Date.now(),
       }
     });
   },

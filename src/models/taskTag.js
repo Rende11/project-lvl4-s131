@@ -10,11 +10,9 @@ export default (sequelize, DataTypes) => {
     },
     TagId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
     TaskId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
   });
 
