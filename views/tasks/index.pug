@@ -1,0 +1,18 @@
+extends /layouts/application.pug
+
+block content
+  .container.mx-auto
+    +menu()
+  .container.mt-3.mb-3
+    +formFor(form, errors, { url: urlFor('findTasks'), method: 'post', id: 'taskForm' })(class="form-inline d-flex justify-content-around w-100")
+      +select(form, errors, 'assignedToId', 'Assigned to', form.users, 'taskForm')
+      +select(form, errors, 'status', 'Status', form.statuses, 'taskForm')
+      +input(form, errors, 'tags', { label: 'Tags' })
+      +button(form, { type: 'submit', value: 'Find', class: '' })
+  .container.mx-auto
+    .row.mx-auto
+      each task in tasks
+        +card(task)
+
+
+  

@@ -14,12 +14,19 @@ const errorMessages = {
 
 export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+    },
     uid: {
       type: DataTypes.STRING,
       defaultValue: uuid.create().hex,
     },
     firstName: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
@@ -34,6 +41,7 @@ export default (sequelize, DataTypes) => {
     },
     lastName: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
@@ -49,6 +57,7 @@ export default (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
@@ -62,6 +71,7 @@ export default (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
@@ -80,13 +90,13 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: 'active',
     },
-  }, {
-    classMethods: {
-      associate(models) {
-        // associations can be defined here
-        return models;
-      },
-    },
   });
+  User.associate = (models) => {
+    User.hasMany(models.Task, { foreignKey: 'creatorId', as: 'creator' });
+    User.hasMany(models.Task, { foreignKey: 'assignedToId', as: 'assignedTo' });
+  };
+  User.prototype.getFullName = function getFullName() {
+    return `${this.lastName} ${this.firstName}`;
+  };
   return User;
 };

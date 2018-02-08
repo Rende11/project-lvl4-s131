@@ -4,7 +4,8 @@ mixin formFor(form, errors, options = {})
   - const url = _.get(options, 'url');
   - const method = _.get(options, 'method', 'get').toLowerCase();
   - const isStandart = _.includes(['get', 'post'], method);
-  form(action= url method= isStandart ? method : 'post')
+  - const id = _.get(options, 'id');
+  form(class!=attributes.class action= url method= isStandart ? method : 'post' id=id || '')
     if !isStandart
       input(name='_method' type='hidden' value= method)
     block
@@ -12,7 +13,7 @@ mixin formFor(form, errors, options = {})
 mixin jumb
   .col-md-6.mx-auto
     .jumbotron.mt-5
-      block 
+      block
 
 mixin alert(flash)
   if flash && flash.message
@@ -21,7 +22,7 @@ mixin alert(flash)
 mixin input(form, errors, property, options = { as: 'text', label: property })
   - const value = form[property] === undefined ? '' : form[property]
   .form-group(class=(errors[property] && 'has-danger'))
-      label= options['label']
+      label.mr-3= options['label']
       input(name=property class='form-control' type=options['as'] value=`${value}`)
       if errors[property]
         .form-control-feedback.small.form-text.text-muted= errors[property].map(({ message }) => message).join('. ')
@@ -29,3 +30,48 @@ mixin input(form, errors, property, options = { as: 'text', label: property })
 mixin button(form, options = { type: 'submit', value: 'Save', class: '' } )
   .form-group
     input.btn.btn-primary(class=options.class, type=`${options.type}` value=`${options.value}`)
+
+
+mixin card(task)
+  - console.log(task)
+  .card.mx-3.mb-3(style="width: 18rem")
+    .card-header Status: #{task.Status.name}
+    .card-body
+      h4.card-title= task.name
+      h6.card-text.text-muted created by: #{task.creator.getFullName()}
+      h6.card-text.text-muted assigned to: #{task.assignedTo.getFullName()}
+      each tag in task.Tags
+        span.badge.badge-primary.mx-1= tag.name
+      .row.mt-2
+        a.card-link.mx-auto(href=urlFor('task', task.id)) Open
+        
+      
+
+mixin select(form, errors, property, label, values, formId)
+  - const value = form[property] === undefined ? '' : form[property]
+  .form-group
+    label.mr-3= label
+    select(class=attributes.class || "form-control", name=property, form=formId)
+      option(value="" selected disabled hidden) Choose here
+      each val in values
+        - const username = val.getFullName  
+        if username
+          option(value=val.id)= val.getFullName()
+        else
+          option(value=val.id)= val.name
+    if errors[property]
+      .form-control-feedback.small.form-text.text-muted= errors[property].map(({ message }) => message).join('. ')
+      
+mixin menu() 
+  .row.mx-auto.mb-3
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('taskNew'), role="button") Create new task
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('statusNew'), role="button") Create new status
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('statuses'), role="button") Show all statuses
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('myTasks'), role="button") My issues
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('tasks'), role="button") Show all tasks
+
+mixin text(form, label, property, formId)
+  - const value = form[property] === undefined ? '' : form[property]
+  .form-group
+    label= label
+    textarea(class="form-control", name="description", form=formId)= value

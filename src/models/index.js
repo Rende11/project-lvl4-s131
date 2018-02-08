@@ -9,7 +9,7 @@ import dbConfig from '../../config/config';
 
 const basename = path.basename(__filename);
 const db = {};
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
 
 const sequelize = new Sequelize(dbConfig[process.env.NODE_ENV]);
 
@@ -26,9 +26,14 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-Promise.all(Object.keys(db).map(key => db[key].sync()));
 
+const sync = async () => {
+  await Promise.all(Object.keys(db).map(key => db[key].sync()));
+};
+
+sync();
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.Op = Sequelize.Op;
 
 module.exports = db;

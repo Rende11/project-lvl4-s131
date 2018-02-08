@@ -12,9 +12,11 @@ html(lang="en")
         img.d-inline-block(src='https://png.icons8.com/ios/100/000000/checked-checkbox.png', width="30" height="30" alt="")
         |  TaskManager
       form.form-inline.ml-auto
-        nav-item.mx-1
-          a.nav-link(href=urlFor('users')) Users
         if user.isSigned()
+          nav-item.mx-1
+            a.nav-link(href=urlFor('users')) Users
+          nav-item.mx-1
+            a.nav-link(href=urlFor('tasks')) Tasks
           nav-item.mx-1
             a.nav-link(href=urlFor('user', user.id)) #{user.name} 
           a.btn.btn-outline-secondary.mx-1(href="/session", data-method='delete' rel='nofollow' role="button") Log out

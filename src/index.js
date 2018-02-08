@@ -23,7 +23,7 @@ export default () => {
   const app = new Koa();
 
   app.keys = ['secret key'];
-  dotenv.config();
+  dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 
   app.use(session(app));
   app.use(flash());

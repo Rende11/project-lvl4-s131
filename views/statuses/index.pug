@@ -1,0 +1,18 @@
+extends /layouts/application.pug
+
+block content
+  if statuses.length == 0
+    +alert({ message: "Statuses not created yet" })
+  else
+    +menu()
+    table.table.mx-auto
+      thead
+        tr
+          th #
+          th Status name
+      tbody
+        each status, index in statuses
+          tr
+            td= index + 1
+            td 
+              a(href=urlFor('status', status.id))= status.name
