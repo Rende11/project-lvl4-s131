@@ -43,14 +43,11 @@ export default (router) => {
     ctx.render('tasks/new', { form: { users: activeUsers, statuses }, errors: {} });
   });
 
-  router.post('taskNew', '/tasks/new', async (ctx) => {
+  router.post('taskNew', '/tasks', async (ctx) => {
     const taskData = ctx.request.body;
-    taskData.creatorId = Number(ctx.session.id);
+    taskData.creatorId = Number(ctx.session.id) || taskData.creatorId;
     taskData.StatusId = Number(taskData.status);
-    if (process.env.NODE_ENV === 'test') {
-      taskData.creatorId = '1';
-    }
-    console.log(taskData, 'DATA');
+
     try {
       const task = await Task.create(taskData, { include: [Tag] });
       if (taskData.tags) {
@@ -81,7 +78,7 @@ export default (router) => {
     }
   });
 
-  router.get('task', '/task/:id', async (ctx) => {
+  router.get('task', '/tasks/:id/edit', async (ctx) => {
     try {
       const task = await Task.findById(ctx.params.id, {
         include: [
@@ -113,7 +110,7 @@ export default (router) => {
     }
   });
 
-  router.delete('task', '/task/:id', async (ctx) => {
+  router.delete('task', '/tasks/:id', async (ctx) => {
     const task = await Task.findById(ctx.params.id);
     task.update({
       state: 'deleted',
@@ -121,7 +118,7 @@ export default (router) => {
     ctx.redirect(router.url('tasks'));
   });
 
-  router.patch('task', '/task/:id', async (ctx) => {
+  router.patch('task', '/tasks/:id', async (ctx) => {
     const form = ctx.request.body;
     const task = await Task.findById(ctx.params.id, {
       include: [

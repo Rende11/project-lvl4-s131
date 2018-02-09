@@ -16,7 +16,7 @@ describe('Base CRUD', () => {
     server = app().listen();
   });
 
-  test('Post /user/new', async () => {
+  test('Post /users', async () => {
     const user = {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
@@ -25,7 +25,7 @@ describe('Base CRUD', () => {
     };
 
     const createUser = await request.agent(server)
-      .post('/user/new')
+      .post('/users')
       .type('form')
       .send(user);
     expect(createUser.headers.location).toBe('/session');
@@ -52,7 +52,7 @@ describe('Base CRUD', () => {
 
     const status = { name: faker.random.word() };
     const postStatus = await request.agent(server)
-      .post('/statuses/new')
+      .post('/statuses')
       .type('form')
       .send(status);
     expect(postStatus.status).toBe(302);
@@ -62,7 +62,7 @@ describe('Base CRUD', () => {
     expect(createTask.status).toBe(200);
 
     const postTask = await request.agent(server)
-      .post('/tasks/new')
+      .post('/tasks')
       .type('form')
       .send({
         name: faker.random.word(),
@@ -72,15 +72,16 @@ describe('Base CRUD', () => {
         assignedToId: 1,
         tags: 'easy, new',
         creator: `${user.lastName} ${user.firstName}`,
+        creatorId: 1,
       });
     expect(postTask.status).toBe(302);
 
     const getTask = await request.agent(server)
-      .get('/task/1');
+      .get('/tasks/1/edit');
     expect(getTask.status).toBe(200);
 
     const updateTask = await request.agent(server)
-      .patch('/task/1')
+      .patch('/tasks/1')
       .send({
         name: faker.random.word(),
         description: faker.lorem.sentence(),
@@ -92,21 +93,21 @@ describe('Base CRUD', () => {
     expect(updateTask.status).toBe(302);
 
     const deleteTask = await request.agent(server)
-      .delete('/task/1');
+      .delete('/tasks/1');
     expect(deleteTask.status).toBe(302);
 
     const getStatus = await request.agent(server)
-      .get('/status/1');
+      .get('/statuses/1');
     expect(getStatus.status).toBe(200);
 
 
     const updateStatus = await request.agent(server)
-      .patch('/status/1')
+      .patch('/statuses/1')
       .send({ name: faker.lorem.word() });
     expect(updateStatus.status).toBe(302);
 
     const deleteStatus = await request.agent(server)
-      .delete('/status/1');
+      .delete('/statuses/1');
     expect(deleteStatus.status).toBe(302);
   });
 

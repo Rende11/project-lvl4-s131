@@ -33,7 +33,6 @@ mixin button(form, options = { type: 'submit', value: 'Save', class: '' } )
 
 
 mixin card(task)
-  - console.log(task)
   .card.mx-3.mb-3(style="width: 18rem")
     .card-header Status: #{task.Status.name}
     .card-body

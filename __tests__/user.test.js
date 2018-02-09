@@ -16,9 +16,9 @@ describe('Base test - app', () => {
     server = app().listen();
   });
 
-  test('Get /user/new', async () => {
+  test('Get /users/new', async () => {
     const res = await request.agent(server)
-      .get('/user/new');
+      .get('/users/new');
     expect(res.status).toBe(200);
   });
 
@@ -28,7 +28,7 @@ describe('Base test - app', () => {
     expect(res.status).toBe(200);
   });
 
-  test('Post /user/new', async () => {
+  test('Post /users', async () => {
     const user = {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
@@ -36,7 +36,7 @@ describe('Base test - app', () => {
       password: faker.internet.password(),
     };
     const res = await request.agent(server)
-      .post('/user/new')
+      .post('/users')
       .type('form')
       .send(user);
     expect(res.status).toBe(302);
@@ -52,7 +52,7 @@ describe('Base test - app', () => {
     };
 
     const create = await request.agent(server)
-      .post('/user/new')
+      .post('/users')
       .type('form')
       .send(user);
     expect(create.headers.location).toBe('/session');
@@ -60,7 +60,7 @@ describe('Base test - app', () => {
     const [cookie] = create.headers['set-cookie'];
 
     const res = await request.agent(server)
-      .get('/user/1');
+      .get('/users/1/edit');
     expect(res.status).toBe(401);
 
     const auth = await request.agent(server)
@@ -86,7 +86,7 @@ describe('Base test - app', () => {
     };
 
     const update = await request.agent(server)
-      .patch('/user/1')
+      .patch('/users/1')
       .send(newUserData);
     expect(update.status).toBe(200);
 

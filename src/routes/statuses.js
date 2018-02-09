@@ -17,7 +17,7 @@ export default (router) => {
     ctx.render('statuses/new', { form: {}, errors: {} });
   });
 
-  router.post('statusNew', '/statuses/new', async (ctx) => {
+  router.post('statusNew', '/statuses', async (ctx) => {
     const statusData = ctx.request.body;
     try {
       await Status.create(statusData);
@@ -30,7 +30,7 @@ export default (router) => {
     }
   });
 
-  router.get('status', '/status/:id', async (ctx) => {
+  router.get('status', '/statuses/:id/edit', async (ctx) => {
     try {
       const status = await Status.findById(ctx.params.id);
       ctx.render('statuses/edit', { form: status, errors: {} });
@@ -41,7 +41,7 @@ export default (router) => {
     }
   });
 
-  router.delete('status', '/status/:id', async (ctx) => {
+  router.delete('status', '/statuses/:id', async (ctx) => {
     const status = await Status.findById(ctx.params.id);
     status.update({
       state: 'deleted',
@@ -49,7 +49,7 @@ export default (router) => {
     ctx.redirect(router.url('statuses'));
   });
 
-  router.patch('status', '/status/:id', async (ctx) => {
+  router.patch('status', '/statuses/:id', async (ctx) => {
     const form = ctx.request.body;
     const status = await Status.findById(ctx.params.id);
     try {

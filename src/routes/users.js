@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { User } from '../models';
 
 export default (router) => {
-  router.get('userNew', '/user/new', async (ctx) => {
+  router.get('userNew', '/users/new', async (ctx) => {
     const message = ('Fill all fields for create new user');
     ctx.render('users/new', { form: {}, errors: {}, flash: { message } });
   });
@@ -18,7 +18,7 @@ export default (router) => {
     ctx.render('users/index', { users: activeUsers, errors: {} });
   });
 
-  router.get('user', '/user/:id', async (ctx) => {
+  router.get('user', '/users/:id/edit', async (ctx) => {
     try {
       ctx.assert(ctx.state.user.isSigned(), 401, 'Please log in!');
       ctx.assert(ctx.state.user.isCurrentUser(ctx.params.id), 403, 'Please go back, 403 - access forbidden!');
@@ -31,7 +31,7 @@ export default (router) => {
     }
   });
 
-  router.delete('user', '/user/:id', async (ctx) => {
+  router.delete('user', '/users/:id', async (ctx) => {
     ctx.assert(ctx.state.user.isSigned(), 401, 'Please log in!');
     ctx.assert(ctx.state.user.isCurrentUser(ctx.params.id), 403, 'Please go back, 403 - access forbidden!');
     const user = await User.findById(ctx.params.id);
@@ -42,7 +42,7 @@ export default (router) => {
     ctx.redirect(router.url('users'));
   });
 
-  router.patch('user', '/user/:id', async (ctx) => {
+  router.patch('user', '/users/:id/edit', async (ctx) => {
     const userData = ctx.request.body;
     const {
       firstName, lastName, email,
@@ -67,7 +67,7 @@ export default (router) => {
     }
   });
 
-  router.post('userNew', '/user/new', async (ctx) => {
+  router.post('userNew', '/users', async (ctx) => {
     const userData = ctx.request.body;
     const {
       firstName, lastName, email, password,

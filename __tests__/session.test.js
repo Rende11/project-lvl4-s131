@@ -46,7 +46,7 @@ describe('Base session', () => {
     const userSession = { email: user.email, password: user.password };
 
     const registration = await request.agent(server)
-      .post('/user/new')
+      .post('/users')
       .type('form')
       .send(user);
     expect(registration.status).toBe(302);
