@@ -4,12 +4,12 @@ import _ from 'lodash';
 import { User } from '../models';
 
 export default (router) => {
-  router.get('userNew', '/users/new', async (ctx) => {
+  router.get('usersNew', '/users/new', async (ctx) => {
     const message = ('Fill all fields for create new user');
     ctx.render('users/new', { form: {}, errors: {}, flash: { message } });
   });
 
-  router.get('users', '/users', async (ctx) => {
+  router.get('usersIndex', '/users', async (ctx) => {
     const activeUsers = await User.findAll({
       where: {
         state: 'active',
@@ -18,12 +18,12 @@ export default (router) => {
     ctx.render('users/index', { users: activeUsers, errors: {} });
   });
 
-  router.get('user', '/users/:id/edit', async (ctx) => {
+  router.get('usersEdit', '/users/:id/edit', async (ctx) => {
     try {
       ctx.assert(ctx.state.user.isSigned(), 401, 'Please log in!');
       ctx.assert(ctx.state.user.isCurrentUser(ctx.params.id), 403, 'Please go back, 403 - access forbidden!');
       const { firstName, lastName, email } = await User.findById(ctx.params.id);
-      ctx.render('users/profile', { form: { firstName, lastName, email }, errors: {} });
+      ctx.render('users/edit', { form: { firstName, lastName, email }, errors: {} });
     } catch (err) {
       console.error(err.message);
       ctx.status = err.status;
@@ -31,7 +31,7 @@ export default (router) => {
     }
   });
 
-  router.delete('user', '/users/:id', async (ctx) => {
+  router.delete('usersDelete', '/users/:id', async (ctx) => {
     ctx.assert(ctx.state.user.isSigned(), 401, 'Please log in!');
     ctx.assert(ctx.state.user.isCurrentUser(ctx.params.id), 403, 'Please go back, 403 - access forbidden!');
     const user = await User.findById(ctx.params.id);
@@ -39,10 +39,10 @@ export default (router) => {
       state: 'deleted',
     });
     ctx.session = {};
-    ctx.redirect(router.url('users'));
+    ctx.redirect(router.url('usersIndex'));
   });
 
-  router.patch('user', '/users/:id/edit', async (ctx) => {
+  router.patch('usersUpdate', '/users/:id/edit', async (ctx) => {
     const userData = ctx.request.body;
     const {
       firstName, lastName, email,
@@ -59,15 +59,15 @@ export default (router) => {
       });
       ctx.session.name = firstName;
       ctx.flash.set('User data updated');
-      ctx.redirect(router.url('index'));
+      ctx.redirect(router.url('welcomeIndex'));
     } catch (err) {
       const groupedErrors = _.groupBy(err.errors, 'path');
       console.error({ form: userData, errors: groupedErrors });
-      ctx.render('users/profile', { form: userData, errors: groupedErrors });
+      ctx.render('users/edit', { form: userData, errors: groupedErrors });
     }
   });
 
-  router.post('userNew', '/users', async (ctx) => {
+  router.post('usersCreate', '/users', async (ctx) => {
     const userData = ctx.request.body;
     const {
       firstName, lastName, email, password,
@@ -81,7 +81,7 @@ export default (router) => {
         password,
       });
       ctx.flash.set('New user successfully created');
-      ctx.redirect(router.url('session'));
+      ctx.redirect(router.url('sessionsNew'));
     } catch (err) {
       const groupedErrors = _.groupBy(err.errors, 'path');
       console.error({ form: userData, errors: groupedErrors });

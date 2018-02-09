@@ -42,7 +42,7 @@ mixin card(task)
       each tag in task.Tags
         span.badge.badge-primary.mx-1= tag.name
       .row.mt-2
-        a.card-link.mx-auto(href=urlFor('task', task.id)) Open
+        a.card-link.mx-auto(href=urlFor('tasksEdit', task.id)) Open
         
       
 
@@ -63,11 +63,11 @@ mixin select(form, errors, property, label, values, formId)
       
 mixin menu() 
   .row.mx-auto.mb-3
-    a.btn.btn-outline-primary.mx-auto(href=urlFor('taskNew'), role="button") Create new task
-    a.btn.btn-outline-primary.mx-auto(href=urlFor('statusNew'), role="button") Create new status
-    a.btn.btn-outline-primary.mx-auto(href=urlFor('statuses'), role="button") Show all statuses
-    a.btn.btn-outline-primary.mx-auto(href=urlFor('myTasks'), role="button") My issues
-    a.btn.btn-outline-primary.mx-auto(href=urlFor('tasks'), role="button") Show all tasks
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('tasksNew'), role="button") Create new task
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('statusesNew'), role="button") Create new status
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('statusesIndex'), role="button") Show all statuses
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('tasksFindMy'), role="button") My issues
+    a.btn.btn-outline-primary.mx-auto(href=urlFor('tasksIndex'), role="button") Show all tasks
 
 mixin text(form, label, property, formId)
   - const value = form[property] === undefined ? '' : form[property]

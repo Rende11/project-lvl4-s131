@@ -16,20 +16,20 @@ describe('Base session', () => {
     server = app().listen();
   });
 
-  test('Get /session', async () => {
+  test('Get /sessions', async () => {
     const res = await request.agent(server)
-      .get('/session');
+      .get('/sessions');
     expect(res.status).toBe(200);
   });
 
-  test('Post /session unregistered user', async () => {
+  test('Post /sessions unregistered user', async () => {
     const user = {
       email: faker.internet.email(),
       password: faker.internet.password(),
     };
 
     const res = await request.agent(server)
-      .post('/session')
+      .post('/sessions')
       .type('form')
       .send(user);
     expect(res.status).toBe(200);
@@ -52,25 +52,25 @@ describe('Base session', () => {
     expect(registration.status).toBe(302);
 
     const session = await request.agent(server)
-      .post('/session')
+      .post('/sessions')
       .type('form')
       .send(userSession);
     expect(session.status).toBe(302);
   });
 
-  test('Delete /session', async () => {
+  test('Delete /sessions', async () => {
     const user = {
       email: faker.internet.email(),
       password: faker.internet.password(),
     };
 
     const res = await request.agent(server)
-      .post('/session')
+      .post('/sessions')
       .send(user);
     expect(res.status).toBe(200);
 
     const res2 = await request.agent(server)
-      .delete('/session');
+      .delete('/sessions');
     expect(res2.status).toBe(302);
   });
 

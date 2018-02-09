@@ -2,6 +2,6 @@ extends /layouts/application.pug
 
 block content
   +jumb  
-    +formFor(form, errors, { url: urlFor('statusNew'), method: 'post' })
+    +formFor(form, errors, { url: urlFor('statusesCreate'), method: 'post' })
       +input(form, errors, 'name', { label: 'Status name' })
       +button(form)

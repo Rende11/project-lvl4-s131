@@ -8,21 +8,21 @@ html(lang="en")
     script(src='/assets/app.js')
   body
     nav.navbar.navbar-toggleable-md.navbar-light.bg-faded.breadcrumb
-      a.navbar-brand(href='/')
+      a.navbar-brand(href=urlFor('welcomeIndex'))
         img.d-inline-block(src='https://png.icons8.com/ios/100/000000/checked-checkbox.png', width="30" height="30" alt="")
         |  TaskManager
       form.form-inline.ml-auto
         if user.isSigned()
           nav-item.mx-1
-            a.nav-link(href=urlFor('users')) Users
+            a.nav-link(href=urlFor('usersIndex')) Users
           nav-item.mx-1
-            a.nav-link(href=urlFor('tasks')) Tasks
+            a.nav-link(href=urlFor('tasksIndex')) Tasks
           nav-item.mx-1
-            a.nav-link(href=urlFor('user', user.id)) #{user.name} 
-          a.btn.btn-outline-secondary.mx-1(href="/session", data-method='delete' rel='nofollow' role="button") Log out
+            a.nav-link(href=urlFor('usersEdit', user.id)) #{user.name} 
+          a.btn.btn-outline-secondary.mx-1(href=urlFor('sessionsNew'), data-method='delete' rel='nofollow' role="button") Log out
         else 
-          a.btn.btn-outline-primary.mx-1(href=urlFor('userNew'), role="button") Sign up
-          a.btn.btn-outline-secondary.mx-1(href=urlFor('session'), role="button") Log in 
+          a.btn.btn-outline-primary.mx-1(href=urlFor('usersNew'), role="button") Sign up
+          a.btn.btn-outline-secondary.mx-1(href=urlFor('sessionsNew'), role="button") Log in 
     - const msg = flash.get();
     if msg
       .alert.alert-info.m-3= msg

@@ -2,7 +2,7 @@ extends /layouts/application.pug
 
 block content
   +jumb  
-    +formFor(form, errors, { url: urlFor('userNew'), method: 'post' })
+    +formFor(form, errors, { url: urlFor('usersCreate'), method: 'post' })
       +input(form, errors, 'firstName', { label: 'First name' })
       +input(form, errors, 'lastName', { label: 'Last name' })
       +input(form, errors, 'email', { label: 'Email' })

@@ -2,11 +2,11 @@ extends /layouts/application.pug
 
 block content
   +jumb  
-    +formFor(form, errors, { url: urlFor('user', user.id), method: 'patch' })
+    +formFor(form, errors, { url: urlFor('usersUpdate', user.id), method: 'patch' })
       +input(form, errors, 'firstName', { label: 'First Name' })
       +input(form, errors, 'lastName', { label: 'Last Name' })
       +input(form, errors, 'email', { label: 'Email' })
       +button(form, { type: 'submit', value: 'Save changes', class: 'btn-block'})
-    +formFor(form, errors, { url: urlFor('user', user.id), method: 'delete' })
+    +formFor(form, errors, { url: urlFor('usersDelete', user.id), method: 'delete' })
       +button(form, { type: 'submit', value: 'Delete user', class: 'btn-danger btn-block' })
   

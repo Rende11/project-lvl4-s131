@@ -1,5 +1,5 @@
 import users from './users';
-import session from './session';
+import session from './sessions';
 import welcome from './welcome';
 import tasks from './tasks';
 import statuses from './statuses';

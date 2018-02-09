@@ -4,7 +4,7 @@ import _ from 'lodash';
 import db, { Task, User, Status, Tag } from '../models';
 
 export default (router) => {
-  router.get('tasks', '/tasks', async (ctx) => {
+  router.get('tasksIndex', '/tasks', async (ctx) => {
     const tasks = await Task.findAll({
       where: {
         state: 'active',
@@ -29,7 +29,7 @@ export default (router) => {
     ctx.render('tasks/index', { tasks, form: { users: activeUsers, statuses }, errors: {} });
   });
 
-  router.get('taskNew', '/tasks/new', async (ctx) => {
+  router.get('tasksNew', '/tasks/new', async (ctx) => {
     const activeUsers = await User.findAll({
       where: {
         state: 'active',
@@ -43,7 +43,7 @@ export default (router) => {
     ctx.render('tasks/new', { form: { users: activeUsers, statuses }, errors: {} });
   });
 
-  router.post('taskNew', '/tasks', async (ctx) => {
+  router.post('tasksCreate', '/tasks', async (ctx) => {
     const taskData = ctx.request.body;
     taskData.creatorId = Number(ctx.session.id) || taskData.creatorId;
     taskData.StatusId = Number(taskData.status);
@@ -59,7 +59,7 @@ export default (router) => {
         await task.addTags(updatedTags);
       }
       ctx.flash.set('New task successfully created');
-      ctx.redirect(router.url('tasks'));
+      ctx.redirect(router.url('tasksIndex'));
     } catch (err) {
       console.error(err);
       const groupedErrors = _.groupBy(err.errors, 'path');
@@ -78,7 +78,7 @@ export default (router) => {
     }
   });
 
-  router.get('task', '/tasks/:id/edit', async (ctx) => {
+  router.get('taskEdit', '/tasks/:id/edit', async (ctx) => {
     try {
       const task = await Task.findById(ctx.params.id, {
         include: [
@@ -110,15 +110,15 @@ export default (router) => {
     }
   });
 
-  router.delete('task', '/tasks/:id', async (ctx) => {
+  router.delete('tasksDelete', '/tasks/:id', async (ctx) => {
     const task = await Task.findById(ctx.params.id);
     task.update({
       state: 'deleted',
     });
-    ctx.redirect(router.url('tasks'));
+    ctx.redirect(router.url('tasksIndex'));
   });
 
-  router.patch('task', '/tasks/:id', async (ctx) => {
+  router.patch('tasksUpdate', '/tasks/:id', async (ctx) => {
     const form = ctx.request.body;
     const task = await Task.findById(ctx.params.id, {
       include: [
@@ -132,7 +132,7 @@ export default (router) => {
     try {
       await task.update(form, { include: [Tag] });
       ctx.flash.set('Task updated');
-      ctx.redirect(router.url('tasks'));
+      ctx.redirect(router.url('tasksIndex'));
     } catch (err) {
       const activeUsers = await User.findAll({
         where: {

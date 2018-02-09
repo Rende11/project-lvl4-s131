@@ -73,10 +73,10 @@ describe('Base test - app', () => {
     expect(auth.status).toBe(302);
 
     /*
-    const profile = await request.agent(server)
+    const edit = await request.agent(server)
       .get('/user/1')
       .set('Cookie', cookie);
-    expect(profile.status).toBe(200);
+    expect(edit.status).toBe(200);
     */
 
     const newUserData = {
