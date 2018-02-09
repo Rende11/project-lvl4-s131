@@ -40,7 +40,7 @@ describe('Base test - app', () => {
       .type('form')
       .send(user);
     expect(res.status).toBe(302);
-    expect(res.headers.location).toBe('/session');
+    expect(res.headers.location).toBe('/sessions');
   });
 
   test('Profile', async () => {
@@ -55,7 +55,7 @@ describe('Base test - app', () => {
       .post('/users')
       .type('form')
       .send(user);
-    expect(create.headers.location).toBe('/session');
+    expect(create.headers.location).toBe('/sessions');
     expect(create.status).toBe(302);
     const [cookie] = create.headers['set-cookie'];
 
@@ -64,7 +64,7 @@ describe('Base test - app', () => {
     expect(res.status).toBe(401);
 
     const auth = await request.agent(server)
-      .post('/session')
+      .post('/sessions')
       .type('form')
       .send({ email: user.email, password: user.password })
       .set('Cookie', cookie);

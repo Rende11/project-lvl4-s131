@@ -28,11 +28,11 @@ describe('Base CRUD', () => {
       .post('/users')
       .type('form')
       .send(user);
-    expect(createUser.headers.location).toBe('/session');
+    expect(createUser.headers.location).toBe('/sessions');
     expect(createUser.status).toBe(302);
 
     const session = await request.agent(server)
-      .post('/session')
+      .post('/sessions')
       .type('form')
       .send({ email: user.email, password: user.password });
     expect(session.headers.location).toBe('/');
