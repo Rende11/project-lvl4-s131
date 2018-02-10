@@ -8,5 +8,5 @@ block content
       +select(form, errors, 'assignedToId', 'Assigned to: ', users, 'taskForm')
       +select(form, errors, 'status', 'Status: ', statuses, 'taskForm')
       +button(form, { type: 'submit', value: 'Save changes', class: 'btn-block'})
-    +formFor(form, errors, { url: urlFor('tasksDelete', form.id), method: 'delete' })
+    +formFor(form, errors, { url: urlFor('tasksDelete', form.id), method: 'delete' })(data-confirm="Are you sure you want to delete?")
       +button(form, { type: 'submit', value: 'Delete task', class: 'btn-danger btn-block' })

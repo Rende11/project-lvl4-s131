@@ -61,7 +61,6 @@ export default (router) => {
       ctx.flash.set('New task successfully created');
       ctx.redirect(router.url('tasksIndex'));
     } catch (err) {
-      console.error(err);
       const groupedErrors = _.groupBy(err.errors, 'path');
       const allActiveUsers = await User.findAll({
         where: {
@@ -73,12 +72,11 @@ export default (router) => {
           state: 'active',
         },
       });
-      console.error({ form: taskData, errors: groupedErrors });
       ctx.render('tasks/new', { form: { ...taskData, users: allActiveUsers, statuses }, errors: groupedErrors });
     }
   });
 
-  router.get('taskEdit', '/tasks/:id/edit', async (ctx) => {
+  router.get('tasksEdit', '/tasks/:id/edit', async (ctx) => {
     try {
       const task = await Task.findById(ctx.params.id, {
         include: [
@@ -104,7 +102,6 @@ export default (router) => {
         form: task, users: activeUsers, statuses, errors: {},
       });
     } catch (err) {
-      console.error(err.message);
       ctx.status = err.status;
       ctx.render('errors/error', { err: err.message });
     }
@@ -140,7 +137,6 @@ export default (router) => {
         },
       });
       const groupedErrors = _.groupBy(err.errors, 'path');
-      console.error({ form: task, errors: groupedErrors });
       ctx.render('tasks/edit', { form: task, users: activeUsers, errors: groupedErrors });
     }
   });

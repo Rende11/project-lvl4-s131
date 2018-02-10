@@ -25,7 +25,6 @@ export default (router) => {
       const { firstName, lastName, email } = await User.findById(ctx.params.id);
       ctx.render('users/edit', { form: { firstName, lastName, email }, errors: {} });
     } catch (err) {
-      console.error(err.message);
       ctx.status = err.status;
       ctx.render('errors/error', { err: err.message });
     }
@@ -62,7 +61,6 @@ export default (router) => {
       ctx.redirect(router.url('welcomeIndex'));
     } catch (err) {
       const groupedErrors = _.groupBy(err.errors, 'path');
-      console.error({ form: userData, errors: groupedErrors });
       ctx.render('users/edit', { form: userData, errors: groupedErrors });
     }
   });
@@ -84,7 +82,6 @@ export default (router) => {
       ctx.redirect(router.url('sessionsNew'));
     } catch (err) {
       const groupedErrors = _.groupBy(err.errors, 'path');
-      console.error({ form: userData, errors: groupedErrors });
       ctx.render('users/new', { form: userData, errors: groupedErrors });
     }
   });

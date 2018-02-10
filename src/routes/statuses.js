@@ -25,7 +25,6 @@ export default (router) => {
       ctx.redirect(router.url('statusesIndex'));
     } catch (err) {
       const groupedErrors = _.groupBy(err.errors, 'path');
-      console.error({ form: statusData, errors: groupedErrors });
       ctx.render('statuses/new', { form: statusData, errors: groupedErrors });
     }
   });
@@ -35,7 +34,6 @@ export default (router) => {
       const status = await Status.findById(ctx.params.id);
       ctx.render('statuses/edit', { form: status, errors: {} });
     } catch (err) {
-      console.error(err.message);
       ctx.status = err.status;
       ctx.render('errors/error', { err: err.message });
     }
@@ -58,8 +56,6 @@ export default (router) => {
       ctx.redirect(router.url('statusesIndex'));
     } catch (err) {
       const groupedErrors = _.groupBy(err.errors, 'path');
-      console.error({ form: status, errors: groupedErrors });
-      console.error(err);
       ctx.render('statuses/edit', { form: status, errors: groupedErrors });
     }
   });
