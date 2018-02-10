@@ -2,6 +2,9 @@
 
 import { User } from '../models';
 import crypto from '../utilities/encrypt';
+import getLogger from '../utilities/logger';
+
+const logger = getLogger('Requests');
 
 export default (router) => {
   router.get('sessionsNew', '/sessions', async (ctx) => {
@@ -29,6 +32,7 @@ export default (router) => {
 
     if (!user) {
       const { message } = errorMessages.nouser;
+      logger(message);
       ctx.render('sessions/new', { form: userData, errors, flash: { message } });
     } else {
       ctx.session.name = user.firstName;

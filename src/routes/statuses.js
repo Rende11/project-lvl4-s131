@@ -2,6 +2,9 @@
 
 import _ from 'lodash';
 import { Status } from '../models';
+import getLogger from '../utilities/logger';
+
+const logger = getLogger('Requests');
 
 export default (router) => {
   router.get('statusesIndex', '/statuses', async (ctx) => {
@@ -25,6 +28,7 @@ export default (router) => {
       ctx.redirect(router.url('statusesIndex'));
     } catch (err) {
       const groupedErrors = _.groupBy(err.errors, 'path');
+      logger(err, ctx.request.body);
       ctx.render('statuses/new', { form: statusData, errors: groupedErrors });
     }
   });
@@ -35,6 +39,7 @@ export default (router) => {
       ctx.render('statuses/edit', { form: status, errors: {} });
     } catch (err) {
       ctx.status = err.status;
+      logger(err, ctx.request.body);
       ctx.render('errors/error', { err: err.message });
     }
   });
@@ -55,6 +60,7 @@ export default (router) => {
       ctx.flash.set('Status updated');
       ctx.redirect(router.url('statusesIndex'));
     } catch (err) {
+      logger(err, ctx.request.body);
       const groupedErrors = _.groupBy(err.errors, 'path');
       ctx.render('statuses/edit', { form: status, errors: groupedErrors });
     }

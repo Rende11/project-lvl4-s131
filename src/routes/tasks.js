@@ -2,6 +2,9 @@
 
 import _ from 'lodash';
 import db, { Task, User, Status, Tag } from '../models';
+import getLogger from '../utilities/logger';
+
+const logger = getLogger('Requests');
 
 export default (router) => {
   router.get('tasksIndex', '/tasks', async (ctx) => {
@@ -72,6 +75,7 @@ export default (router) => {
           state: 'active',
         },
       });
+      logger(err, ctx.request.body);
       ctx.render('tasks/new', { form: { ...taskData, users: allActiveUsers, statuses }, errors: groupedErrors });
     }
   });
@@ -102,6 +106,7 @@ export default (router) => {
         form: task, users: activeUsers, statuses, errors: {},
       });
     } catch (err) {
+      logger(err, ctx.request.body);
       ctx.status = err.status;
       ctx.render('errors/error', { err: err.message });
     }
@@ -137,6 +142,7 @@ export default (router) => {
         },
       });
       const groupedErrors = _.groupBy(err.errors, 'path');
+      logger(err, ctx.request.body);
       ctx.render('tasks/edit', { form: task, users: activeUsers, errors: groupedErrors });
     }
   });

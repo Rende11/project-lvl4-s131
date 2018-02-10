@@ -18,7 +18,7 @@
     "webpack": "webpack",
     "postinstall": "npm run build && npm run sequelize db:migrate:undo:all && npm run sequelize db:migrate",
     "nodemon": "nodemon",
-    "demon": "nodemon src/bin/index.js --exec babel-node",
+    "demon": "DEBUG=App:* nodemon src/bin/index.js --exec babel-node",
     "sequelize": "sequelize"
   },
   "repository": {
@@ -61,7 +61,8 @@
     "sqlite3": "*",
     "style-loader": "*",
     "uuid-js": "^0.7.5",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "debug": "*"
   },
   "devDependencies": {
     "babel-cli": "*",
@@ -72,7 +73,6 @@
     "babel-preset-flow": "*",
     "babel-preset-stage-0": "*",
     "babel-register": "*",
-    "debug": "*",
     "eslint": "*",
     "eslint-config-airbnb-base": "*",
     "eslint-plugin-flowtype": "*",
