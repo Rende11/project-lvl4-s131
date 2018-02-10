@@ -30,8 +30,10 @@ Object.keys(db).forEach((modelName) => {
 const sync = async () => {
   await Promise.all(Object.keys(db).map(key => db[key].sync()));
 };
+if (process.env.NODE_ENV !== 'production') {
+  sync();
+}
 
-sync();
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 db.Op = Sequelize.Op;
