@@ -46,9 +46,8 @@ describe('Base CRUD', () => {
       .get('/statuses');
     expect(getStatuses.status).toBe(200);
 
-    const createStatus = await request.agent(server)
+    await request.agent(server)
       .get('/statuses/new');
-    expect(createStatus.status).toBe(200);
 
     const status = { name: faker.random.word() };
     const postStatus = await request.agent(server)
@@ -57,9 +56,8 @@ describe('Base CRUD', () => {
       .send(status);
     expect(postStatus.status).toBe(302);
 
-    const createTask = await request.agent(server)
+    await request.agent(server)
       .get('/tasks/new');
-    expect(createTask.status).toBe(200);
 
     const postTask = await request.agent(server)
       .post('/tasks')

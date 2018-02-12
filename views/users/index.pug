@@ -4,17 +4,18 @@ block content
   if users.length == 0
     +alert({ message: "Users not created yet" })
   else
-    table.table
-      thead
-        tr
-          th #
-          th First Name
-          th Last Name
-          th Email
-      tbody
-        each user, index in users
+    .container.mx-auto
+      table.table
+        thead
           tr
-            td= index + 1
-            td= user.firstName
-            td= user.lastName
-            td= user.email
+            th #
+            th First Name
+            th Last Name
+            th Email
+        tbody
+          each user, index in users
+            tr
+              td= index + 1
+              td= user.firstName
+              td= user.lastName
+              td= user.email

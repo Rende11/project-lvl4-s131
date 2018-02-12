@@ -61,13 +61,16 @@ mixin select(form, errors, property, label, values, formId)
     if errors[property]
       .form-control-feedback.small.form-text.text-muted= errors[property].map(({ message }) => message).join('. ')
       
-mixin menu() 
+mixin menu(user)
   .row.mx-auto.mb-3
     a.btn.btn-outline-primary.mx-auto(href=urlFor('tasksNew'), role="button") Create new task
     a.btn.btn-outline-primary.mx-auto(href=urlFor('statusesNew'), role="button") Create new status
     a.btn.btn-outline-primary.mx-auto(href=urlFor('statusesIndex'), role="button") Show all statuses
-    a.btn.btn-outline-primary.mx-auto(href=urlFor('tasksFindMy'), role="button") My issues
     a.btn.btn-outline-primary.mx-auto(href=urlFor('tasksIndex'), role="button") Show all tasks
+    form(action= urlFor('tasksIndex') method= 'get')
+      input(name="assignedToId" type='hidden' value= user.id)
+      input.btn.btn-primary(type='submit' value='My issues')
+    
 
 mixin text(form, label, property, formId)
   - const value = form[property] === undefined ? '' : form[property]
