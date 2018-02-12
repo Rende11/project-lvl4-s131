@@ -8,20 +8,21 @@ const logger = getLogger('Requests');
 
 export default (router) => {
   router.get('tasksIndex', '/tasks', async (ctx) => {
-    logger(ctx.query);
+    const userQueryParams = _.pickBy(ctx.query, (value, key) => key !== 'tags');
+    const tagFilter = ctx.query.tags && ctx.query.tags !== '' ? {
+      where: {
+        [db.Sequelize.Op.or]:
+          ctx.query.tags.split(',').map(tagName => ({ name: tagName.trim() })),
+      },
+    } : {};
 
-    const query = _.pickBy(ctx.query, (value, key) => key !== 'tags');
-    logger(query);
-    const tagNameObjs = ctx.query.tags && ctx.query.tags.split(',').map(tagName => ({ name: tagName.trim() }));
-    const tagQuery = ctx.query.tags && ctx.query.tags !== '' ? { where: { [db.Sequelize.Op.or]: tagNameObjs } } : {};
-    logger(tagQuery);
     const tasks = await Task.findAll({
       where: {
         state: 'active',
-        ...query,
+        ...userQueryParams,
       },
       include: [
-        { model: Tag, ...tagQuery },
+        { model: Tag, ...tagFilter },
         { model: Status },
         { model: User, as: 'creator' },
         { model: User, as: 'assignedTo' },

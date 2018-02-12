@@ -4,15 +4,16 @@ block content
   if statuses.length == 0
     +alert({ message: "Statuses not created yet" })
   else
-    +menu()
-    table.table.mx-auto
-      thead
-        tr
-          th #
-          th Status name
-      tbody
-        each status, index in statuses
+    .container.mx-auto
+      +menu(user)
+      table.table.mx-auto
+        thead
           tr
-            td= index + 1
-            td 
-              a(href=urlFor('statusesEdit', status.id))= status.name
+            th #
+            th Status name
+        tbody
+          each status, index in statuses
+            tr
+              td= index + 1
+              td 
+                a(href=urlFor('statusesEdit', status.id))= status.name
