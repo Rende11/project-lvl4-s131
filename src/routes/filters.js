@@ -2,10 +2,12 @@
 
 import _ from 'lodash';
 import db, { Tag, Status, User, Task } from '../models';
+import getLogger from '../utilities/logger';
 
+const logger = getLogger('Requests');
 
 export default (router) => {
-  router.get('tasksFindMy', '/tasks/find/my', async (ctx) => {
+  router.get('tasksFindMy', '/tasks/my', async (ctx) => {
     const tasks = await Task.findAll({
       where: {
         state: 'active',
@@ -31,7 +33,8 @@ export default (router) => {
     ctx.render('tasks/index', { tasks, form: { users: activeUsers, statuses }, errors: {} });
   });
 
-  router.post('tasksFind', '/tasks/find', async (ctx) => {
+  router.get('tasksFind', '/tasks', async (ctx) => {
+    logger(ctx);
     const query = _.pickBy(ctx.request.body, (value, key) => key !== 'tags');
     const tagNameObjs = ctx.request.body.tags.split(', ').map(tagName => ({ name: tagName.trim() }));
     const tagQuery = ctx.request.body.tags !== '' ? { where: { [db.Sequelize.Op.or]: tagNameObjs } } : {};
